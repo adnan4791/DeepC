@@ -189,6 +189,7 @@ void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale)
     #pragma omp parallel for firstprivate(kernel,cnt_weight,img_fltr_p1,bias_tmp)
 	for (int i = 0; i < num_filters; i++)
 	{
+		//by adnan
 		// reading corresponding weights to kernel pointer
 		//for (int cnt_kernel = 0; cnt_kernel < filtersize; cnt_kernel++)
 		//{

@@ -186,21 +186,21 @@ void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale)
 	int cnt_weight = 0;
 	
 	double bias_tmp;
-
+    #pragma omp parallel for firstprivate(kernel,cnt_weight,img_fltr_p1,bias_tmp)
 	for (int i = 0; i < num_filters; i++)
 	{
 		// reading corresponding weights to kernel pointer
-		for (int cnt_kernel = 0; cnt_kernel < filtersize; cnt_kernel++)
-		{
-			*(kernel + cnt_kernel) = weights_layer1[cnt_weight + cnt_kernel];
-		}
-		cnt_weight = cnt_weight + filtersize;
-		imfilter(img_lr, kernel, img_fltr_p1, rows, cols, padsize);
+		//for (int cnt_kernel = 0; cnt_kernel < filtersize; cnt_kernel++)
+		//{
+		//	*(kernel + cnt_kernel) = weights_layer1[cnt_weight + cnt_kernel];
+		//}
+		//cnt_weight = cnt_weight + filtersize;
+		imfilter(img_lr, weights_layer1+i*filtersize, img_fltr_p1+i*cols*rows, rows, cols, padsize);
 
 		bias_tmp = biases_layer1[i];
-		PReLU(img_fltr_p1, rows, cols, bias_tmp, prelu_coeff_layer1);
+		PReLU(img_fltr_p1+i*cols*rows, rows, cols, bias_tmp, prelu_coeff_layer1);
 
-		img_fltr_p1 = img_fltr_p1 + cols*rows;
+		//img_fltr_p1 = img_fltr_p1 + cols*rows;
 	}
 
 	/////////// Convolution2 ------------------- Layer 2~7

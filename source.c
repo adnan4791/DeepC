@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
+#include <string.h>
+#include "fsrcnn.h"
 
 void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale);
 void imfilter(double *img, double *kernel, double *img_fltr, int rows, int cols, int padsize);
@@ -666,31 +668,43 @@ void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale)
 	int num_channels8 = 56;
 
 	// Decvolution ==> output is the img_hr
-	double *img_fltr_8 = (double *)calloc((rows*scale) *(cols*scale) * num_filters8 , sizeof(double));
+	double *img_fltr_8 = (double *)calloc((rows*scale) *(cols*scale) , sizeof(double));
 	double *kernel8 = (double *)malloc(filtersize8*sizeof(double));
 	//double *img_fltr_8_tmp = (double *)malloc((rows*scale) *(cols*scale) * sizeof(double));
 	
 	cnt_weight = 0;
 	img_fltr_p7 = img_fltr_7;
+	/*
     #pragma omp parallel for
 	for (int j = 0; j < num_channels8; j++)
 	{
 		double img_fltr_8_tmp[rows*scale * cols*scale];
-		// reading corresponding weights to kernel
-		//for (int cnt_kernel = 0; cnt_kernel < filtersize8; cnt_kernel++)
-		//{
-		//	*(kernel8 + cnt_kernel) = weights_layer8[cnt_weight + cnt_kernel];
-		//}
-		//cnt_weight = cnt_weight + filtersize8;
+		//img_fltr_p7+j*rows*cols adalah output layer 7 channel ke j
 		deconv(img_fltr_p7+j*rows*cols, img_fltr_8_tmp, weights_layer8+j*filtersize8, cols, rows, scale);
 		#pragma omp critical	
 		imadd(img_fltr_8, img_fltr_8_tmp, cols*scale, rows*scale);
 		//img_fltr_p7 = img_fltr_p7 + rows*cols;
-	}
+	}*/
 
-    #pragma omp parallel for
+   task_t parent_t;
+    taskp parent = &parent_t;
+	parent->a = 0;
+	parent->b = 56;
+	parent->redobj = img_fltr_8;
+    parent->filtersize = filtersize8;
+	parent->img_in = img_fltr_p7;
+	parent->rows = rows;
+	parent->cols = cols;
+	parent->scale = scale;
+	parent->robsize = rows*cols*scale*scale*sizeof(double);
+	memset(img_fltr_8,0,parent->robsize);
+	#pragma omp parallel
+	#pragma omp single
+    task_loop(parent);
+ 
+  //  #pragma omp parallel for
 	for (int i=0;i<rows*scale;i++)
-	for (int j = 0;j<cols*scale; j++)
+	for (int j = 0;j<cols*scale; j++) 
 	{
 		int cnt_fnl = i*cols*scale + j;
 		*(img_hr + cnt_fnl) = *(img_fltr_8 + cnt_fnl) + biases_layer8;
@@ -714,9 +728,66 @@ void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale)
 	//img_fltr_8_tmp = NULL;
 	free(kernel8);
 	kernel8 = NULL;
-
 }
 
+int task_loop(taskp parent) {
+	    if (parent->a+1 >= parent->b) {
+			int a = parent->a;
+			int rows=parent->rows;
+			int cols=parent->cols;
+			int scale = parent->scale; 
+			//for(int i=a;i<parent->b;i++)
+            deconv(parent->img_in+a*rows*cols,parent->redobj,weights_layer8+a*parent->filtersize,cols,rows,scale);
+		}
+		else {
+			task_t left;
+			task_t right;
+			int m = (parent->a+parent->b)/2;
+			double *lro,*rro;    
+			if (!(rro = (double *) malloc(parent->robsize)))
+		    {
+				printf("request %d bytes\n",parent->robsize);
+                printf("rro memory allocation failed\n");
+			}
+			//memset(rro,0,parent->robsize);
+			left.redobj = parent->redobj;
+            left.a = parent->a;
+			left.b = m;
+			left.cols = parent->cols;
+			left.rows = parent->rows;
+			left.img_in = parent->img_in;
+			left.filtersize = parent->filtersize;
+			left.scale = parent->scale;
+			left.weight = parent->weight;
+			left.robsize = parent->robsize;
+			right.a = m;
+			right.b = parent->b;
+			right.redobj = rro;
+			right.cols = parent->cols;
+			right.rows = parent->rows;
+			right.filtersize = parent->filtersize;
+			right.img_in = parent->img_in;
+			right.scale = parent->scale;
+			right.weight = parent->weight;
+			right.robsize = parent->robsize;
+			#pragma omp task 			
+			task_loop(&left);
+			#pragma omp task
+			task_loop(&right);
+			#pragma omp taskwait
+			int nrows = left.rows * left.scale;
+			int ncols = left.cols * left.scale;
+            for(int i=0;i<nrows;i++) {
+				for(int j=0;j<ncols;j++) {
+					left.redobj[i*left.cols*left.scale+j] += rro[i*right.cols*right.scale+j];
+				}
+			}
+			free(rro);
+			//free(lro);
+			return 0;
+		}
+		return 0;
+	}
 
 void imfilter(double *img, double *kernel, double *img_fltr, int rows, int cols, int padsize)
 {

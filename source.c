@@ -673,32 +673,7 @@ void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale)
 	cnt_weight = 0;
 	img_fltr_p7 = img_fltr_7;
 	double sum;
-    #pragma omp parallel
-	{
-		double reduction_object[rows*scale][cols * scale]; // dop = num of cpu
-		#pragma omp for schedule(dynamic,4)
-        for (int j = 0; j < num_channels8; j++)  // concurrency = number of channel
-	    {
-		  double img_fltr_8_tmp[rows*scale][cols*scale];
-		  deconv(img_fltr_p7+j*rows*cols, img_fltr_8_tmp, weights_layer8+j*filtersize8, cols, rows, scale);
-		  //#pragma omp critical	
-		  //imadd(img_fltr_8, img_fltr_8_tmp, cols*scale, rows*scale);
-		  for(int row=0;row<rows*scale;row++)
-		  {
-			#pragma unroll
-			for(int col=0;col<cols*scale;col++)
-			    reduction_object[row][col] += img_fltr_8_tmp[row][col];
-		  }
-	    }
-		//omp_set_num_threads(2);
-		#pragma omp single
-		for(int row=0;row<rows*scale;row++) {
-			#pragma unroll
-			for(int col=0;col<cols*scale;col++) {
-				img_hr[row*cols*scale+col] += reduction_object[row][col] + biases_layer8;
-			}
-		}	
-	}
+    
 	
 
  //   for (int i=0;i<rows*scale;i++)

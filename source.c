@@ -672,29 +672,41 @@ void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale)
 	
 	cnt_weight = 0;
 	img_fltr_p7 = img_fltr_7;
-    #pragma omp parallel for
-	for (int j = 0; j < num_channels8; j++)
+	double sum;
+    #pragma omp parallel
 	{
-		double img_fltr_8_tmp[rows*scale * cols*scale];
-		// reading corresponding weights to kernel
-		//for (int cnt_kernel = 0; cnt_kernel < filtersize8; cnt_kernel++)
-		//{
-		//	*(kernel8 + cnt_kernel) = weights_layer8[cnt_weight + cnt_kernel];
-		//}
-		//cnt_weight = cnt_weight + filtersize8;
-		deconv(img_fltr_p7+j*rows*cols, img_fltr_8_tmp, weights_layer8+j*filtersize8, cols, rows, scale);
-		#pragma omp critical	
-		imadd(img_fltr_8, img_fltr_8_tmp, cols*scale, rows*scale);
-		//img_fltr_p7 = img_fltr_p7 + rows*cols;
+		double reduction_object[rows*scale][cols * scale]; // dop = num of cpu
+		#pragma omp for schedule(dynamic,4)
+        for (int j = 0; j < num_channels8; j++)  // concurrency = number of channel
+	    {
+		  double img_fltr_8_tmp[rows*scale][cols*scale];
+		  deconv(img_fltr_p7+j*rows*cols, img_fltr_8_tmp, weights_layer8+j*filtersize8, cols, rows, scale);
+		  //#pragma omp critical	
+		  //imadd(img_fltr_8, img_fltr_8_tmp, cols*scale, rows*scale);
+		  for(int row=0;row<rows*scale;row++)
+		  {
+			#pragma unroll
+			for(int col=0;col<cols*scale;col++)
+			    reduction_object[row][col] += img_fltr_8_tmp[row][col];
+		  }
+	    }
+		//omp_set_num_threads(2);
+		#pragma omp single
+		for(int row=0;row<rows*scale;row++) {
+			#pragma unroll
+			for(int col=0;col<cols*scale;col++) {
+				img_hr[row*cols*scale+col] += reduction_object[row][col] + biases_layer8;
+			}
+		}	
 	}
+	
 
-    #pragma omp parallel for
-	for (int i=0;i<rows*scale;i++)
-	for (int j = 0;j<cols*scale; j++)
-	{
-		int cnt_fnl = i*cols*scale + j;
-		*(img_hr + cnt_fnl) = *(img_fltr_8 + cnt_fnl) + biases_layer8;
-	}
+ //   for (int i=0;i<rows*scale;i++)
+//	for (int j = 0;j<cols*scale; j++)
+//	{
+//		int cnt_fnl = i*cols*scale + j;
+//		*(img_hr + cnt_fnl) = *(img_fltr_8 + cnt_fnl) + biases_layer8;
+//	}
 
 	/*for ( int i = 0; i < 10; i++)
 	{

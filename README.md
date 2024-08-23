@@ -10,7 +10,7 @@ For more information on the code, check [my post on Towards Data Sceince](https:
 
 To compile the code in Linux use:
 
-``` gcc source.c -o videosr```
+``` gcc -fopenmp source.c -o videosr```
 
 Then run the code using following command:
 

@@ -702,13 +702,61 @@ void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale)
 	double sum;
     
 	
+    // Implementation of Layer 8 Deconvolution
+    // Allocation for temporary deconvolution result
+    double *img_deconv_tmp = (double *)calloc(rows * scale * cols * scale, sizeof(double));
 
- //   for (int i=0;i<rows*scale;i++)
-//	for (int j = 0;j<cols*scale; j++)
-//	{
-//		int cnt_fnl = i*cols*scale + j;
-//		*(img_hr + cnt_fnl) = *(img_fltr_8 + cnt_fnl) + biases_layer8;
-//	}
+    // For Layer 8, we have 1 filter (num_filters8 = 1) and 56 channels (num_channels8 = 56)
+    // The input features are from Layer 7 (img_fltr_7) which has 56 feature maps.
+    
+    // Iterate through the single filter (i is always 0 here since num_filters8=1)
+    for (int i = 0; i < num_filters8; i++) 
+    {
+        // Iterate through input channels/feature maps from previous layer
+        for (int j = 0; j < num_channels8; j++) 
+        {
+            // Load Kernel (Weights) for this channel
+            for (int k = 0; k < filtersize8; k++) {
+                *(kernel8 + k) = weights_layer8[cnt_weight + k];
+            }
+            
+            // Deconv
+            // Input: j-th feature map from Layer 7 (img_fltr_p7 + offset)
+            // Output: img_deconv_tmp (temporary buffer)
+            // Kernel: kernel8
+            // Note: deconv function accumulates result into img_output? 
+            // Checking deconv signatures: void deconv(double *img_input, double *img_output, double *kernel, int cols, int rows, int stride);
+            // Looking at deconv implementation, it accumulates: *(img_output_tmp + ...) = ... + ...
+            // Wait, deconv implementation allocates its own temp buffer `img_output_tmp` with calloc (zeros) 
+            // and then copies to `img_output`.
+            // HOWEVER, deconv implementation overwrites `img_output`: *(img_output + cnt_img_out) = *(img_output_tmp + cnt_img_out_tmp);
+            // It does NOT accumulate into the external `img_output`.
+            
+            // So we need to:
+            // 1. Clear img_deconv_tmp (it is calloc'ed once, but needs to be cleared if reused? No, deconv overwrites it internally? 
+            // Deconv internally allocates `img_output_tmp` with calloc (zeros). It effectively calculates deconv for ONE channel.
+            // Then it copies to `img_output` (our `img_deconv_tmp`).
+            // So `img_deconv_tmp` will hold the deconv result of the CURRENT channel.
+            
+            deconv(img_fltr_p7 + j*rows*cols, img_deconv_tmp, kernel8, cols, rows, scale);
+            
+            // Accumulate the result into the final feature map (img_fltr_8)
+            imadd(img_fltr_8 + i * (rows*scale) * (cols*scale), img_deconv_tmp, cols*scale, rows*scale);
+            
+            cnt_weight += filtersize8;
+        }
+        
+        // Add bias and set to Final Output (img_hr)
+        // Since num_filters8 = 1, we just do this once for the single output map.
+        for (int p = 0; p < (rows*scale)*(cols*scale); p++) {
+             // img_hr is the final output buffer passed to FSRCNN function
+             // img_fltr_8 contains the sum of deconvolutions
+             *(img_hr + p) = *(img_fltr_8 + p) + biases_layer8;
+        }
+    }
+    
+    free(img_deconv_tmp);
+
 
 	/*for ( int i = 0; i < 10; i++)
 	{

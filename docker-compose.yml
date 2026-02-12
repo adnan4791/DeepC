@@ -1,4 +1,4 @@
-version: '3.8'
+
 
 services:
   deepc:
@@ -7,3 +7,10 @@ services:
       - .:/app
     working_dir: /app
     tty: true
+
+  ffmpeg:
+    image: mwader/static-ffmpeg:latest
+    volumes:
+      - .:/app
+    working_dir: /app
+    entrypoint: ["ffmpeg"]

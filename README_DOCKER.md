@@ -22,7 +22,7 @@ Since OpenMP (`omp.h`) is not supported by default on macOS clang, we use a GCC 
 3. **Run the Program**
    Run the compiled executable. Replace `input.yuv` and `output.yuv` with your actual file names.
    ```bash
-   docker-compose exec deepc ./active_deepc input.yuv output.yuv
+   docker-compose exec deepc ./active_deepc akiyo_cif.yuv output.yuv
    ```
 
 4. **Stop the Container**

@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 	}
 
     FILE *weights_layer1_ptr;
-	weights_layer1_ptr = fopen("weights_layer1.txt", "r");
+	weights_layer1_ptr = fopen("weights/weights_layer1.txt", "r");
 	if (weights_layer1_ptr == NULL) { printf("Error in the reading weights of first layer\n"); };
 	
 	for (int i = 0; i < 1400; i++)
@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
 	}
 	fclose(weights_layer1_ptr);
     FILE *biases_layer1_ptr;
-	biases_layer1_ptr = fopen("biasess_layer1.txt", "r");
+	biases_layer1_ptr = fopen("weights/biases_layer1.txt", "r");
 	if (biases_layer1_ptr == NULL) { printf("Error in the reading biases of first layer\n"); };
 	
 	for (int i = 0; i < 56; i++)
@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 	}
 	fclose(biases_layer1_ptr);
 	FILE *weights_layer2_ptr;
-    weights_layer2_ptr = fopen("weights_layer2.txt", "r");
+    weights_layer2_ptr = fopen("weights/weights_layer2.txt", "r");
 	if (weights_layer2_ptr == NULL) { printf("Error in the reading weights of 2nd layer\n"); };
 	// Note: weights must be saved in a way which that corresponding weights of each channel can be read by pointer concept ==>> for this layer 12X56 matrix is reshaped to (12X56)*1 vector
 	
@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
 	}
 	fclose(weights_layer2_ptr);    
     FILE *biases_layer2_ptr;
-	biases_layer2_ptr = fopen("biasess_layer2.txt", "r");
+	biases_layer2_ptr = fopen("weights/biases_layer2.txt", "r");
 	if (biases_layer2_ptr == NULL) { printf("Error in the reading biases of 2nd layer\n"); };
 	
 	for (int i = 0; i < 12; i++)
@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 	}
 	fclose(biases_layer2_ptr);
     FILE *weights_layer3_ptr;
-	weights_layer3_ptr = fopen("weights_layer3.txt", "r");
+	weights_layer3_ptr = fopen("weights/weights_layer3.txt", "r");
 	if (weights_layer3_ptr == NULL) { printf("Error in the reading weights of 3rd layer\n"); };
 	
 	for (int i = 0; i < 1296; i++)
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
 	fclose(weights_layer3_ptr);
 
 	FILE *biases_layer3_ptr;
-	biases_layer3_ptr = fopen("biasess_layer3.txt", "r");
+	biases_layer3_ptr = fopen("weights/biases_layer3.txt", "r");
 	if (biases_layer3_ptr == NULL) { printf("Error in the reading biases of 3rd layer\n"); };
 	
 	for (int i = 0; i < 12; i++)
@@ -122,7 +122,7 @@ int main(int argc, char *argv[])
 	fclose(biases_layer3_ptr);
 
     FILE *weights_layer4_ptr;
-	weights_layer4_ptr = fopen("weights_layer4.txt", "r");
+	weights_layer4_ptr = fopen("weights/weights_layer4.txt", "r");
 	if (weights_layer4_ptr == NULL) { printf("Error in the reading weights of 4th layer\n"); };
 	
 	for (int i = 0; i < 1296; i++)
@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
 	fclose(weights_layer4_ptr);
 
     FILE *biases_layer4_ptr;
-	biases_layer4_ptr = fopen("biasess_layer4.txt", "r");
+	biases_layer4_ptr = fopen("weights/biases_layer4.txt", "r");
 	if (biases_layer4_ptr == NULL) { printf("Error in the reading biases of 4th layer\n"); };
 	
 	for (int i = 0; i < 12; i++)
@@ -142,7 +142,7 @@ int main(int argc, char *argv[])
 	fclose(biases_layer4_ptr);
 
     FILE *weights_layer5_ptr;
-	weights_layer5_ptr = fopen("weights_layer5.txt", "r");
+	weights_layer5_ptr = fopen("weights/weights_layer5.txt", "r");
 	
 	for (int i = 0; i < 1296; i++)
 	{
@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
 	fclose(weights_layer5_ptr);
 
 	FILE *biases_layer5_ptr;
-	biases_layer5_ptr = fopen("biasess_layer5.txt", "r");
+	biases_layer5_ptr = fopen("weights/biases_layer5.txt", "r");
 	if (biases_layer5_ptr == NULL) { printf("Error in the reading biases of 5th layer\n"); };
 	
 	for (int i = 0; i < 12; i++)
@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
 	fclose(biases_layer5_ptr);
     
 	FILE *weights_layer6_ptr;
-	weights_layer6_ptr = fopen("weights_layer6.txt", "r");
+	weights_layer6_ptr = fopen("weights/weights_layer6.txt", "r");
 	if (weights_layer6_ptr == NULL) { printf("Error in the reading weights of 6th layer\n"); };
 	
 	for (int i = 0; i < 1296; i++)
@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
 	fclose(weights_layer6_ptr);
 	// Reading biases of 6th layer
 	FILE *biases_layer6_ptr;
-	biases_layer6_ptr = fopen("biasess_layer6.txt", "r");
+	biases_layer6_ptr = fopen("weights/biases_layer6.txt", "r");
 	if (biases_layer6_ptr == NULL) { printf("Error in the reading biases of 6th layer\n"); };
 	for (int i = 0; i < 12; i++)
 	{
@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
 	fclose(biases_layer6_ptr);
 
 	FILE *weights_layer7_ptr;
-    weights_layer7_ptr = fopen("weights_layer7.txt", "r");
+    weights_layer7_ptr = fopen("weights/weights_layer7.txt", "r");
 	if (weights_layer7_ptr == NULL) { printf("Error in the reading weights of 7th layer\n"); };
 	
 	for (int i = 0; i < 672; i++)
@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
 	fclose(weights_layer7_ptr);
 	// Reading biases of 7th layer
 	FILE *biases_layer7_ptr;
-	biases_layer7_ptr = fopen("biasess_layer7.txt", "r");
+	biases_layer7_ptr = fopen("weights/biases_layer7.txt", "r");
 	if (biases_layer7_ptr == NULL) { printf("Error in the reading biases of 7th layer\n"); };
 	
 	for (int i = 0; i < 56; i++)
@@ -200,7 +200,7 @@ int main(int argc, char *argv[])
 	fclose(biases_layer7_ptr);
 
     FILE *weights_layer8_ptr;
-	weights_layer8_ptr = fopen("weights_layer8.txt", "r");
+	weights_layer8_ptr = fopen("weights/weights_layer8.txt", "r");
 	if (weights_layer8_ptr == NULL) { printf("Error in the reading weights of 8th layer\n"); };
 	
 	for (int i = 0; i < 4536; i++)

@@ -40,8 +40,6 @@ int main(int argc, char *argv[])
 	//Upsampler parameters
 	int scale = 2;
 
-	//Compressed Assault Cube
-	int num = 150; //Number of frames to interpolate
 	int inCols = 176; //Width of input (downsampled) video
 	int inRows = 144; //Height of input (downsampled) video
 
@@ -217,7 +215,17 @@ int main(int argc, char *argv[])
 	double *inBuf_tmp = (double *)malloc(inCols*inRows*sizeof(double));
 	double *outBuf_tmp = (double *)malloc(outCols*outRows*sizeof(double));
 
-	for (int fcnt = 0; fcnt < num; fcnt++)
+	// Determine file size to estimate number of frames (optional but good for logs)
+	fseek(inFp, 0, SEEK_END);
+	long fileSize = ftell(inFp);
+	fseek(inFp, 0, SEEK_SET);
+	long frameSize = inCols * inRows * 1.5; // Y (1) + U (0.25) + V (0.25)
+	int estimatedFrames = fileSize / frameSize;
+	printf("Input file size: %ld bytes. Estimated frames: %d\n", fileSize, estimatedFrames);
+
+	// Loop until end of file
+	int fcnt = 0;
+	while (1)
 	{
 		//////// Interpolate each frame using FSRCNN for Y component and simple repitition for U and V components
 		// Pointer to obtain value of each tpixel of input frame
@@ -228,7 +236,16 @@ int main(int argc, char *argv[])
 		double *outP_tmp = outBuf_tmp;
 
 		//Y Component
-		fread(inBuf, sizeof(unsigned char), inCols*inRows, inFp);
+		size_t readCount = fread(inBuf, sizeof(unsigned char), inCols*inRows, inFp);
+		if (readCount < inCols*inRows) {
+			if (readCount > 0 && fcnt < estimatedFrames) {
+				printf("Warning: Incomplete Y frame at frame %d. Stopping.\n", fcnt);
+			}
+			break; // EOF or incomplete frame
+		}
+
+		printf("Processing frame %d...\n", fcnt++);
+
 		int i, j;
 
 		for (i = 0; i<inRows; i++)
@@ -256,7 +273,11 @@ int main(int argc, char *argv[])
 		fwrite(outBuf, sizeof(unsigned char), outCols*outRows, outFp);
 
 		//U Component
-		fread(inBuf, sizeof(unsigned char), inCols*inRows / 4, inFp);
+		readCount = fread(inBuf, sizeof(unsigned char), inCols*inRows / 4, inFp);
+		if (readCount < inCols*inRows / 4) {
+			printf("Warning: Incomplete U frame at frame %d. Stopping.\n", fcnt-1);
+			break;
+		}
 
 		inP = inBuf;
 		outP = outBuf;
@@ -278,7 +299,11 @@ int main(int argc, char *argv[])
 		fwrite(outBuf, sizeof(unsigned char), outCols*outRows / 4, outFp);
 
 		// V COmponent
-		fread(inBuf, sizeof(unsigned char), inCols*inRows / 4, inFp);
+		readCount = fread(inBuf, sizeof(unsigned char), inCols*inRows / 4, inFp);
+		if (readCount < inCols*inRows / 4) {
+			printf("Warning: Incomplete V frame at frame %d. Stopping.\n", fcnt-1);
+			break;
+		}
 		inP = inBuf;
 		outP= outBuf;
 

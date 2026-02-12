@@ -57,6 +57,25 @@ Program dijalankan melalui baris perintah (command line) dengan menyertakan nama
 ./fsrcnn input_qcif.yuv output_cif.yuv
 ```
 
+## Visualisasi Video (FFmpeg/FFplay)
+
+Karena format video adalah **RAW YUV 4:2:0** (tanpa header), video player biasa mungkin tidak bisa memutarnya secara langsung. Gunakan `ffplay` (bagian dari FFmpeg) dengan menentukan format dan resolusi secara eksplisit.
+
+**Perintah Dasar:**
+```bash
+ffplay -f rawvideo -pixel_format yuv420p -video_size <LEBAR>x<TINGGI> <nama_file.yuv>
+```
+
+**Contoh untuk Input (QCIF 176x144):**
+```bash
+ffplay -f rawvideo -pixel_format yuv420p -video_size 176x144 input_qcif.yuv
+```
+
+**Contoh untuk Output (CIF 352x288 - Hasil Upscale 2x):**
+```bash
+ffplay -f rawvideo -pixel_format yuv420p -video_size 352x288 output_cif.yuv
+```
+
 ## Arsitektur Program
 
 ### Struktur Data Utama
@@ -125,4 +144,4 @@ Mengonversi data tipe `double` (hasil perhitungan neural network) menjadi `unsig
 1.  **Resolusi Statis**: Dimensi video input (176x144) dan jumlah frame (150) di-*hardcode* di dalam fungsi `main`. Perubahan resolusi memerlukan rekompilasi ulang.
 2.  **Dependensi File Eksternal**: Membutuhkan 15+ file teks berisi bobot (`weights/weights_*.txt`, `weights/biases_*.txt`) relatif terhadap direktori eksekusi.
 3.  **Penanganan Kesalahan (Error Handling)**: Program akan mencetak pesan error jika file bobot tidak ditemukan, namun di beberapa bagian eksekusi tetap berlanjut yang dapat menyebabkan *segmentation fault*.
-4.  **Struktur Folder**: File bobot dan bias harus berada dalam folder `weights/` dengan penamaan yang benar (`biases` bukan `biasess`).
+4.  **Dowload Assets YUV Video**: File YUV video bisa diunduh manual [disini](https://web.archive.org/web/20190220164028/http://www.sunrayimage.com/examples.html).

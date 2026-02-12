@@ -35,7 +35,8 @@ Program ini dirancang untuk melakukan *upscaling* (peningkatan resolusi) video i
 Untuk mengkompilasi program, gunakan perintah berikut di terminal:
 
 ```bash
-gcc -o fsrcnn source.c -fopenmp -lm
+```bash
+gcc-15 source.c -o apps/fsrcnn -fopenmp -lm
 ```
 *(Flag `-fopenmp` wajib disertakan untuk mengaktifkan pemrosesan paralel dan kinerja optimal)*
 
@@ -45,7 +46,7 @@ Program dijalankan melalui baris perintah (command line) dengan menyertakan nama
 
 **Sintaks:**
 ```bash
-./fsrcnn <file_input> <file_output>
+./apps/fsrcnn <file_input> <file_output>
 ```
 
 **Argumen:**
@@ -54,7 +55,7 @@ Program dijalankan melalui baris perintah (command line) dengan menyertakan nama
 
 **Contoh:**
 ```bash
-./fsrcnn input_qcif.yuv output_cif.yuv
+./apps/fsrcnn input_qcif.yuv output_cif.yuv
 ```
 
 ## Visualisasi Video (FFmpeg/FFplay)

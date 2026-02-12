@@ -758,6 +758,19 @@ void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale)
     free(img_deconv_tmp);
 
 
+    // Debug snippet for Layer 8 output
+    double min_val = 1.0e10;
+    double max_val = -1.0e10;
+    int nan_count = 0;
+    for (int p = 0; p < (rows*scale)*(cols*scale); p++) {
+        double val = *(img_hr + p);
+        if (val < min_val) min_val = val;
+        if (val > max_val) max_val = val;
+        if (val != val) nan_count++; // Check for NaN
+    }
+    printf("Output Stats - Min: %f, Max: %f, NaNs: %d\n", min_val, max_val, nan_count);
+
+
 	/*for ( int i = 0; i < 10; i++)
 	{
 		printf("%f\n", *(img_hr + i));

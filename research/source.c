@@ -30,7 +30,7 @@ double biases_layer6[12];
 double weights_layer7[672];
 double biases_layer7[56];
 double weights_layer8[4536];
-double biases_layer8 = - 0.03262640000;
+double biases_layer8 = 0.1784099501;
 
 int main(int argc, char *argv[])
 {
@@ -285,6 +285,7 @@ int main(int argc, char *argv[])
 		for (i = 0; i < inRows / 2; i++)
 		for (j = 0; j < inCols / 2; j++) {
 
+			// Original (Correct) interpolation index for U component
 			int cnt = 2 * (i * outCols / 2 + j);
 
 			unsigned char x = *inP++;
@@ -310,6 +311,7 @@ int main(int argc, char *argv[])
 		for (i = 0; i < inRows / 2; i++)
 		for (j = 0; j < inCols / 2; j++) {
 
+			// Original (Correct) interpolation index for V component
 			int cnt = 2 * (i*outCols / 2 + j);
 
 			unsigned char x = *inP++;
@@ -442,7 +444,7 @@ void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale)
 	//double *img_fltr_3_tmp = (double *)malloc(rows * cols * sizeof(double));
 
 	cnt_weight = 0;
-	#pragma omp parallel for
+    #pragma omp parallel for
 	for (int i = 0; i < num_filters3; i++)
 	{
 		//img_fltr_p2 = img_fltr_2; // Return pointer to the first cell of array which contains feature maps of previous layer
@@ -680,6 +682,8 @@ void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale)
 	kernel6 = NULL;
 
 	/////////// Convolution3 ------------------- Layer 8
+
+
 
 	/////////// Layer8
 	// Reading weights of 8th layer
@@ -928,7 +932,7 @@ void imadd(double *img_fltr_sum, double *img_fltr_crnt, int cols, int rows)
 
 void deconv(double *img_input, double *img_output, double *kernel, int cols, int rows, int stride)
 {
-	int border = 1;
+	int border = 0; // Changed to 0 to avoid edge artifacts
 	int fsize = 9;
 	int rows_pad = rows + 2 * border;
 	int cols_pad = cols + 2 * border;
@@ -990,20 +994,13 @@ void double_2_uint8(double *double_img, unsigned char *uint8_img, int cols, int 
 	for (j = 0; j < cols; j++)
 	{
 		cnt = i*cols + j;
+        double val = *(double_img + cnt);
 
-		if (*(double_img + cnt) < 0)
-			* (uint8_img + cnt) = 0;
-		if (*(double_img + cnt) > 255)
-			* (uint8_img + cnt) = 255;
-
-		for (k = 0; k < 255; k++)
-		{
-			if (*(double_img + cnt) >= k && *(double_img + cnt) < (k+0.5))
-			*(uint8_img + cnt) =  k;
-
-			if (*(double_img + cnt) >= (k+0.5) && *(double_img + cnt) < (k+1))
-				*(uint8_img + cnt) = k + 1;
-		}
-
+		if (val < 0)
+			val = 0;
+		if (val > 255)
+			val = 255;
+            
+        *(uint8_img + cnt) = (unsigned char)(val + 0.5); // Rounding
 	}
 }

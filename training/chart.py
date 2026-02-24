@@ -11,8 +11,8 @@ def load_psnr(filename):
     with open(filename, 'r') as f:
         return [float(line.strip()) for line in f if line.strip()]
 
-psnr_trained = load_psnr('psnr_trained.txt')
-psnr_original = load_psnr('psnr_original.txt')
+psnr_trained = load_psnr('results/psnr_trained.txt')
+psnr_original = load_psnr('results/psnr_original.txt')
 
 # Baseline (Before Training) average
 if psnr_original:

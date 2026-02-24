@@ -10,7 +10,11 @@ python3 train_layer8_race_condition.py
 # 4. Compile the source C FSRCNN
 gcc-15 fsrcnn_parallel.c -o fsrcnn_parallel -fopenmp -lm
 
-# 5.Verify race condition
+# 5. Build ground truth
+## Read the README.md in ground_truth folder for more information
+./ground_truth/fsrcnn_serial_layer_8 tulips_yuv420_prog_planar_qcif.yuv ./ground_truth/ground_truth.yuv
+
+# 6. Verify race condition
 ./verify_race.sh
 
 =======

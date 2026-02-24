@@ -1,0 +1,5 @@
+altgraph==0.17.2
+future==0.18.2
+macholib==1.15.2
+PyMuPDF==1.26.5
+six==1.15.0

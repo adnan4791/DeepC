@@ -7,8 +7,11 @@ make all
 # 3. Run training
 python3 train_layer8_race_condition.py
 
-# 4. Use trained weights
-cp weights_layer8_trained.txt weights_layer8.txt
+# 4. Compile the source C FSRCNN
+gcc-15 fsrcnn_parallel.c -o fsrcnn_parallel -fopenmp -lm
+
+# 5.Verify race condition
+./verify_race.sh
 
 =======
 

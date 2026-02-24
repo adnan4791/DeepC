@@ -7,7 +7,7 @@ ACTIVE_WEIGHTS="weights_layer8.txt"
 INPUT_YUV="tulips_yuv420_prog_planar_qcif.yuv"
 GT_YUV="./ground_truth/ground_truth.yuv"
 THREADS=8
-RUNS=10
+RUNS=50
 OUT_ORIGINAL="./results/psnr_original.txt"
 OUT_TRAINED="./results/psnr_trained.txt"
 

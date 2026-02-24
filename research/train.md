@@ -5,7 +5,7 @@ Pada implementasi asli `source.c`, proses dekonvolusi di Layer 8 (yang mengakumu
 
 ## 2. Solusi: Retraining dengan Dropout
 Strategi solusinya adalah melatih ulang bobot (weights) Layer 8 agar **tahan terhadap kehilangan data**. Kita mensimulasikan *race condition* ini saat training dengan teknik **Dropout**. Jika model dilatih dengan kondisi di mana sebagian inputnya sering hilang, model akan belajar untuk mengkompensasi kehilangan tersebut dengan menaikkan magnitudo bobot atau menyesuaikan bias.
-
+f
 ## 3. Penjelasan Lengkap Kode `train_layer8.c`
 
 Berikut adalah rincian implementasi script training C yang digunakan:

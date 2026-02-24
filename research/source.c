@@ -717,6 +717,7 @@ void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale)
     for (int i = 0; i < num_filters8; i++) 
     {
         // Iterate through input channels/feature maps from previous layer
+        #pragma omp parallel for
         for (int j = 0; j < num_channels8; j++) 
         {
             // Load Kernel (Weights) for this channel

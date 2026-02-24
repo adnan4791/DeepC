@@ -4,7 +4,7 @@
 #include <math.h>
 #include <time.h>
 
-#define FRAMES 50
+#define FRAMES 6
 #define CHANNELS 56
 #define ROWS 144
 #define COLS 176
@@ -121,43 +121,15 @@ int main() {
         // Target
         double target = targets[f_idx * TARGET_ROWS * TARGET_COLS + u * TARGET_COLS + v];
         
-        // Forward Pass with Dropout
+        // Forward Pass with REAL Race Condition (OpenMP)
         double pred = bias;
-        
-        // Identify valid input range and kernel offsets
-        // Output (u,v) = Sum Input[i,j] * Kernel[u-2i, v-2j]
-        // u - 2i = kr => 2i = u - kr.
-        // kr in [0, 8]. implies u - 8 <= 2i <= u.
-        // Also 0 <= i < ROWS.
-        
-        // We will store contributing indices to update weights later
-        // Structure: index into input, index into kernel, channel
-        // But allocating arrays per pixel is slow?
-        // We can just re-compute for backward pass? Or update online?
-        
-        // To handle dropout efficiently: iterate channels. Decide if keep or drop.
-        // If keep, accumulate prediction and update weights.
-        // But we need the TOTAL error to update weights.
-        // So Frame: 
-        // 1. Calculate Pred (only using kept channels).
-        // 2. Calculate Error.
-        // 3. Update Kept Channels Weights.
         
         // Precompute coordinate ranges
         int start_kr = (u % 2 == 0) ? 0 : 1;
         int start_kc = (v % 2 == 0) ? 0 : 1;
         
-        // Just store the sum
-        double channel_contribs[CHANNELS]; // Optimization: only compute if kept
-        int kept[CHANNELS];
-        
+        #pragma omp parallel for shared(pred)
         for (int c = 0; c < CHANNELS; c++) {
-            if (rand_double() < DROPOUT_RATE) {
-                kept[c] = 0;
-                continue;
-            }
-            kept[c] = 1;
-            
             double sum_c = 0;
             for (int kr = start_kr; kr < KERNEL_SIZE; kr += 2) {
                 int input_row = (u - kr) / 2;
@@ -173,19 +145,18 @@ int main() {
                     sum_c += val * weights[c][kr][kc];
                 }
             }
-            pred += sum_c;
+            // NO ATOMIC, NO CRITICAL - INTENTIONAL RACE CONDITION
+            pred += sum_c; 
         }
         
-        double error = pred - target; // Derivative of 0.5*(pred-target)^2 is (pred-target)
+        double error = pred - target; 
         loss_sum += error * error;
         
         // Update Weights and Bias
         bias -= LR * error;
         
+        // The update is serial because we want stable updates based on the corrupted error
         for (int c = 0; c < CHANNELS; c++) {
-            if (!kept[c]) continue;
-            
-            // Re-iterate valid kernel positions to update
             for (int kr = start_kr; kr < KERNEL_SIZE; kr += 2) {
                 int input_row = (u - kr) / 2;
                 if (input_row < 0 || input_row >= ROWS) continue;

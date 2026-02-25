@@ -16,11 +16,15 @@ import os
 import ctypes
 import numpy as np
 import torch
+import random
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 import glob
 from pathlib import Path
+torch.manual_seed(42)
+np.random.seed(42)
+random.seed(42)
 
 # ============================================================================
 # Configuration
@@ -35,7 +39,7 @@ CONFIG = {
     'batch_size': 4,
     'num_epochs': 100,
     'training_data_dir': 'training_data',
-    'weights_file': 'weights_layer8.txt',
+    'weights_file': 'weights_layer8_original.txt',
     'output_weights_file': 'weights_layer8_trained.txt',
     'num_threads': 8,  # Number of OpenMP threads (should match production)
 }

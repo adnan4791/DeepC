@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 	int scale = 2;
 
 	//Compressed Assault Cube
-	int num = 6; //Number of frames to interpolate
+	int num = 150; //Number of frames to interpolate
 	int inCols = 176; //Width of input (downsampled) video
 	int inRows = 144; //Height of input (downsampled) video
 
@@ -674,6 +674,7 @@ void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale)
 	cnt_weight = 0;
 	img_fltr_p7 = img_fltr_7;
 	double sum;
+	#pragma omp parallel for
 	for (int j = 0; j < num_channels8; j++)
 	{
 		double img_fltr_8_tmp[rows*scale * cols*scale];

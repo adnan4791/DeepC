@@ -42,9 +42,9 @@ int main(int argc, char *argv[])
 	int scale = 2;
 
 	//Compressed Assault Cube
-	int num = 6; //Number of frames to interpolate
-	int inCols = 176; //Width of input (downsampled) video
-	int inRows = 144; //Height of input (downsampled) video
+	int num = 300; //Number of frames to interpolate
+	int inCols = 480; //Width of input (downsampled) video
+	int inRows = 268; //Height of input (downsampled) video
 
 	int outCols = inCols*scale;
 	int outRows = inRows*scale;

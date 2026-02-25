@@ -4,8 +4,8 @@
 ORIGINAL_WEIGHTS="weights_layer8_original.txt"
 TRAINED_WEIGHTS="weights_layer8_trained.txt"
 ACTIVE_WEIGHTS="weights_layer8.txt"
-INPUT_YUV="tulips_yuv420_prog_planar_qcif.yuv"
-GT_YUV="./ground_truth/ground_truth.yuv"
+INPUT_YUV="lr.yuv"
+GT_YUV="./ground_truth/hr.yuv"
 THREADS=8
 RUNS=10
 OUT_ORIGINAL="./results/psnr_original.txt"
@@ -31,10 +31,15 @@ function run_test() {
     for i in $(seq 1 $RUNS)
     do
         export OMP_NUM_THREADS=$THREADS
-        ./fsrcnn_parallel "$INPUT_YUV" temp_out.yuv > /dev/null 2>&1
+        ./fsrcnn_parallel2 "$INPUT_YUV" temp_out.yuv > /dev/null 2>&1
         
         # Ambil PSNR average
-        psnr=$(ffmpeg -s 352x288 -i temp_out.yuv -s 352x288 -i "$GT_YUV" -lavfi psnr -f null - 2>&1 | grep -o "average:[0-9.]*" | cut -d: -f2)
+        psnr=$(ffmpeg -s 352x288 -i temp_out.yuv -s 352x288 -i "$GT_YUV" -lavfi psnr -f null - 2>&1 | grep -o "average:[0-9.]*" | cut -d: -f2 || echo "0")
+        # psnr=$(ffmpeg -s 352x288 -pix_fmt yuv420p -i temp_out.yuv -s 352x288 -pix_fmt yuv420p -i "$GT_YUV" -lavfi psnr -f null - 2>&1 | grep -o "average:[0-9.]*" | cut -d: -f2)
+        # psnr=$(ffmpeg -s 352x288 -pix_fmt yuv420p -i temp_out.yuv \
+        #       -s 352x288 -pix_fmt yuv420p -i "$GT_YUV" \
+        #       -lavfi psnr -f null - 2>&1 \
+        #       | grep -o "psnr_y:[0-9.]*" | cut -d: -f2)
         
         echo "  Run $i: $psnr dB"
         echo "$psnr" >> "$output_file"

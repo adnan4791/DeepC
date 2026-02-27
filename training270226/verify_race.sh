@@ -41,7 +41,7 @@ function run_test() {
         
         # Ambil PSNR average (need -pix_fmt yuv420p for raw YUV files)
         ffmpeg_output=$(ffmpeg -s 352x288 -pix_fmt yuv420p -i temp_out.yuv -s 352x288 -pix_fmt yuv420p -i "$GT_YUV" -lavfi psnr -f null - 2>&1)
-        psnr=$(echo "$ffmpeg_output" | grep -o "average:[0-9.]*" | cut -d: -f2)
+        psnr=$(echo "$ffmpeg_output" | grep -o "average:[0-9.inf]*" | cut -d: -f2)
         
         # Fallback jika psnr kosong
         if [[ -z "$psnr" ]]; then

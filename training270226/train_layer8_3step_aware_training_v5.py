@@ -1,24 +1,14 @@
 #!/usr/bin/env python3
 """
-train_layer8_3step_aware_training.py  (v4 — Race-Aware Compensation)
+train_layer8_3step_aware_training_v5.py  (v5 — Aggressive Race-Aware)
 
-Phase 2 fine-tuning: starts from V3 trained weights and applies
-Race-Aware gradient compensation.
+Phase 3 fine-tuning: starts from V4 race-aware weights and pushes harder.
 
-Strategy:
-  Step 1: Deconvolution — STE (C forward + PyTorch backward), same as V3
-  Step 2: Imadd — RaceAwareStep:
-    Forward:  safe sum (deterministic, stable)
-    Backward: gradient amplified by 1/ratio where ratio = avg_race / safe_sum
-              This forces the optimizer to strengthen weights where race
-              conditions cause data loss.
-  Step 3: Bias — standard PyTorch
-
-The key insight:
-  If pixel (x,y) loses 50% of its value due to race conditions (ratio=0.5),
-  we amplify the gradient by 2× at that pixel. This pushes the optimizer
-  to make the weights 2× stronger there, so even after 50% loss from
-  race conditions, the output is still correct.
+Changes from V4:
+  - N_SAMPLES = 8 (was 3) → more accurate survival rate estimation
+  - LR = 5e-5 (was 1e-5) → model can push weights more aggressively
+  - reg_lambda = 1e-3 (was 5e-3) → more freedom to deviate from starting weights
+  - Loads V4 output (weights_layer8_race_aware.txt) as starting point
 """
 
 import os
@@ -122,47 +112,31 @@ class RaceAwareStep(torch.autograd.Function):
     """
     Race-Aware Compensation for Step 2 (imadd).
 
-    Forward: Uses safe sum (deterministic) → stable training, no random loss jumps
-    Backward: Gradient is amplified by 1/ratio where:
-      ratio = average_race_output / safe_sum_output
-      - ratio ≈ 1.0 → no race impact → normal gradient
-      - ratio < 1.0 → data lost by race → gradient amplified to compensate
-      - ratio > 1.0 → race added extra → gradient dampened
-
-    The race condition is sampled N_SAMPLES times and averaged to get a
-    statistical estimate of the survival rate at each pixel.
+    V5 changes: N_SAMPLES increased to 8 for more accurate statistical
+    estimation of the survival rate at each pixel.
     """
-    N_SAMPLES = 3  # Number of race condition samples to average
+    N_SAMPLES = 8  # V5: 8 samples (was 3 in V4) → better statistics
 
     @staticmethod
     def forward(ctx, x):
-        # 1. Deterministic safe sum (this is the forward output)
         safe_sum = x.sum(dim=1, keepdim=True)
 
-        # 2. Sample race condition multiple times for statistical estimate
         with torch.no_grad():
             race_samples = []
             for _ in range(RaceAwareStep.N_SAMPLES):
                 race_samples.append(call_c_imadd_race(x))
             avg_race = torch.stack(race_samples).mean(dim=0)
 
-            # 3. Compute survival ratio: race_output / safe_output
-            #    ratio = 1.0 means no race impact
-            #    ratio < 1.0 means data is lost
             ratio = avg_race / (safe_sum.detach() + 1e-8)
-            ratio = torch.clamp(ratio, 0.1, 1.5)  # Prevent extreme values
+            ratio = torch.clamp(ratio, 0.1, 1.5)
 
         ctx.save_for_backward(ratio)
-        return safe_sum  # Stable, deterministic output
+        return safe_sum
 
     @staticmethod
     def backward(ctx, grad_output):
         ratio, = ctx.saved_tensors
-        # Compensation: amplify gradient where data is lost (ratio < 1)
-        # If ratio = 0.5, gradient becomes 2× → optimizer pushes weights higher
-        # Add small eps to prevent division by zero
         compensated_grad = grad_output / (ratio + 1e-2)
-        # Expand from (B, 1, H, W) back to (B, 56, H, W)
         return compensated_grad.expand(-1, 56, -1, -1)
 
 
@@ -170,13 +144,6 @@ class RaceAwareStep(torch.autograd.Function):
 # 4. MODEL — Race-Aware with STE Deconv
 # ============================================================================
 class Layer8FSRCNN_RaceAware(nn.Module):
-    """
-    Layer 8 model with Race-Aware compensation:
-      Step 1: Deconvolution via STE (C forward, PyTorch backward)
-      Step 2: RaceAwareStep (safe sum forward, compensated backward)
-      Step 3: Bias addition
-    """
-
     def __init__(self, scale, num_channels=56, kernel_size=9):
         super().__init__()
         self.scale = scale
@@ -188,54 +155,52 @@ class Layer8FSRCNN_RaceAware(nn.Module):
         )
         self.bias = nn.Parameter(torch.tensor([-0.03262640000], dtype=torch.float64))
 
-        # Store starting weights for regularization
         self.register_buffer('start_weights', None)
-
         self._load_weights()
 
     def _load_weights(self):
-        # Try to load V3 trained weights first (fine-tuning mode)
-        if os.path.exists("weights_layer8_trained.txt"):
-            w = np.loadtxt("weights_layer8_trained.txt", dtype=np.float64)
-            w = w.reshape(self.num_channels, 1, self.kernel_size, self.kernel_size)
-            self.deconv_weights.data = torch.from_numpy(w)
-            self.start_weights = torch.from_numpy(w.copy())
-            print(f"✓ Loaded weights_layer8_trained.txt (V3 fine-tuning mode, {len(w.flatten())} weights)")
-        elif os.path.exists("weights_layer8_original.txt"):
-            w = np.loadtxt("weights_layer8_original.txt", dtype=np.float64)
-            w = w.reshape(self.num_channels, 1, self.kernel_size, self.kernel_size)
-            self.deconv_weights.data = torch.from_numpy(w)
-            self.start_weights = torch.from_numpy(w.copy())
-            print(f"✓ Loaded weights_layer8_original.txt (from scratch, {len(w.flatten())} weights)")
+        # Priority: V4 race-aware → V3 trained → original
+        weight_files = [
+            ("weights_layer8_race_aware.txt", "V4 race-aware"),
+            ("weights_layer8_trained.txt", "V3 trained"),
+            ("weights_layer8_original.txt", "original"),
+        ]
+        for fname, label in weight_files:
+            if os.path.exists(fname):
+                w = np.loadtxt(fname, dtype=np.float64)
+                w = w.reshape(self.num_channels, 1, self.kernel_size, self.kernel_size)
+                self.deconv_weights.data = torch.from_numpy(w)
+                self.start_weights = torch.from_numpy(w.copy())
+                print(f"✓ Loaded {fname} ({label}, {len(w.flatten())} weights)")
+                break
         else:
             print("⚠ No weight file found, using zero init")
 
-        # Load bias if available
-        if os.path.exists("biasess_layer8_trained.txt"):
-            b = float(open("biasess_layer8_trained.txt").read().strip())
-            self.bias.data = torch.tensor([b], dtype=torch.float64)
-            print(f"✓ Loaded bias: {b:.10f}")
+        # Load bias: try race-aware first, then trained
+        bias_files = [
+            "biasess_layer8_race_aware.txt",
+            "biasess_layer8_trained.txt",
+        ]
+        for fname in bias_files:
+            if os.path.exists(fname):
+                b = float(open(fname).read().strip())
+                self.bias.data = torch.tensor([b], dtype=torch.float64)
+                print(f"✓ Loaded bias from {fname}: {b:.10f}")
+                break
 
     def weight_regularization_loss(self):
-        """L2 distance from starting weights."""
         if self.start_weights is not None:
             return ((self.deconv_weights - self.start_weights) ** 2).mean()
         return torch.tensor(0.0, dtype=torch.float64)
 
     def forward(self, x):
-        """
-        x: (B, 56, rows, cols)
-        Returns: (B, 1, out_rows, out_cols)
-        """
         batch_size, num_ch, rows, cols = x.shape
         out_rows = rows * self.scale
         out_cols = cols * self.scale
         padding = self.kernel_size // 2
         output_padding = self.scale - 1
 
-        # =================================================================
-        # STEP 1: Deconvolution — STE (C forward, PyTorch backward)
-        # =================================================================
+        # STEP 1: Deconvolution — STE
         pt_deconv = torch.nn.functional.conv_transpose2d(
             x, self.deconv_weights,
             bias=None, stride=self.scale, padding=padding,
@@ -253,17 +218,11 @@ class Layer8FSRCNN_RaceAware(nn.Module):
 
         deconv_out = pt_deconv + (c_deconv - pt_deconv).detach()
 
-        # =================================================================
         # STEP 2: Imadd — Race-Aware Compensation
-        # =================================================================
         imadd_out = RaceAwareStep.apply(deconv_out)
 
-        # =================================================================
         # STEP 3: Bias
-        # =================================================================
-        output = imadd_out + self.bias
-
-        return output
+        return imadd_out + self.bias
 
 
 # ============================================================================
@@ -288,12 +247,10 @@ class FSRCNNDataset(Dataset):
             os.path.join(self.data_dir, f"layer7_frame{idx:04d}.bin"),
             dtype=np.float64
         ).reshape(56, self.in_rows, self.in_cols)
-
         hr = np.fromfile(
             os.path.join(self.data_dir, f"hr_frame{idx:04d}.bin"),
             dtype=np.float64
         ).reshape(1, self.out_rows, self.out_cols)
-
         return torch.from_numpy(l7), torch.from_numpy(hr)
 
 
@@ -308,7 +265,7 @@ def compute_psnr(mse_loss):
 
 def train():
     print("=" * 65)
-    print("  FSRCNN Layer 8 — Race-Aware Compensation Training (V4)")
+    print("  FSRCNN Layer 8 — Aggressive Race-Aware Training (V5)")
     print("=" * 65)
 
     dataset = FSRCNNDataset()
@@ -319,12 +276,12 @@ def train():
     mse_criterion = nn.MSELoss()
     l1_criterion = nn.L1Loss()
 
-    num_epochs = 100  # Fewer epochs — this is fine-tuning
-    reg_lambda = 5e-3  # Stronger regularization since we start from good weights
+    num_epochs = 150  # More epochs since we have lower reg
+    reg_lambda = 1e-3  # V5: looser (was 5e-3) → more room to push weights
 
-    # Fine-tuning LR — much smaller than V3
+    # V5: higher LR → bolder weight updates
     optimizer = optim.Adam([
-        {'params': [model.deconv_weights], 'lr': 1e-5},
+        {'params': [model.deconv_weights], 'lr': 5e-5},
         {'params': [model.bias], 'lr': 1e-5},
     ])
 
@@ -332,11 +289,13 @@ def train():
 
     best_loss = float('inf')
     patience = 0
-    max_patience = 30
+    max_patience = 35
 
-    print(f"\nConfig: epochs={num_epochs}, batch=8, lr=1e-5 (fine-tuning)")
-    print(f"        grad_clip=0.3, loss=0.7*MSE + 0.3*L1, reg_lambda={reg_lambda}")
-    print(f"        Step2=RaceAware (safe_sum fwd + compensated bwd, {RaceAwareStep.N_SAMPLES} samples)")
+    print(f"\nV5 Config:")
+    print(f"  epochs={num_epochs}, batch=8, weight_lr=5e-5, bias_lr=1e-5 (cosine)")
+    print(f"  grad_clip=0.5, loss=0.7*MSE + 0.3*L1, reg_lambda={reg_lambda}")
+    print(f"  Step2=RaceAware ({RaceAwareStep.N_SAMPLES} samples, was 3 in V4)")
+    print(f"  Changes from V4: N_SAMPLES 3→8, LR 1e-5→5e-5, reg 5e-3→1e-3")
     print("-" * 65)
 
     for epoch in range(num_epochs):
@@ -357,8 +316,7 @@ def train():
 
             loss.backward()
 
-            # Tighter gradient clipping for fine-tuning
-            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=0.3)
+            torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=0.5)
 
             optimizer.step()
 
@@ -397,8 +355,8 @@ def train():
 
     print("\n" + "=" * 65)
     print(f"  Training complete! Best combined loss: {best_loss:.8f}")
-    print(f"  Weights saved to: weights_layer8_race_aware.txt")
-    print(f"  Bias saved to:    biasess_layer8_race_aware.txt")
+    print(f"  Weights saved to: weights_layer8_race_aware_v5.txt")
+    print(f"  Bias saved to:    biasess_layer8_race_aware_v5.txt")
     print("=" * 65)
 
 
@@ -406,10 +364,10 @@ def save_weights(model):
     weights = model.deconv_weights.data.numpy().flatten()
     bias = model.bias.data.item()
 
-    with open("weights_layer8_race_aware.txt", "w") as f:
+    with open("weights_layer8_race_aware_v5.txt", "w") as f:
         np.savetxt(f, weights[None, :], fmt="  %.16e", delimiter="  ")
 
-    with open("biasess_layer8_race_aware.txt", "w") as f:
+    with open("biasess_layer8_race_aware_v5.txt", "w") as f:
         f.write(f"{bias:.10f}\n")
 
 

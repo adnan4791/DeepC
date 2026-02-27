@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
 """
-train_layer8_3step.py  (v2 — STE-based gradient)
+train_layer8_3step.py  (v3 — Safe Sum + Weight Regularization)
 
 Training script for FSRCNN Layer 8 with PROPER per-step error backpropagation.
 
-The 3 steps are separated as individual autograd functions:
-  Step 1: Deconvolution (per-channel, 9x9 kernel, stride=scale)
-  Step 2: Imadd with Race Condition (56ch → 1ch summation)
+The 3 steps are separated:
+  Step 1: Deconvolution (STE: C forward + PyTorch backward)
+  Step 2: Imadd — deterministic safe sum (no race condition during training)
   Step 3: Bias addition (learnable scalar)
 
-Gradient strategy:
-  STE (Straight-Through Estimator) trick:
-    output = pytorch_output + (c_output - pytorch_output).detach()
-  This gives the C output in forward but PyTorch-correct gradients in backward.
+Key design decisions:
+  - Step 1 uses STE trick so forward matches C library (bit-exact)
+    but backward uses PyTorch autograd (mathematically correct).
+  - Step 2 uses deterministic channel sum (NOT race condition!) because
+    race conditions are stochastic — training with one realization
+    causes overfitting to that specific noise pattern.
+  - L2 regularization toward original weights prevents overfitting.
 """
 
 import os
@@ -125,17 +128,17 @@ def c_imadd_safe_forward(input_np, num_ch, height, width):
 # ============================================================================
 class Layer8FSRCNN_3Step(nn.Module):
     """
-    Layer 8 model with explicit 3-step forward pass using STE trick:
+    Layer 8 model with explicit 3-step forward pass:
 
       Step 1: Deconvolution
-        Forward  → C library (bit-exact with hardware)
+        Forward  → C library (bit-exact with hardware) via STE
         Backward → PyTorch conv_transpose2d autograd (mathematically correct)
-        STE connects both: output = pt_output + (c_output - pt_output).detach()
 
-      Step 2: Imadd with race condition
-        Forward  → C library (bit-exact race condition)
-        Backward → Simple channel sum (safe path) autograd
-        STE connects: output = safe_sum + (c_race - safe_sum).detach()
+      Step 2: Imadd — deterministic channel sum
+        Forward  → PyTorch sum(dim=1) — safe, deterministic
+        Backward → PyTorch autograd
+        (Race condition is NOT used during training to avoid
+         overfitting to a single stochastic realization)
 
       Step 3: Bias addition
         Standard PyTorch (no STE needed)
@@ -155,6 +158,9 @@ class Layer8FSRCNN_3Step(nn.Module):
         # Learnable bias (scalar)
         self.bias = nn.Parameter(torch.tensor([-0.03262640000], dtype=torch.float64))
 
+        # Store original weights for regularization (set after loading)
+        self.register_buffer('original_weights', None)
+
         self._load_initial_weights()
 
     def _load_initial_weights(self):
@@ -162,9 +168,17 @@ class Layer8FSRCNN_3Step(nn.Module):
             w = np.loadtxt("weights_layer8_original.txt", dtype=np.float64)
             w = w.reshape(self.num_channels, 1, self.kernel_size, self.kernel_size)
             self.deconv_weights.data = torch.from_numpy(w)
+            # Save a frozen copy for regularization
+            self.original_weights = torch.from_numpy(w.copy())
             print(f"✓ Loaded weights_layer8_original.txt ({len(w.flatten())} weights)")
         else:
             print("⚠ weights_layer8_original.txt not found, using zero init")
+
+    def weight_regularization_loss(self):
+        """L2 distance between current weights and original weights."""
+        if self.original_weights is not None:
+            return ((self.deconv_weights - self.original_weights) ** 2).mean()
+        return torch.tensor(0.0, dtype=torch.float64)
 
     def forward(self, x):
         """
@@ -205,22 +219,14 @@ class Layer8FSRCNN_3Step(nn.Module):
         # deconv_out shape: (B, 56, out_rows, out_cols)
 
         # =================================================================
-        # STEP 2: Imadd with Race Condition — C forward, STE backward
+        # STEP 2: Imadd — Deterministic Safe Sum (no race condition)
         # =================================================================
+        # We use simple channel sum instead of C race condition because:
+        # - Race condition is stochastic (different each run)
+        # - Training with one realization overfits to that noise pattern
+        # - Safe sum gives clean, consistent gradients
 
-        # (a) PyTorch safe path — simple channel sum (provides gradients)
-        pt_sum = deconv_out.sum(dim=1, keepdim=True)  # (B, 1, H, W)
-
-        # (b) C race-condition path — bit-exact race result (no grad)
-        with torch.no_grad():
-            c_race = torch.zeros_like(pt_sum)
-            for b in range(batch_size):
-                in_np = deconv_out[b].detach().cpu().numpy()
-                out_np = c_imadd_race_forward(in_np, num_ch, out_rows, out_cols)
-                c_race[b, 0] = torch.from_numpy(out_np)
-
-        # (c) STE: forward uses C race value, backward uses sum gradient
-        imadd_out = pt_sum + (c_race - pt_sum).detach()
+        imadd_out = deconv_out.sum(dim=1, keepdim=True)  # (B, 1, H, W)
         # imadd_out shape: (B, 1, out_rows, out_cols)
 
         # =================================================================
@@ -273,7 +279,7 @@ def compute_psnr(mse_loss):
 
 def train():
     print("=" * 65)
-    print("  FSRCNN Layer 8 Training — STE-based 3-Step Backpropagation")
+    print("  FSRCNN Layer 8 Training — Safe Sum + Weight Regularization")
     print("=" * 65)
 
     dataset = FSRCNNDataset()
@@ -285,12 +291,13 @@ def train():
     l1_criterion = nn.L1Loss()
 
     num_epochs = 200
+    reg_lambda = 1e-3  # Weight regularization strength
 
     # Separate LR for weights vs bias — bias needs MUCH smaller LR
     optimizer = optim.Adam([
         {'params': [model.deconv_weights], 'lr': 5e-4},
         {'params': [model.bias], 'lr': 1e-4},
-    ], weight_decay=1e-6)
+    ], weight_decay=0)  # No weight_decay here, we use explicit regularization
 
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=num_epochs, eta_min=1e-6)
 
@@ -299,7 +306,8 @@ def train():
     max_patience = 40
 
     print(f"\nConfig: epochs={num_epochs}, batch=8, weight_lr=5e-4, bias_lr=1e-4 (cosine)")
-    print(f"        grad_clip=0.5, loss=0.7*MSE + 0.3*L1, bias_clamp=[-0.5, 0.5]")
+    print(f"        grad_clip=0.5, loss=0.7*MSE + 0.3*L1, reg_lambda={reg_lambda}")
+    print(f"        Step2=safe_sum (deterministic), bias_clamp=[-0.5, 0.5]")
     print("-" * 65)
 
     for epoch in range(num_epochs):
@@ -315,7 +323,8 @@ def train():
 
             loss_mse = mse_criterion(output, hr_target)
             loss_l1 = l1_criterion(output, hr_target)
-            loss = 0.7 * loss_mse + 0.3 * loss_l1
+            loss_reg = model.weight_regularization_loss()
+            loss = 0.7 * loss_mse + 0.3 * loss_l1 + reg_lambda * loss_reg
 
             loss.backward()
 
@@ -340,10 +349,11 @@ def train():
         current_lr = scheduler.get_last_lr()[0]
         psnr_est = compute_psnr(avg_mse)
 
+        w_dist = model.weight_regularization_loss().item()
         print(f"Epoch {epoch+1:3d}/{num_epochs} | "
               f"MSE: {avg_mse:.8f} | L1: {avg_l1:.6f} | "
               f"PSNR~{psnr_est:.2f}dB | LR: {current_lr:.6f} | "
-              f"Bias: {model.bias.item():.8f}")
+              f"Bias: {model.bias.item():.8f} | Wdist: {w_dist:.2e}")
 
         if avg_loss < best_loss:
             best_loss = avg_loss

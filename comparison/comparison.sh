@@ -24,12 +24,14 @@ OUT_WIDTH=$((WIDTH * 2))
 OUT_HEIGHT=$((HEIGHT * 2))
 
 # Jumlah iterasi untuk rata-rata waktu
-NUM_RUNS=5
+NUM_RUNS=3
 
 # Daftar executable FSRCNN yang akan diuji
 EXECUTABLES=(
     "fsrcnn_serial_layer_8_150"
     "fsrcnn_parallel_spatial_reduction_150"
+    "fsrcnn_parallel_spatial_reduction_150_ffast"
+    "fsrcnn_parallel_spatial_reduction_clang"
     "fsrcnn_parallel_spatial_reduction_no_malloc"
     "fsrcnn_parallel_spatial_reduction_1loop_150_2"
     "fsrcnn_critical_150"
@@ -40,6 +42,8 @@ EXECUTABLES=(
 LABELS=(
     "Serial (Layer 8)"
     "Parallel Spatial Reduction"
+    "Parallel Spatial Reduction FFAST GCC"
+    "Parallel Spatial Reduction FFAST CLANG"
     "Parallel Spatial Reduction Enhanced memory"
     "Parallel Spatial Reduction Single Loop Layer 8"
     "OpenMP Critical"

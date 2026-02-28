@@ -30,24 +30,26 @@ NUM_RUNS=3
 EXECUTABLES=(
     "fsrcnn_serial_layer_8_150"
     "fsrcnn_parallel_spatial_reduction_150"
-    "fsrcnn_parallel_spatial_reduction_150_ffast"
-    "fsrcnn_parallel_spatial_reduction_clang"
-    "fsrcnn_parallel_spatial_reduction_no_malloc"
-    "fsrcnn_parallel_spatial_reduction_1loop_150_2"
-    "fsrcnn_critical_150"
-    "fsrcnn_taskloop_150"
+    "fsrcnn_parallel_spatial_reduction_loop"
+    # "fsrcnn_parallel_spatial_reduction_150_ffast"
+    # "fsrcnn_parallel_spatial_reduction_clang"
+    # "fsrcnn_parallel_spatial_reduction_no_malloc"
+    # "fsrcnn_parallel_spatial_reduction_1loop_150_2"
+    # "fsrcnn_critical_150"
+    # "fsrcnn_taskloop_150"
 )
 
 # Label untuk setiap executable (untuk display)
 LABELS=(
     "Serial (Layer 8)"
     "Parallel Spatial Reduction"
-    "Parallel Spatial Reduction FFAST GCC"
-    "Parallel Spatial Reduction FFAST CLANG"
-    "Parallel Spatial Reduction Enhanced memory"
-    "Parallel Spatial Reduction Single Loop Layer 8"
-    "OpenMP Critical"
-    "OpenMP Taskloop"
+    "Parallel Spatial Reduction Single Loop Unroll and Fusion"
+    # "Parallel Spatial Reduction FFAST GCC"
+    # "Parallel Spatial Reduction FFAST CLANG"
+    # "Parallel Spatial Reduction Enhanced memory"
+    # "Parallel Spatial Reduction Single Loop Layer 8"
+    # "OpenMP Critical"
+    # "OpenMP Taskloop"
 )
 
 # ===================== VALIDASI =====================

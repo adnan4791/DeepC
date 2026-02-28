@@ -30,7 +30,7 @@ NUM_RUNS=5
 EXECUTABLES=(
     "fsrcnn_serial_layer_8_150"
     "fsrcnn_parallel_spatial_reduction_150"
-    "fsrcnn_parallel_spatial_reduction_1loop_150"
+    "fsrcnn_parallel_spatial_reduction_no_malloc"
     "fsrcnn_parallel_spatial_reduction_1loop_150_2"
     "fsrcnn_critical_150"
     "fsrcnn_taskloop_150"
@@ -40,8 +40,8 @@ EXECUTABLES=(
 LABELS=(
     "Serial (Layer 8)"
     "Parallel Spatial Reduction"
-    "Parallel Spatial Reduction 1 Loop"
-    "Parallel Spatial Reduction 1 Loop 2"
+    "Parallel Spatial Reduction Enhanced memory"
+    "Parallel Spatial Reduction Single Loop Layer 8"
     "OpenMP Critical"
     "OpenMP Taskloop"
 )

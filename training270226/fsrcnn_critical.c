@@ -686,7 +686,7 @@ void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale)
 		double img_fltr_8_tmp[rows*scale * cols*scale];
 		//img_fltr_p7+j*rows*cols adalah output layer 7 channel ke j
 		deconv(img_fltr_p7+j*rows*cols, img_fltr_8_tmp, weights_layer8+j*filtersize8, cols, rows, scale);
-		#pragma omp critical	
+		// #pragma omp critical	
 		imadd(img_fltr_8, img_fltr_8_tmp, cols*scale, rows*scale);
 		//img_fltr_p7 = img_fltr_p7 + rows*cols;
 	}

@@ -1,0 +1,77 @@
+./compare_psnr_run10.sh
+=========================================================
+  FSRCNN RACE CONDITION: ORIGINAL vs FINETUNED
+=========================================================
+  Input    : suzie_qcif.yuv
+  GT       : clean.yuv
+  Threads  : 8
+  Runs     : 10
+=========================================================
+---------------------------------------------------------
+Testing: ORIGINAL (bobot lama)
+  Executable: ./fsrcnn_parallel_old
+  Runs: 10, Threads: 8
+  Run 1: 41.715088 dB
+  Run 2: 44.672891 dB
+  Run 3: 40.050082 dB
+  Run 4: 44.038600 dB
+  Run 5: 37.652990 dB
+  Run 6: 35.336760 dB
+  Run 7: 39.267952 dB
+  Run 8: 40.454275 dB
+  Run 9: 34.824061 dB
+  Run 10: 35.883906 dB
+
+>> ORIGINAL (bobot lama):
+   Avg = 39.3896 dB
+   Min = 34.824061 dB
+   Max = 44.672891 dB
+
+---------------------------------------------------------
+Testing: FINETUNED ALL LAYER (bobot baru semua layer)
+  Executable: ./fsrcnn_parallel
+  Runs: 10, Threads: 8
+  Run 1: 35.985627 dB
+  Run 2: 42.600224 dB
+  Run 3: 44.711212 dB
+  Run 4: 37.299375 dB
+  Run 5: 40.839861 dB
+  Run 6: 28.949092 dB
+  Run 7: 37.036015 dB
+  Run 8: 38.517707 dB
+  Run 9: 46.298116 dB
+  Run 10: 38.722687 dB
+
+>> FINETUNED ALL LAYER (bobot baru semua layer):
+   Avg = 39.0959 dB
+   Min = 28.949092 dB
+   Max = 46.298116 dB
+
+---------------------------------------------------------
+Testing: FINETUNED LAYER 8 ONLY (bobot baru layer 8 saja)
+  Executable: ./fsrcnn_parallel_layer8v3
+  Runs: 10, Threads: 8
+  Run 1: 37.560042 dB
+  Run 2: 39.928927 dB
+  Run 3: 41.667860 dB
+  Run 4: 42.160308 dB
+  Run 5: 38.040440 dB
+  Run 6: 41.109012 dB
+  Run 7: 36.822424 dB
+  Run 8: 37.447475 dB
+  Run 9: 35.071930 dB
+  Run 10: 34.926290 dB
+
+>> FINETUNED LAYER 8 ONLY (bobot baru layer 8 saja):
+   Avg = 38.4734 dB
+   Min = 34.926290 dB
+   Max = 42.160308 dB
+
+=========================================================
+  RINGKASAN
+=========================================================
+  Hasil PSNR original disimpan di: psnr_old.txt
+  Hasil PSNR finetuned (all)  di: psnr_new.txt
+  Hasil PSNR finetuned (L8)   di: psnr_layer8v3.txt
+=========================================================
+Selesai!

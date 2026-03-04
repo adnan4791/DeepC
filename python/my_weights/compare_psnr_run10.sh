@@ -8,15 +8,15 @@
 
 # Konfigurasi
 EXEC_OLD="./fsrcnn_parallel_old"      # executable dengan bobot original (semua layer)
-EXEC_NEW="./fsrcnn_parallel"           # executable dengan bobot finetuned (semua layer)
-EXEC_L8="./fsrcnn_parallel_layer8v3"     # executable dengan bobot finetuned (layer 8 saja)
+# EXEC_NEW="./fsrcnn_parallel"           # executable dengan bobot finetuned (semua layer)
+EXEC_L8="./fsrcnn_parallel_layer8v4"     # executable dengan bobot finetuned (layer 8 saja)
 INPUT_YUV="suzie_qcif.yuv"
 GT_YUV="clean.yuv"                     # ground truth (dari critical/serial)
-THREADS=10
+THREADS=2
 RUNS=10
 OUT_ORIGINAL="psnr_old.txt"
 OUT_FINETUNED="psnr_new.txt"
-OUT_LAYER8="psnr_layer8v3.txt"
+OUT_LAYER8="psnr_layer8v4.txt"
 
 # Resolusi output HR
 WIDTH=352
@@ -24,7 +24,7 @@ HEIGHT=288
 PIX_FMT=yuv420p
 
 # ---------- Cek file ----------
-for f in "$EXEC_OLD" "$EXEC_NEW" "$EXEC_L8" "$INPUT_YUV" "$GT_YUV"; do
+for f in "$EXEC_OLD" "$EXEC_L8" "$INPUT_YUV" "$GT_YUV"; do
     if [[ ! -f "$f" ]]; then
         echo "❌ File tidak ditemukan: $f"
         exit 1
@@ -100,7 +100,7 @@ echo "  Runs     : $RUNS"
 echo "========================================================="
 
 run_test "ORIGINAL (bobot lama)" "$EXEC_OLD" "$OUT_ORIGINAL"
-run_test "FINETUNED ALL LAYER (bobot baru semua layer)" "$EXEC_NEW" "$OUT_FINETUNED"
+# run_test "FINETUNED ALL LAYER (bobot baru semua layer)" "$EXEC_NEW" "$OUT_FINETUNED"
 run_test "FINETUNED LAYER 8 ONLY (bobot baru layer 8 saja)" "$EXEC_L8" "$OUT_LAYER8"
 
 # Bersihkan

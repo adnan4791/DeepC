@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Fine-tuning FSRCNN v3: Channel Equalization
+Fine-tuning FSRCNN v4: Hybrid (Channel Equalization + Noise Injection)
 
-Strategi: Meratakan kontribusi per-channel di deconv Layer 8
-agar hilangnya 1-2 channel karena race condition memiliki dampak minimal.
+Menggabungkan v3 (channel equalization) dan v1 (noise injection):
+- Channel equalization: meratakan kontribusi per-channel deconv
+- Noise injection: injeksi noise empiris dari train_data/ saat training
+- Freeze layer 1-7, hanya train Layer 8
 
-Loss = MSE(output, GT) + λ_eq * var(channel_contributions)
-                       + λ_reg * ||W - W_original||²
-
-Freeze layer 1-7, hanya train Layer 8.
+Loss = MSE(output + noise, GT) + λ_eq * var(channel_energies)
+                               + λ_reg * ||W - W_original||²
 """
 
 import torch
@@ -19,6 +19,7 @@ import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
 import numpy as np
 import os
+import random
 
 # ==================== Konfigurasi ====================
 CONFIG = {
@@ -26,16 +27,18 @@ CONFIG = {
     'lr_height': 144,
     'scale': 2,
     'num_frames': 150,
+    'num_runs': 30,
     'batch_size': 4,
     'num_epochs': 100,
     'learning_rate': 1e-5,
     'checkpoint_interval': 20,
-    'lambda_eq': 0.1,          # bobot channel equalization loss
-    'lambda_reg': 0.005,       # bobot L2 regularization ke original
+    'lambda_eq': 0.1,          # channel equalization
+    'lambda_reg': 0.005,       # L2 regularization ke original
+    'noise_probability': 0.5,  # probabilitas injeksi noise per batch
     'data_root': 'train_data',
     'lr_video': 'suzie_qcif.yuv',
     'weights_in': 'fsrcnn_original.pth',
-    'weights_out': 'fsrcnn_finetuned_v3.pth',
+    'weights_out': 'fsrcnn_finetuned_v4.pth',
 }
 
 
@@ -48,14 +51,10 @@ class PReLU_custom(nn.Module):
         return torch.where(x > 0, x, self.coeff * x)
 
 
-class FSRCNNv3(nn.Module):
-    """
-    FSRCNN dengan eksplisit per-channel deconv output untuk channel equalization.
-    """
+class FSRCNNv4(nn.Module):
     def __init__(self, scale=2):
         super().__init__()
         self.scale = scale
-        # Layer 1-7 (frozen)
         self.conv1 = nn.Conv2d(1, 56, kernel_size=5, padding=2)
         self.prelu1 = PReLU_custom(-0.8986)
         self.conv2 = nn.Conv2d(56, 12, kernel_size=1)
@@ -70,12 +69,10 @@ class FSRCNNv3(nn.Module):
         self.prelu6 = PReLU_custom(0.7806)
         self.conv7 = nn.Conv2d(12, 56, kernel_size=1)
         self.prelu7 = PReLU_custom(0.0087)
-        # Layer 8 (trainable)
         self.deconv8 = nn.ConvTranspose2d(56, 1, kernel_size=9, stride=2,
                                            padding=4, output_padding=1)
 
     def forward_features(self, x):
-        """Forward layer 1-7, return feature map (B, 56, H, W)."""
         x = self.prelu1(self.conv1(x))
         x = self.prelu2(self.conv2(x))
         x = self.prelu3(self.conv3(x))
@@ -83,55 +80,48 @@ class FSRCNNv3(nn.Module):
         x = self.prelu5(self.conv5(x))
         x = self.prelu6(self.conv6(x))
         x = self.prelu7(self.conv7(x))
-        return x  # (B, 56, H_lr, W_lr)
+        return x
 
     def forward_deconv_per_channel(self, features):
-        """
-        Hitung deconv per channel secara eksplisit.
-        Return: (per_channel_outputs, total_output)
-          per_channel_outputs: list of 56 tensors, masing-masing (B, 1, H_hr, W_hr)
-          total_output: sum of all channels + bias, (B, 1, H_hr, W_hr)
-        """
-        B, C, H, W = features.shape  # C=56
-        weight = self.deconv8.weight  # shape: (56, 1, 9, 9) — in_channels, out_channels, kH, kW
-        bias = self.deconv8.bias      # shape: (1,)
-
+        B, C, H, W = features.shape
+        weight = self.deconv8.weight
+        bias = self.deconv8.bias
         per_channel = []
         for j in range(C):
-            # Ambil channel j: (B, 1, H, W)
             ch_input = features[:, j:j+1, :, :]
-            # Ambil weight channel j: (1, 1, 9, 9)
             ch_weight = weight[j:j+1, :, :, :]
-            # Deconv tanpa bias
             ch_out = F.conv_transpose2d(ch_input, ch_weight,
                                          stride=self.scale,
                                          padding=4, output_padding=1)
             per_channel.append(ch_out)
-
-        # Total = sum semua channel + bias
-        total = torch.stack(per_channel, dim=0).sum(dim=0)  # (B, 1, H_hr, W_hr)
+        total = torch.stack(per_channel, dim=0).sum(dim=0)
         total = total + bias.view(1, 1, 1, 1)
-
         return per_channel, total
 
     def forward(self, x):
-        """Standard forward pass (untuk inference)."""
         features = self.forward_features(x)
-        x = self.deconv8(features)
-        return x
+        return self.deconv8(features)
 
 
 # ==================== Dataset ====================
-class YUVDataset(Dataset):
-    def __init__(self, lr_video_path, gt_dir, config):
+class YUVDatasetWithNoise(Dataset):
+    """Dataset dengan noise pool dari train_data/."""
+    def __init__(self, lr_video_path, gt_dir, noise_dir, config):
         self.lr_shape = (config['lr_height'], config['lr_width'])
         self.hr_shape = (config['lr_height'] * config['scale'],
                          config['lr_width'] * config['scale'])
 
-        print("Memuat frame LR & GT...")
+        print("Memuat frame LR...")
         self.lr_frames = self._load_lr(lr_video_path, config['num_frames'])
+        print(f"  {len(self.lr_frames)} frame LR")
+
+        print("Memuat frame GT...")
         self.gt_frames = self._load_gt(gt_dir, config['num_frames'])
-        print(f"  {len(self.lr_frames)} LR, {len(self.gt_frames)} GT")
+        print(f"  {len(self.gt_frames)} frame GT")
+
+        print("Membangun noise pool...")
+        self.noise_pool = self._build_noise_pool(noise_dir, gt_dir, config)
+        print(f"  {len(self.noise_pool)} sampel noise")
 
     def _load_lr(self, path, num_frames):
         frames = []
@@ -157,13 +147,43 @@ class YUVDataset(Dataset):
                 frames.append(d[:h*w].reshape(h, w).astype(np.float32) / 255.0)
         return frames
 
+    def _build_noise_pool(self, noise_base, gt_dir, config):
+        """Hitung noise = runX - gt untuk setiap frame."""
+        noise_pool = []
+        h, w = self.hr_shape
+        for run_idx in range(config['num_runs']):
+            run_dir = os.path.join(noise_base, f'run{run_idx}')
+            if not os.path.isdir(run_dir): continue
+            for frame_idx in range(config['num_frames']):
+                run_path = os.path.join(run_dir, f'frame_{frame_idx:04d}.yuv')
+                gt_path = os.path.join(gt_dir, f'frame_{frame_idx:04d}.yuv')
+                if not os.path.exists(run_path) or not os.path.exists(gt_path):
+                    continue
+                run_data = np.fromfile(run_path, dtype=np.uint8)
+                gt_data = np.fromfile(gt_path, dtype=np.uint8)
+                if len(run_data) >= h*w and len(gt_data) >= h*w:
+                    run_y = run_data[:h*w].reshape(h, w).astype(np.float32) / 255.0
+                    gt_y = gt_data[:h*w].reshape(h, w).astype(np.float32) / 255.0
+                    noise = run_y - gt_y
+                    if np.abs(noise).max() > 1e-6:
+                        noise_pool.append(noise)
+        # Fallback jika tidak cukup noise
+        if len(noise_pool) < 5:
+            print("  ⚠ Noise empiris kurang, generate Gaussian (std=0.012)")
+            for _ in range(50):
+                noise_pool.append(np.random.normal(0, 0.012, (h, w)).astype(np.float32))
+        return noise_pool
+
     def __len__(self):
         return min(len(self.lr_frames), len(self.gt_frames))
 
     def __getitem__(self, idx):
         lr = torch.from_numpy(self.lr_frames[idx]).unsqueeze(0).float()
         gt = torch.from_numpy(self.gt_frames[idx]).unsqueeze(0).float()
-        return lr, gt
+        # Random noise dari pool
+        noise_idx = random.randint(0, len(self.noise_pool) - 1)
+        noise = torch.from_numpy(self.noise_pool[noise_idx]).unsqueeze(0).float()
+        return lr, gt, noise
 
 
 # ==================== Utilitas ====================
@@ -174,48 +194,29 @@ def compute_psnr(output, target):
 
 
 def channel_equalization_loss(per_channel_outputs):
-    """
-    Hitung variance kontribusi per-channel.
-    Setiap channel menghasilkan output (B, 1, H, W).
-    Kita hitung L2 norm rata-rata per channel, lalu variance-nya.
-    Semakin merata → variance semakin kecil.
-    """
-    # Hitung energy (L2 norm²) per channel, rata-rata atas batch dan piksel
     energies = []
     for ch_out in per_channel_outputs:
-        energy = torch.mean(ch_out ** 2)  # scalar
-        energies.append(energy)
-    energies = torch.stack(energies)  # (56,)
-    # Variance energi antar channel (ingin diminimalkan)
-    var_loss = torch.var(energies)
-    return var_loss
+        energies.append(torch.mean(ch_out ** 2))
+    energies = torch.stack(energies)
+    return torch.var(energies)
 
 
-def export_weights_to_txt(model, output_dir='.', suffix='_finetuned_v3'):
-    """Export bobot ke .txt kompatibel C code."""
+def export_weights_to_txt(model, suffix='_finetuned_v4'):
     print(f"\nMengekspor bobot ke file *{suffix}.txt ...")
     layers = {
-        'conv1': (1, 'weights_layer1', 'biasess_layer1'),
-        'conv2': (2, 'weights_layer2', 'biasess_layer2'),
-        'conv3': (3, 'weights_layer3', 'biasess_layer3'),
-        'conv4': (4, 'weights_layer4', 'biasess_layer4'),
-        'conv5': (5, 'weights_layer5', 'biasess_layer5'),
-        'conv6': (6, 'weights_layer6', 'biasess_layer6'),
-        'conv7': (7, 'weights_layer7', 'biasess_layer7'),
-        'deconv8': (8, 'weights_layer8', 'biasess_layer8'),
+        'conv1': 1, 'conv2': 2, 'conv3': 3, 'conv4': 4,
+        'conv5': 5, 'conv6': 6, 'conv7': 7, 'deconv8': 8,
     }
-    for attr, (num, w_prefix, b_prefix) in layers.items():
+    for attr, num in layers.items():
         layer = getattr(model, attr)
         w = layer.weight.data.cpu().numpy().flatten()
         b = layer.bias.data.cpu().numpy().flatten()
-        w_path = os.path.join(output_dir, f'{w_prefix}{suffix}.txt')
-        b_path = os.path.join(output_dir, f'{b_prefix}{suffix}.txt')
-        with open(w_path, 'w') as f:
+        with open(f'weights_layer{num}{suffix}.txt', 'w') as f:
             for val in w: f.write(f'{val:.10f}\n')
-        with open(b_path, 'w') as f:
+        with open(f'biasess_layer{num}{suffix}.txt', 'w') as f:
             for val in b: f.write(f'{val:.10f}\n')
-        changed = " (CHANGED)" if attr == 'deconv8' else ""
-        print(f"  ✅ Layer {num}: {len(w)} weights, {len(b)} biases{changed}")
+        changed = " ← CHANGED" if attr == 'deconv8' else ""
+        print(f"  ✅ Layer {num}: {len(w)}w + {len(b)}b{changed}")
     print("Export selesai!")
 
 
@@ -225,7 +226,7 @@ def train():
     print(f"Device: {device}")
 
     # 1. Load model
-    model = FSRCNNv3(scale=CONFIG['scale']).to(device)
+    model = FSRCNNv4(scale=CONFIG['scale']).to(device)
     if os.path.exists(CONFIG['weights_in']):
         model.load_state_dict(torch.load(CONFIG['weights_in'], map_location=device,
                                           weights_only=True))
@@ -237,26 +238,22 @@ def train():
     for name, param in model.named_parameters():
         if not name.startswith('deconv8'):
             param.requires_grad = False
-    print(f"Trainable params: {sum(p.numel() for p in model.parameters() if p.requires_grad)}")
+    trainable = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    print(f"Trainable: {trainable} params (deconv8 only)")
 
-    # 3. Simpan bobot original deconv8
+    # 3. Original weights (untuk regularisasi)
     orig_w = model.deconv8.weight.data.clone()
     orig_b = model.deconv8.bias.data.clone()
 
-    # Analisis channel energy sebelum training
-    print("\n--- Analisis Channel Energy (sebelum) ---")
-    w_norms = []
-    for j in range(56):
-        norm = torch.norm(model.deconv8.weight[j]).item()
-        w_norms.append(norm)
-    w_norms = np.array(w_norms)
-    print(f"  Weight norm per channel: mean={w_norms.mean():.4f}, "
-          f"std={w_norms.std():.4f}, min={w_norms.min():.4f}, max={w_norms.max():.4f}")
-    print(f"  Ratio max/min: {w_norms.max()/w_norms.min():.2f}x")
+    # Channel analysis sebelum
+    w_norms = [torch.norm(model.deconv8.weight[j]).item() for j in range(56)]
+    print(f"\nChannel norms (sebelum): mean={np.mean(w_norms):.4f}, "
+          f"std={np.std(w_norms):.4f}, ratio={max(w_norms)/min(w_norms):.1f}x")
 
     # 4. Dataset
-    dataset = YUVDataset(CONFIG['lr_video'],
-                          os.path.join(CONFIG['data_root'], 'gt'), CONFIG)
+    gt_dir = os.path.join(CONFIG['data_root'], 'gt')
+    dataset = YUVDatasetWithNoise(CONFIG['lr_video'], gt_dir,
+                                   CONFIG['data_root'], CONFIG)
     dataloader = DataLoader(dataset, batch_size=CONFIG['batch_size'],
                             shuffle=True, num_workers=0)
 
@@ -269,37 +266,46 @@ def train():
     model.eval()
     with torch.no_grad():
         total_psnr = 0; count = 0
-        for lr, gt in dataloader:
+        for lr, gt, _ in dataloader:
             lr, gt = lr.to(device), gt.to(device)
             out = model(lr)
             for i in range(lr.size(0)):
                 total_psnr += compute_psnr(out[i], gt[i]); count += 1
-        baseline_psnr = total_psnr / count
-        print(f"\nBaseline PSNR: {baseline_psnr:.2f} dB")
+        baseline = total_psnr / count
+        print(f"\nBaseline PSNR: {baseline:.2f} dB")
 
     # 7. Training
     print(f"\nTraining: {CONFIG['num_epochs']} epoch")
-    print(f"  λ_eq={CONFIG['lambda_eq']}, λ_reg={CONFIG['lambda_reg']}")
-    print("=" * 65)
+    print(f"  λ_eq={CONFIG['lambda_eq']}, λ_reg={CONFIG['lambda_reg']}, "
+          f"noise_prob={CONFIG['noise_probability']}")
+    print("=" * 70)
 
-    best_score = 0  # combined score: psnr - penalty
+    best_combined_score = 0
 
     for epoch in range(CONFIG['num_epochs']):
         model.train()
-        epoch_loss = 0; epoch_mse = 0; epoch_eq = 0; epoch_reg = 0
+        epoch_loss = 0; epoch_mse = 0; epoch_eq = 0
         num_batches = 0
 
-        for lr, gt in dataloader:
-            lr, gt = lr.to(device), gt.to(device)
+        for lr, gt, noise in dataloader:
+            lr, gt, noise = lr.to(device), gt.to(device), noise.to(device)
             optimizer.zero_grad()
 
-            # Forward dengan per-channel output
+            # Forward per-channel (untuk equalization loss)
             features = model.forward_features(lr)
             per_ch, output = model.forward_deconv_per_channel(features)
 
-            # Losses
-            l_mse = mse_loss(output, gt)
+            # Noise injection dengan probabilitas
+            if random.random() < CONFIG['noise_probability']:
+                output_noisy = output + noise
+                l_mse = mse_loss(output_noisy, gt)
+            else:
+                l_mse = mse_loss(output, gt)
+
+            # Channel equalization
             l_eq = channel_equalization_loss(per_ch)
+
+            # Weight regularization
             l_reg = (torch.mean((model.deconv8.weight - orig_w) ** 2) +
                      torch.mean((model.deconv8.bias - orig_b) ** 2))
 
@@ -310,79 +316,76 @@ def train():
             epoch_loss += loss.item()
             epoch_mse += l_mse.item()
             epoch_eq += l_eq.item()
-            epoch_reg += l_reg.item()
             num_batches += 1
 
         n = max(num_batches, 1)
-        avg_loss = epoch_loss / n
-        avg_mse = epoch_mse / n
-        avg_eq = epoch_eq / n
-        avg_reg = epoch_reg / n
 
         if (epoch + 1) % 5 == 0 or epoch == 0:
             model.eval()
             with torch.no_grad():
-                total_psnr = 0; count = 0
-                for lr_v, gt_v in dataloader:
+                psnr_clean = 0; psnr_noisy = 0; count = 0
+                for lr_v, gt_v, noise_v in dataloader:
                     lr_v, gt_v = lr_v.to(device), gt_v.to(device)
+                    noise_v = noise_v.to(device)
                     out = model(lr_v)
+                    out_noisy = out + noise_v
                     for i in range(lr_v.size(0)):
-                        total_psnr += compute_psnr(out[i], gt_v[i]); count += 1
-                psnr = total_psnr / count
+                        psnr_clean += compute_psnr(out[i], gt_v[i])
+                        psnr_noisy += compute_psnr(out_noisy[i], gt_v[i])
+                        count += 1
+                pc = psnr_clean / count
+                pn = psnr_noisy / count
 
-                # Channel energy analysis
                 w_norms = [torch.norm(model.deconv8.weight[j]).item() for j in range(56)]
-                w_std = np.std(w_norms)
-                w_ratio = max(w_norms) / max(min(w_norms), 1e-10)
+                ratio = max(w_norms) / max(min(w_norms), 1e-10)
 
                 print(f"Epoch [{epoch+1:3d}/{CONFIG['num_epochs']}]  "
-                      f"Loss: {avg_loss:.6f} (MSE:{avg_mse:.6f} EQ:{avg_eq:.6f} REG:{avg_reg:.6f})  "
-                      f"PSNR: {psnr:.2f} dB  "
-                      f"ChNorm std:{w_std:.4f} ratio:{w_ratio:.1f}x")
+                      f"Loss:{epoch_loss/n:.6f} (MSE:{epoch_mse/n:.6f} EQ:{epoch_eq/n:.6f})  "
+                      f"PSNR clean:{pc:.2f} noisy:{pn:.2f}  "
+                      f"ChRatio:{ratio:.1f}x")
 
-                # Save best: balance antara PSNR dan equalization
-                score = psnr - 0.5 * w_ratio  # bonus untuk channel lebih merata
-                if score > best_score or epoch == 0:
-                    best_score = score
+                # Save best: balance PSNR noisy + channel ratio
+                score = pn + pc * 0.3 - ratio * 0.1
+                if score > best_combined_score or epoch == 0:
+                    best_combined_score = score
                     torch.save(model.state_dict(), CONFIG['weights_out'])
         else:
             print(f"Epoch [{epoch+1:3d}/{CONFIG['num_epochs']}]  "
-                  f"Loss: {avg_loss:.6f} (MSE:{avg_mse:.6f} EQ:{avg_eq:.6f})")
+                  f"Loss:{epoch_loss/n:.6f} (MSE:{epoch_mse/n:.6f} EQ:{epoch_eq/n:.6f})")
 
         if (epoch + 1) % CONFIG['checkpoint_interval'] == 0:
-            ckpt = f'fsrcnn_finetuned_v3_epoch{epoch+1}.pth'
+            ckpt = f'fsrcnn_finetuned_v4_epoch{epoch+1}.pth'
             torch.save(model.state_dict(), ckpt)
             print(f"  💾 {ckpt}")
 
     # 8. Final
-    print("=" * 65)
+    print("=" * 70)
     model.load_state_dict(torch.load(CONFIG['weights_out'], map_location=device,
                                       weights_only=True))
     model.eval()
 
-    # Final channel analysis
-    print("\n--- Analisis Channel Energy (sesudah) ---")
     w_norms = [torch.norm(model.deconv8.weight[j]).item() for j in range(56)]
-    w_norms = np.array(w_norms)
-    print(f"  Weight norm per channel: mean={w_norms.mean():.4f}, "
-          f"std={w_norms.std():.4f}, min={w_norms.min():.4f}, max={w_norms.max():.4f}")
-    print(f"  Ratio max/min: {w_norms.max()/w_norms.min():.2f}x")
+    print(f"\nChannel norms (sesudah): mean={np.mean(w_norms):.4f}, "
+          f"std={np.std(w_norms):.4f}, ratio={max(w_norms)/min(w_norms):.1f}x")
 
     with torch.no_grad():
-        total_psnr = 0; count = 0
-        for lr, gt in dataloader:
-            lr, gt = lr.to(device), gt.to(device)
+        psnr_c = 0; psnr_n = 0; count = 0
+        for lr, gt, noise in dataloader:
+            lr, gt, noise = lr.to(device), gt.to(device), noise.to(device)
             out = model(lr)
             for i in range(lr.size(0)):
-                total_psnr += compute_psnr(out[i], gt[i]); count += 1
-        print(f"\nFinal PSNR: {total_psnr/count:.2f} dB")
+                psnr_c += compute_psnr(out[i], gt[i])
+                psnr_n += compute_psnr(out[i] + noise[i], gt[i])
+                count += 1
+        print(f"Final PSNR clean: {psnr_c/count:.2f} dB")
+        print(f"Final PSNR noisy: {psnr_n/count:.2f} dB")
 
     # 9. Export
-    export_weights_to_txt(model, suffix='_finetuned_v3')
+    export_weights_to_txt(model, suffix='_finetuned_v4')
 
     print("\n🎉 Selesai!")
-    print("  Untuk C code: ganti weights_layer8.txt dengan weights_layer8_finetuned_v3.txt")
-    print("  Layer 1-7 tetap sama (tidak berubah)")
+    print("  Untuk C code: ganti weights_layer8.txt → weights_layer8_finetuned_v4.txt")
+    print("  Layer 1-7 TIDAK BERUBAH")
 
 
 if __name__ == '__main__':

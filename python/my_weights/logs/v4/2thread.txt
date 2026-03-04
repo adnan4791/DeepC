@@ -1,0 +1,57 @@
+./compare_psnr_run10.sh
+=========================================================
+  FSRCNN RACE CONDITION: ORIGINAL vs FINETUNED
+=========================================================
+  Input    : suzie_qcif.yuv
+  GT       : clean.yuv
+  Threads  : 2
+  Runs     : 10
+=========================================================
+---------------------------------------------------------
+Testing: ORIGINAL (bobot lama)
+  Executable: ./fsrcnn_parallel_old
+  Runs: 10, Threads: 2
+  Run 1: 65.156322 dB
+  Run 2: 52.051606 dB
+  Run 3: 65.269978 dB
+  Run 4: 65.724436 dB
+  Run 5: 52.534109 dB
+  Run 6: 69.271536 dB
+  Run 7: 57.559755 dB
+  Run 8: 67.067562 dB
+  Run 9: 63.490777 dB
+  Run 10: 69.276391 dB
+
+>> ORIGINAL (bobot lama):
+   Avg = 62.7402 dB
+   Min = 52.051606 dB
+   Max = 69.276391 dB
+
+---------------------------------------------------------
+Testing: FINETUNED LAYER 8 ONLY (bobot baru layer 8 saja)
+  Executable: ./fsrcnn_parallel_layer8v4
+  Runs: 10, Threads: 2
+  Run 1: 51.756208 dB
+  Run 2: 51.860652 dB
+  Run 3: 51.750498 dB
+  Run 4: 51.824543 dB
+  Run 5: 51.768521 dB
+  Run 6: 51.775752 dB
+  Run 7: 51.861290 dB
+  Run 8: 51.850239 dB
+  Run 9: 51.727299 dB
+  Run 10: 51.862481 dB
+
+>> FINETUNED LAYER 8 ONLY (bobot baru layer 8 saja):
+   Avg = 51.8037 dB
+   Min = 51.727299 dB
+   Max = 51.862481 dB
+
+=========================================================
+  RINGKASAN
+=========================================================
+  Hasil PSNR original disimpan di: psnr_old.txt
+  Hasil PSNR finetuned (all)  di: psnr_new.txt
+  Hasil PSNR finetuned (L8)   di: psnr_layer8v4.txt
+=========================================================
+Selesai!

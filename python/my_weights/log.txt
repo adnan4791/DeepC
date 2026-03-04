@@ -1,0 +1,89 @@
+amdaniilham@Hamdanis-MacBook-Air-2 my_weights % source venv/bin/activate && python finetunning.py 2>&1
+Device: cpu
+✅ Bobot original dimuat dari fsrcnn_original.pth
+Memuat frame LR dari YUV...
+  Dimuat 150 frame LR
+Memuat frame GT (ground truth)...
+  Dimuat 150 frame GT
+Membangun noise pool dari 30 run...
+  Noise pool: 27 sampel noise
+
+=== Baseline (sebelum fine-tuning) ===
+  PSNR tanpa noise: 38.39 dB
+  PSNR dengan noise: 34.62 dB
+
+Mulai fine-tuning: 30 epoch, lr=1e-05, batch_size=4
+Noise probability: 0.7
+============================================================
+Epoch [  1/30]  Loss: 0.006814  PSNR(clean): 39.76 dB  PSNR(noisy): 35.48 dB
+Epoch [  2/30]  Loss: 0.005860
+Epoch [  3/30]  Loss: 0.004793
+Epoch [  4/30]  Loss: 0.005597
+Epoch [  5/30]  Loss: 0.005747  PSNR(clean): 42.90 dB  PSNR(noisy): 36.83 dB
+  💾 Checkpoint: fsrcnn_finetuned_epoch5.pth
+Epoch [  6/30]  Loss: 0.004044
+Epoch [  7/30]  Loss: 0.005121
+Epoch [  8/30]  Loss: 0.004515
+Epoch [  9/30]  Loss: 0.004647
+Epoch [ 10/30]  Loss: 0.005642  PSNR(clean): 45.03 dB  PSNR(noisy): 37.74 dB
+  💾 Checkpoint: fsrcnn_finetuned_epoch10.pth
+Epoch [ 11/30]  Loss: 0.004047
+Epoch [ 12/30]  Loss: 0.005012
+Epoch [ 13/30]  Loss: 0.004196
+Epoch [ 14/30]  Loss: 0.005077
+Epoch [ 15/30]  Loss: 0.004422  PSNR(clean): 46.88 dB  PSNR(noisy): 40.04 dB
+  💾 Checkpoint: fsrcnn_finetuned_epoch15.pth
+Epoch [ 16/30]  Loss: 0.003385
+Epoch [ 17/30]  Loss: 0.004173
+Epoch [ 18/30]  Loss: 0.004822
+Epoch [ 19/30]  Loss: 0.004537
+Epoch [ 20/30]  Loss: 0.004114  PSNR(clean): 48.43 dB  PSNR(noisy): 39.53 dB
+  💾 Checkpoint: fsrcnn_finetuned_epoch20.pth
+Epoch [ 21/30]  Loss: 0.004784
+Epoch [ 22/30]  Loss: 0.004296
+Epoch [ 23/30]  Loss: 0.004049
+Epoch [ 24/30]  Loss: 0.004017
+Epoch [ 25/30]  Loss: 0.004243  PSNR(clean): 49.50 dB  PSNR(noisy): 40.09 dB
+  💾 Checkpoint: fsrcnn_finetuned_epoch25.pth
+Epoch [ 26/30]  Loss: 0.003949
+Epoch [ 27/30]  Loss: 0.003974
+Epoch [ 28/30]  Loss: 0.003645
+Epoch [ 29/30]  Loss: 0.004557
+Epoch [ 30/30]  Loss: 0.003555  PSNR(clean): 50.23 dB  PSNR(noisy): 40.57 dB
+  💾 Checkpoint: fsrcnn_finetuned_epoch30.pth
+============================================================
+Training selesai! Best loss: 0.003385
+Model terbaik disimpan di: fsrcnn_finetuned.pth
+
+=== Evaluasi Akhir (setelah fine-tuning) ===
+  PSNR tanpa noise: 47.21 dB
+  PSNR dengan noise: 39.56 dB
+
+Mengekspor bobot ke file .txt...
+  ✅ weights_layer1_finetuned.txt (1400 values)
+  ✅ biasess_layer1_finetuned.txt (56 values)
+  ✅ weights_layer2_finetuned.txt (672 values)
+  ✅ biasess_layer2_finetuned.txt (12 values)
+  ✅ weights_layer3_finetuned.txt (1296 values)
+  ✅ biasess_layer3_finetuned.txt (12 values)
+  ✅ weights_layer4_finetuned.txt (1296 values)
+  ✅ biasess_layer4_finetuned.txt (12 values)
+  ✅ weights_layer5_finetuned.txt (1296 values)
+  ✅ biasess_layer5_finetuned.txt (12 values)
+  ✅ weights_layer6_finetuned.txt (1296 values)
+  ✅ biasess_layer6_finetuned.txt (12 values)
+  ✅ weights_layer7_finetuned.txt (672 values)
+  ✅ biasess_layer7_finetuned.txt (56 values)
+  ✅ weights_layer8_finetuned.txt (4536 values)
+  ✅ biasess_layer8_finetuned.txt (1 values)
+Export selesai!
+
+🎉 Selesai! Langkah selanjutnya:
+  1. Copy file *_finetuned.txt ke folder C code
+  2. Rename menjadi weights_layerX.txt / biasess_layerX.txt
+  3. Compile ulang C code dan jalankan tanpa #pragma omp critical
+(venv) hamdaniilham@Hamdanis-MacBook-Air-2 my_weights % ch
+mod +x /Users/hamdaniilham/Th
+esis/DeepC/python/my_weights/
+compare_psnr.sh
+(venv) hamdaniilham@Hamdanis-MacBook-Air-2 my_weights % 

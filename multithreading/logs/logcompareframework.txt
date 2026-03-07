@@ -1,0 +1,68 @@
+==========================================================
+      SCRIPT KOMPARASI KECEPATAN & KUALITAS FSRCNN        
+==========================================================
+Input          : suzie_qcif.yuv
+Ground Truth   : suzie_qcif_serial_hr.yuv
+Resolusi Output: 352x288
+==========================================================
+>> Menjalankan fsrcnn_parallel sebanyak 5 kali ...
+   Run 1/5 ... Waktu: 7.00s | PSNR: 26.136988 dB | SSIM: 0.921650
+   Run 2/5 ... Waktu: 7.46s | PSNR: 25.581470 dB | SSIM: 0.917763
+   Run 3/5 ... Waktu: 7.65s | PSNR: 26.382977 dB | SSIM: 0.928541
+   Run 4/5 ... Waktu: 7.40s | PSNR: 25.281577 dB | SSIM: 0.912672
+   Run 5/5 ... Waktu: 7.38s | PSNR: 26.212997 dB | SSIM: 0.918581
+   =========================================
+   RATA-RATA DARI 5 RUN:
+   Waktu Eksekusi : 7.376 detik
+   PSNR           : 25.9192 dB
+   SSIM           : .9198
+----------------------------------------------------------
+>> Menjalankan multithreading sebanyak 5 kali ...
+   Run 1/5 ... Waktu: 4.39s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 2/5 ... Waktu: 4.39s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 3/5 ... Waktu: 4.31s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 4/5 ... Waktu: 4.58s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 5/5 ... Waktu: 4.23s | PSNR: 27.703924 dB | SSIM: 0.953287
+   =========================================
+   RATA-RATA DARI 5 RUN:
+   Waktu Eksekusi : 4.378 detik
+   PSNR           : 27.7039 dB
+   SSIM           : .9532
+----------------------------------------------------------
+>> Menjalankan multithreading2 sebanyak 5 kali ...
+   Run 1/5 ... Waktu: 4.15s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 2/5 ... Waktu: 4.10s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 3/5 ... Waktu: 4.20s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 4/5 ... Waktu: 4.20s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 5/5 ... Waktu: 4.22s | PSNR: 27.703924 dB | SSIM: 0.953287
+   =========================================
+   RATA-RATA DARI 5 RUN:
+   Waktu Eksekusi : 4.173 detik
+   PSNR           : 27.7039 dB
+   SSIM           : .9532
+----------------------------------------------------------
+>> Menjalankan multithreading_dynamic sebanyak 5 kali ...
+   Run 1/5 ... Waktu: 2.06s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 2/5 ... Waktu: 2.22s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 3/5 ... Waktu: 2.70s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 4/5 ... Waktu: 2.72s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 5/5 ... Waktu: 2.21s | PSNR: 27.703924 dB | SSIM: 0.953287
+   =========================================
+   RATA-RATA DARI 5 RUN:
+   Waktu Eksekusi : 2.381 detik
+   PSNR           : 27.7039 dB
+   SSIM           : .9532
+----------------------------------------------------------
+>> Menjalankan fsrcnn_syncpilot sebanyak 5 kali ...
+   Run 1/5 ... Waktu: 2.43s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 2/5 ... Waktu: 2.30s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 3/5 ... Waktu: 2.40s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 4/5 ... Waktu: 2.23s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 5/5 ... Waktu: 2.42s | PSNR: 27.703924 dB | SSIM: 0.953287
+   =========================================
+   RATA-RATA DARI 5 RUN:
+   Waktu Eksekusi : 2.356 detik
+   PSNR           : 27.7039 dB
+   SSIM           : .9532
+----------------------------------------------------------
+Komparasi selesai.

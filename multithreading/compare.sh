@@ -3,7 +3,7 @@
 # Konfigurasi
 INPUT="suzie_qcif.yuv"
 GT="suzie_qcif_serial_hr.yuv"
-BINARIES=("fsrcnn_parallel" "multithreading" "multithreading2")
+BINARIES=("fsrcnn_parallel" "multithreading" "multithreading2" "multithreading_dynamic")
 WIDTH=352
 HEIGHT=288
 FORMAT="yuv420p"

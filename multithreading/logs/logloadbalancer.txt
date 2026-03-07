@@ -1,0 +1,1355 @@
+Bobot & bias berhasil dimuat.
+Menjalankan 8 worker thread (dynamic load balancing)...
+[Worker 0 | CPU  0] Layer 1 memproses Frame   1 | Waktu: 0.00773 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame   2 | Waktu: 0.00787 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame   6 | Waktu: 0.00842 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame   8 | Waktu: 0.00853 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame   5 | Waktu: 0.01028 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame   4 | Waktu: 0.01038 detik
+[Worker 2 | CPU  0] Layer 1 memproses Frame   3 | Waktu: 0.01076 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame   7 | Waktu: 0.01157 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame   1 | Waktu: 0.01824 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame   8 | Waktu: 0.01784 detik
+[Worker 3 | CPU  0] Layer 2 memproses Frame   4 | Waktu: 0.01641 detik
+[Worker 4 | CPU  0] Layer 2 memproses Frame   6 | Waktu: 0.01918 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame   2 | Waktu: 0.02200 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame   5 | Waktu: 0.01954 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame   7 | Waktu: 0.01823 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame   3 | Waktu: 0.01976 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame   1 | Waktu: 0.00643 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame   6 | Waktu: 0.00482 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame   4 | Waktu: 0.00624 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame   8 | Waktu: 0.00714 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame   5 | Waktu: 0.00403 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame   3 | Waktu: 0.00387 detik
+[Worker 1 | CPU  0] Layer 3 memproses Frame   2 | Waktu: 0.00607 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame   7 | Waktu: 0.00671 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame   6 | Waktu: 0.00486 detik
+[Worker 7 | CPU  0] Layer 4 memproses Frame   5 | Waktu: 0.00352 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame   3 | Waktu: 0.00350 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame   8 | Waktu: 0.00451 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame   4 | Waktu: 0.00524 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame   1 | Waktu: 0.00719 detik
+[Worker 5 | CPU  0] Layer 4 memproses Frame   7 | Waktu: 0.00344 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame   2 | Waktu: 0.00465 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame   6 | Waktu: 0.00372 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame   4 | Waktu: 0.00332 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame   7 | Waktu: 0.00331 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame   2 | Waktu: 0.00329 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame   6 | Waktu: 0.00328 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame   4 | Waktu: 0.00329 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame   5 | Waktu: 0.00791 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame   3 | Waktu: 0.00767 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame   8 | Waktu: 0.00792 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame   7 | Waktu: 0.00327 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame   2 | Waktu: 0.00328 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame   1 | Waktu: 0.00822 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame   3 | Waktu: 0.00505 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame   5 | Waktu: 0.00694 detik
+[Worker 6 | CPU  0] Layer 6 memproses Frame   8 | Waktu: 0.00743 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame   1 | Waktu: 0.00694 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame   6 | Waktu: 0.01347 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame   7 | Waktu: 0.01257 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame   2 | Waktu: 0.01250 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame   4 | Waktu: 0.01992 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame   3 | Waktu: 0.01459 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame   5 | Waktu: 0.01628 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame   1 | Waktu: 0.01579 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame   8 | Waktu: 0.01924 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame   7 | Waktu: 0.03230 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame   9 | Waktu: 0.00358 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame   6 | Waktu: 0.03904 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame   2 | Waktu: 0.03888 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame  10 | Waktu: 0.00338 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame  11 | Waktu: 0.00537 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame   1 | Waktu: 0.03371 detik
+Frame 1 selesai diproses.
+[Worker 7 | CPU  0] Layer 8 memproses Frame   5 | Waktu: 0.03612 detik
+Frame 2 selesai diproses.
+[Worker 2 | CPU  0] Layer 8 memproses Frame   3 | Waktu: 0.04150 detik
+Frame 3 selesai diproses.
+[Worker 5 | CPU  0] Layer 2 memproses Frame   9 | Waktu: 0.01241 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame   4 | Waktu: 0.04315 detik
+Frame 4 selesai diproses.
+Frame 5 selesai diproses.
+Frame 6 selesai diproses.
+Frame 7 selesai diproses.
+[Worker 6 | CPU  0] Layer 8 memproses Frame   8 | Waktu: 0.03650 detik
+Frame 8 selesai diproses.
+[Worker 2 | CPU  0] Layer 1 memproses Frame  14 | Waktu: 0.00306 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame  15 | Waktu: 0.00305 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame  13 | Waktu: 0.00697 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame  12 | Waktu: 0.00898 detik
+[Worker 4 | CPU  0] Layer 2 memproses Frame  10 | Waktu: 0.01415 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame   9 | Waktu: 0.00695 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame  16 | Waktu: 0.00553 detik
+[Worker 5 | CPU  0] Layer 4 memproses Frame   9 | Waktu: 0.00351 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame  10 | Waktu: 0.00357 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame  11 | Waktu: 0.01469 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame  10 | Waktu: 0.00327 detik
+[Worker 3 | CPU  0] Layer 2 memproses Frame  15 | Waktu: 0.01251 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame   9 | Waktu: 0.00563 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame  10 | Waktu: 0.00326 detik
+[Worker 1 | CPU  0] Layer 3 memproses Frame  11 | Waktu: 0.00717 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame  15 | Waktu: 0.00328 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame  16 | Waktu: 0.01220 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame   9 | Waktu: 0.00386 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame  11 | Waktu: 0.00324 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame  13 | Waktu: 0.01786 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame  14 | Waktu: 0.02005 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame  15 | Waktu: 0.00324 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame  11 | Waktu: 0.00321 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame  12 | Waktu: 0.01905 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame  10 | Waktu: 0.00824 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame  15 | Waktu: 0.00318 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame  16 | Waktu: 0.00734 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame  13 | Waktu: 0.00522 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame  14 | Waktu: 0.00554 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame  11 | Waktu: 0.00320 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame  12 | Waktu: 0.00323 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame  16 | Waktu: 0.00358 detik
+[Worker 7 | CPU  0] Layer 4 memproses Frame  13 | Waktu: 0.00463 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame  12 | Waktu: 0.00444 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame  14 | Waktu: 0.00574 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame  16 | Waktu: 0.00320 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame   9 | Waktu: 0.01367 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame  15 | Waktu: 0.00801 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame  13 | Waktu: 0.00321 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame  14 | Waktu: 0.00320 detik
+[Worker 6 | CPU  0] Layer 6 memproses Frame  16 | Waktu: 0.00318 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame  12 | Waktu: 0.00695 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame  14 | Waktu: 0.00311 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame  10 | Waktu: 0.01617 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame  13 | Waktu: 0.00707 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame  11 | Waktu: 0.01441 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame  12 | Waktu: 0.00333 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame  15 | Waktu: 0.01232 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame  12 | Waktu: 0.01212 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame  16 | Waktu: 0.02074 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame  14 | Waktu: 0.01909 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame  13 | Waktu: 0.01755 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame   9 | Waktu: 0.03221 detik
+Frame 9 selesai diproses.
+[Worker 5 | CPU  0] Layer 1 memproses Frame  17 | Waktu: 0.00508 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame  11 | Waktu: 0.03076 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame  10 | Waktu: 0.03276 detik
+Frame 10 selesai diproses.
+Frame 11 selesai diproses.
+[Worker 1 | CPU  0] Layer 1 memproses Frame  18 | Waktu: 0.00314 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame  15 | Waktu: 0.03506 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame  19 | Waktu: 0.00968 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame  17 | Waktu: 0.01490 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame  20 | Waktu: 0.00767 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame  17 | Waktu: 0.00313 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame  12 | Waktu: 0.03417 detik
+Frame 12 selesai diproses.
+[Worker 5 | CPU  0] Layer 4 memproses Frame  17 | Waktu: 0.00316 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame  21 | Waktu: 0.00315 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame  18 | Waktu: 0.01771 detik
+[Worker 6 | CPU  0] Layer 8 memproses Frame  16 | Waktu: 0.03716 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame  17 | Waktu: 0.00305 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame  22 | Waktu: 0.00318 detik
+[Worker 1 | CPU  0] Layer 3 memproses Frame  18 | Waktu: 0.00418 detik
+[Worker 3 | CPU  0] Layer 2 memproses Frame  20 | Waktu: 0.01016 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame  14 | Waktu: 0.04166 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame  13 | Waktu: 0.04120 detik
+Frame 13 selesai diproses.
+[Worker 4 | CPU  0] Layer 2 memproses Frame  19 | Waktu: 0.01739 detik
+Frame 14 selesai diproses.
+Frame 15 selesai diproses.
+[Worker 3 | CPU  0] Layer 3 memproses Frame  20 | Waktu: 0.00323 detik
+Frame 16 selesai diproses.
+[Worker 5 | CPU  0] Layer 6 memproses Frame  17 | Waktu: 0.00776 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame  18 | Waktu: 0.00598 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame  24 | Waktu: 0.00441 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame  20 | Waktu: 0.00321 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame  19 | Waktu: 0.00553 detik
+[Worker 2 | CPU  0] Layer 1 memproses Frame  23 | Waktu: 0.00637 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame  18 | Waktu: 0.00315 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame  21 | Waktu: 0.01697 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame  18 | Waktu: 0.00317 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame  20 | Waktu: 0.00506 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame  22 | Waktu: 0.01277 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame  21 | Waktu: 0.00323 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame  20 | Waktu: 0.00319 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame  19 | Waktu: 0.00859 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame  21 | Waktu: 0.00323 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame  22 | Waktu: 0.00680 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame  24 | Waktu: 0.01337 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame  21 | Waktu: 0.00328 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame  17 | Waktu: 0.01778 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame  19 | Waktu: 0.00545 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame  18 | Waktu: 0.01179 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame  23 | Waktu: 0.01618 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame  24 | Waktu: 0.00558 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame  19 | Waktu: 0.00325 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame  21 | Waktu: 0.00587 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame  22 | Waktu: 0.00836 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame  20 | Waktu: 0.01314 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame  23 | Waktu: 0.00367 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame  23 | Waktu: 0.00309 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame  22 | Waktu: 0.00471 detik
+[Worker 7 | CPU  0] Layer 4 memproses Frame  24 | Waktu: 0.00822 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame  23 | Waktu: 0.00306 detik
+[Worker 6 | CPU  0] Layer 6 memproses Frame  22 | Waktu: 0.00305 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame  23 | Waktu: 0.00303 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame  21 | Waktu: 0.01477 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame  19 | Waktu: 0.01563 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame  24 | Waktu: 0.00805 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame  22 | Waktu: 0.01037 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame  23 | Waktu: 0.01090 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame  24 | Waktu: 0.00761 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame  17 | Waktu: 0.03902 detik
+Frame 17 selesai diproses.
+[Worker 3 | CPU  0] Layer 8 memproses Frame  20 | Waktu: 0.03411 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame  18 | Waktu: 0.03896 detik
+Frame 18 selesai diproses.
+[Worker 7 | CPU  0] Layer 7 memproses Frame  24 | Waktu: 0.01420 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame  25 | Waktu: 0.00435 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame  27 | Waktu: 0.00313 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame  26 | Waktu: 0.00944 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame  21 | Waktu: 0.03501 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame  27 | Waktu: 0.01137 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame  19 | Waktu: 0.03700 detik
+Frame 19 selesai diproses.
+Frame 20 selesai diproses.
+Frame 21 selesai diproses.
+[Worker 1 | CPU  0] Layer 3 memproses Frame  27 | Waktu: 0.00367 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame  25 | Waktu: 0.01594 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame  29 | Waktu: 0.00406 detik
+[Worker 3 | CPU  0] Layer 2 memproses Frame  26 | Waktu: 0.01161 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame  28 | Waktu: 0.00817 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame  25 | Waktu: 0.00312 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame  26 | Waktu: 0.00311 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame  23 | Waktu: 0.03902 detik
+[Worker 5 | CPU  0] Layer 4 memproses Frame  25 | Waktu: 0.00307 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame  27 | Waktu: 0.00818 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame  26 | Waktu: 0.00423 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame  25 | Waktu: 0.00407 detik
+[Worker 6 | CPU  0] Layer 8 memproses Frame  22 | Waktu: 0.04642 detik
+Frame 22 selesai diproses.
+Frame 23 selesai diproses.
+[Worker 4 | CPU  0] Layer 2 memproses Frame  29 | Waktu: 0.01032 detik
+[Worker 2 | CPU  0] Layer 1 memproses Frame  30 | Waktu: 0.00621 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame  26 | Waktu: 0.00323 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame  27 | Waktu: 0.00558 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame  31 | Waktu: 0.00386 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame  26 | Waktu: 0.00310 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame  24 | Waktu: 0.03565 detik
+Frame 24 selesai diproses.
+[Worker 5 | CPU  0] Layer 6 memproses Frame  25 | Waktu: 0.00808 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame  29 | Waktu: 0.00805 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame  28 | Waktu: 0.01694 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame  27 | Waktu: 0.00692 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame  32 | Waktu: 0.00468 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame  28 | Waktu: 0.00321 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame  29 | Waktu: 0.00439 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame  30 | Waktu: 0.01393 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame  26 | Waktu: 0.01191 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame  29 | Waktu: 0.00379 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame  31 | Waktu: 0.01359 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame  28 | Waktu: 0.00521 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame  29 | Waktu: 0.00339 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame  31 | Waktu: 0.00344 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame  28 | Waktu: 0.00361 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame  25 | Waktu: 0.01424 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame  31 | Waktu: 0.00312 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame  30 | Waktu: 0.00833 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame  28 | Waktu: 0.00311 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame  27 | Waktu: 0.01828 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame  32 | Waktu: 0.01697 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame  31 | Waktu: 0.00617 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame  30 | Waktu: 0.00725 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame  32 | Waktu: 0.00443 detik
+[Worker 6 | CPU  0] Layer 6 memproses Frame  31 | Waktu: 0.00386 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame  30 | Waktu: 0.00315 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame  29 | Waktu: 0.01429 detik
+[Worker 7 | CPU  0] Layer 4 memproses Frame  32 | Waktu: 0.00565 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame  28 | Waktu: 0.01711 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame  32 | Waktu: 0.00731 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame  30 | Waktu: 0.01378 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame  32 | Waktu: 0.00306 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame  26 | Waktu: 0.03285 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame  31 | Waktu: 0.01737 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame  33 | Waktu: 0.00320 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame  27 | Waktu: 0.03470 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame  25 | Waktu: 0.04029 detik
+Frame 25 selesai diproses.
+Frame 26 selesai diproses.
+Frame 27 selesai diproses.
+[Worker 3 | CPU  0] Layer 2 memproses Frame  33 | Waktu: 0.01150 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame  34 | Waktu: 0.00320 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame  30 | Waktu: 0.01838 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame  35 | Waktu: 0.00430 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame  32 | Waktu: 0.01949 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame  33 | Waktu: 0.00751 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame  33 | Waktu: 0.00299 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame  29 | Waktu: 0.04237 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame  28 | Waktu: 0.03753 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame  34 | Waktu: 0.01355 detik
+Frame 28 selesai diproses.
+Frame 29 selesai diproses.
+[Worker 4 | CPU  0] Layer 1 memproses Frame  36 | Waktu: 0.00317 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame  33 | Waktu: 0.00691 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame  37 | Waktu: 0.00317 detik
+[Worker 1 | CPU  0] Layer 3 memproses Frame  34 | Waktu: 0.00305 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame  33 | Waktu: 0.00315 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame  34 | Waktu: 0.00313 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame  35 | Waktu: 0.02248 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame  34 | Waktu: 0.00467 detik
+[Worker 4 | CPU  0] Layer 2 memproses Frame  36 | Waktu: 0.01261 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame  35 | Waktu: 0.00532 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame  30 | Waktu: 0.02950 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame  34 | Waktu: 0.00601 detik
+Frame 30 selesai diproses.
+[Worker 4 | CPU  0] Layer 3 memproses Frame  36 | Waktu: 0.00400 detik
+[Worker 6 | CPU  0] Layer 8 memproses Frame  31 | Waktu: 0.04629 detik
+[Worker 5 | CPU  0] Layer 4 memproses Frame  35 | Waktu: 0.00319 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame  37 | Waktu: 0.01605 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame  36 | Waktu: 0.00313 detik
+Frame 31 selesai diproses.
+[Worker 5 | CPU  0] Layer 5 memproses Frame  35 | Waktu: 0.00358 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame  37 | Waktu: 0.00341 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame  36 | Waktu: 0.00330 detik
+[Worker 2 | CPU  0] Layer 1 memproses Frame  38 | Waktu: 0.00839 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame  35 | Waktu: 0.00309 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame  33 | Waktu: 0.02196 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame  37 | Waktu: 0.00565 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame  39 | Waktu: 0.00986 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame  32 | Waktu: 0.03919 detik
+Frame 32 selesai diproses.
+[Worker 1 | CPU  0] Layer 7 memproses Frame  34 | Waktu: 0.01292 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame  36 | Waktu: 0.00633 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame  37 | Waktu: 0.00442 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame  40 | Waktu: 0.00464 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame  37 | Waktu: 0.00308 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame  38 | Waktu: 0.01134 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame  38 | Waktu: 0.00311 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame  35 | Waktu: 0.01496 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame  38 | Waktu: 0.00305 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame  36 | Waktu: 0.01217 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame  39 | Waktu: 0.01792 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame  40 | Waktu: 0.01482 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame  39 | Waktu: 0.00305 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame  38 | Waktu: 0.00671 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame  37 | Waktu: 0.01538 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame  38 | Waktu: 0.00308 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame  39 | Waktu: 0.00381 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame  40 | Waktu: 0.00501 detik
+[Worker 7 | CPU  0] Layer 4 memproses Frame  40 | Waktu: 0.00331 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame  40 | Waktu: 0.00306 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame  39 | Waktu: 0.00792 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame  40 | Waktu: 0.00297 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame  34 | Waktu: 0.03562 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame  38 | Waktu: 0.01295 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame  41 | Waktu: 0.00321 detik
+[Worker 6 | CPU  0] Layer 6 memproses Frame  39 | Waktu: 0.00799 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame  33 | Waktu: 0.04786 detik
+Frame 33 selesai diproses.
+Frame 34 selesai diproses.
+[Worker 7 | CPU  0] Layer 7 memproses Frame  40 | Waktu: 0.01340 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame  35 | Waktu: 0.03674 detik
+Frame 35 selesai diproses.
+[Worker 1 | CPU  0] Layer 2 memproses Frame  41 | Waktu: 0.01081 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame  42 | Waktu: 0.00425 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame  36 | Waktu: 0.03849 detik
+Frame 36 selesai diproses.
+[Worker 1 | CPU  0] Layer 3 memproses Frame  41 | Waktu: 0.00303 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame  43 | Waktu: 0.00651 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame  44 | Waktu: 0.00326 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame  41 | Waktu: 0.00309 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame  39 | Waktu: 0.01723 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame  37 | Waktu: 0.03822 detik
+Frame 37 selesai diproses.
+[Worker 3 | CPU  0] Layer 2 memproses Frame  42 | Waktu: 0.01169 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame  41 | Waktu: 0.00695 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame  45 | Waktu: 0.00548 detik
+[Worker 4 | CPU  0] Layer 2 memproses Frame  44 | Waktu: 0.01064 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame  41 | Waktu: 0.00354 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame  42 | Waktu: 0.00809 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame  38 | Waktu: 0.03554 detik
+Frame 38 selesai diproses.
+[Worker 5 | CPU  0] Layer 2 memproses Frame  43 | Waktu: 0.01846 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame  44 | Waktu: 0.00718 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame  43 | Waktu: 0.00311 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame  44 | Waktu: 0.00308 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame  45 | Waktu: 0.01183 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame  42 | Waktu: 0.00777 detik
+[Worker 5 | CPU  0] Layer 4 memproses Frame  43 | Waktu: 0.00311 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame  44 | Waktu: 0.00309 detik
+[Worker 2 | CPU  0] Layer 1 memproses Frame  46 | Waktu: 0.00826 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame  45 | Waktu: 0.00310 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame  41 | Waktu: 0.01501 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame  43 | Waktu: 0.00355 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame  44 | Waktu: 0.00321 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame  42 | Waktu: 0.00582 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame  45 | Waktu: 0.00484 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame  40 | Waktu: 0.03900 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame  42 | Waktu: 0.00304 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame  47 | Waktu: 0.00320 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame  43 | Waktu: 0.00843 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame  46 | Waktu: 0.01192 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame  45 | Waktu: 0.00838 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame  46 | Waktu: 0.00314 detik
+[Worker 6 | CPU  0] Layer 8 memproses Frame  39 | Waktu: 0.04029 detik
+Frame 39 selesai diproses.
+Frame 40 selesai diproses.
+[Worker 2 | CPU  0] Layer 4 memproses Frame  46 | Waktu: 0.00311 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame  42 | Waktu: 0.01366 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame  46 | Waktu: 0.00308 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame  43 | Waktu: 0.01092 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame  47 | Waktu: 0.01265 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame  45 | Waktu: 0.00857 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame  48 | Waktu: 0.00632 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame  44 | Waktu: 0.02302 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame  47 | Waktu: 0.00399 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame  46 | Waktu: 0.00516 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame  41 | Waktu: 0.02891 detik
+Frame 41 selesai diproses.
+[Worker 7 | CPU  0] Layer 4 memproses Frame  47 | Waktu: 0.00731 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame  49 | Waktu: 0.00496 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame  47 | Waktu: 0.00306 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame  45 | Waktu: 0.01571 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame  46 | Waktu: 0.01188 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame  47 | Waktu: 0.00303 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame  48 | Waktu: 0.01794 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame  48 | Waktu: 0.00301 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame  49 | Waktu: 0.01198 detik
+[Worker 1 | CPU  0] Layer 3 memproses Frame  49 | Waktu: 0.00297 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame  48 | Waktu: 0.00702 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame  49 | Waktu: 0.00478 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame  48 | Waktu: 0.00387 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame  47 | Waktu: 0.01707 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame  49 | Waktu: 0.00415 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame  42 | Waktu: 0.03923 detik
+Frame 42 selesai diproses.
+[Worker 6 | CPU  0] Layer 6 memproses Frame  48 | Waktu: 0.00538 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame  44 | Waktu: 0.03561 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame  43 | Waktu: 0.03973 detik
+Frame 43 selesai diproses.
+Frame 44 selesai diproses.
+[Worker 1 | CPU  0] Layer 6 memproses Frame  49 | Waktu: 0.00297 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame  50 | Waktu: 0.00316 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame  51 | Waktu: 0.00318 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame  52 | Waktu: 0.00319 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame  45 | Waktu: 0.03598 detik
+Frame 45 selesai diproses.
+[Worker 3 | CPU  0] Layer 2 memproses Frame  50 | Waktu: 0.01137 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame  49 | Waktu: 0.01411 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame  46 | Waktu: 0.03848 detik
+Frame 46 selesai diproses.
+[Worker 6 | CPU  0] Layer 7 memproses Frame  48 | Waktu: 0.01754 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame  50 | Waktu: 0.00441 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame  52 | Waktu: 0.01442 detik
+[Worker 4 | CPU  0] Layer 2 memproses Frame  51 | Waktu: 0.01585 detik
+[Worker 2 | CPU  0] Layer 1 memproses Frame  54 | Waktu: 0.00341 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame  53 | Waktu: 0.00783 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame  50 | Waktu: 0.00314 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame  52 | Waktu: 0.00313 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame  50 | Waktu: 0.00311 detik
+[Worker 5 | CPU  0] Layer 4 memproses Frame  52 | Waktu: 0.00312 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame  51 | Waktu: 0.00769 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame  50 | Waktu: 0.00338 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame  52 | Waktu: 0.00554 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame  51 | Waktu: 0.00309 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame  52 | Waktu: 0.00385 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame  47 | Waktu: 0.04004 detik
+Frame 47 selesai diproses.
+[Worker 2 | CPU  0] Layer 2 memproses Frame  54 | Waktu: 0.01748 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame  53 | Waktu: 0.01642 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame  51 | Waktu: 0.00798 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame  54 | Waktu: 0.00314 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame  53 | Waktu: 0.00313 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame  51 | Waktu: 0.00478 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame  54 | Waktu: 0.00323 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame  53 | Waktu: 0.00323 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame  52 | Waktu: 0.00984 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame  55 | Waktu: 0.00818 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame  54 | Waktu: 0.00312 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame  53 | Waktu: 0.00312 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame  50 | Waktu: 0.02119 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame  53 | Waktu: 0.00401 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame  54 | Waktu: 0.00523 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame  49 | Waktu: 0.03705 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame  51 | Waktu: 0.01060 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame  56 | Waktu: 0.00790 detik
+[Worker 6 | CPU  0] Layer 8 memproses Frame  48 | Waktu: 0.04780 detik
+Frame 48 selesai diproses.
+Frame 49 selesai diproses.
+[Worker 7 | CPU  0] Layer 2 memproses Frame  55 | Waktu: 0.02374 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame  54 | Waktu: 0.01854 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame  53 | Waktu: 0.01957 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame  55 | Waktu: 0.00456 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame  57 | Waktu: 0.00927 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame  56 | Waktu: 0.01447 detik
+[Worker 1 | CPU  0] Layer 3 memproses Frame  56 | Waktu: 0.00309 detik
+[Worker 7 | CPU  0] Layer 4 memproses Frame  55 | Waktu: 0.00848 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame  55 | Waktu: 0.00408 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame  52 | Waktu: 0.04117 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame  56 | Waktu: 0.00802 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame  55 | Waktu: 0.00304 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame  57 | Waktu: 0.01432 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame  50 | Waktu: 0.04050 detik
+Frame 50 selesai diproses.
+[Worker 1 | CPU  0] Layer 5 memproses Frame  56 | Waktu: 0.00355 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame  58 | Waktu: 0.00549 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame  57 | Waktu: 0.00409 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame  56 | Waktu: 0.00321 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame  57 | Waktu: 0.00341 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame  51 | Waktu: 0.04383 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame  59 | Waktu: 0.00818 detik
+Frame 51 selesai diproses.
+Frame 52 selesai diproses.
+[Worker 6 | CPU  0] Layer 5 memproses Frame  57 | Waktu: 0.00309 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame  60 | Waktu: 0.00321 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame  58 | Waktu: 0.01166 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame  55 | Waktu: 0.01594 detik
+[Worker 6 | CPU  0] Layer 6 memproses Frame  57 | Waktu: 0.00786 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame  53 | Waktu: 0.03723 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame  58 | Waktu: 0.00548 detik
+Frame 53 selesai diproses.
+[Worker 5 | CPU  0] Layer 4 memproses Frame  58 | Waktu: 0.00310 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame  54 | Waktu: 0.04111 detik
+Frame 54 selesai diproses.
+[Worker 4 | CPU  0] Layer 2 memproses Frame  60 | Waktu: 0.01247 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame  61 | Waktu: 0.00598 detik
+[Worker 2 | CPU  0] Layer 1 memproses Frame  62 | Waktu: 0.00317 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame  56 | Waktu: 0.02249 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame  57 | Waktu: 0.01075 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame  58 | Waktu: 0.00772 detik
+[Worker 3 | CPU  0] Layer 2 memproses Frame  59 | Waktu: 0.02345 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame  60 | Waktu: 0.00884 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame  58 | Waktu: 0.00358 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame  62 | Waktu: 0.01125 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame  59 | Waktu: 0.00492 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame  59 | Waktu: 0.00311 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame  61 | Waktu: 0.01589 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame  60 | Waktu: 0.00916 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame  59 | Waktu: 0.00305 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame  61 | Waktu: 0.00305 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame  62 | Waktu: 0.00732 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame  59 | Waktu: 0.00304 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame  61 | Waktu: 0.00310 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame  58 | Waktu: 0.01408 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame  62 | Waktu: 0.00367 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame  60 | Waktu: 0.00672 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame  61 | Waktu: 0.00317 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame  62 | Waktu: 0.00314 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame  61 | Waktu: 0.00309 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame  62 | Waktu: 0.00310 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame  60 | Waktu: 0.00594 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame  59 | Waktu: 0.01391 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame  55 | Waktu: 0.05021 detik
+Frame 55 selesai diproses.
+[Worker 6 | CPU  0] Layer 8 memproses Frame  57 | Waktu: 0.03957 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame  62 | Waktu: 0.01530 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame  56 | Waktu: 0.04666 detik
+Frame 56 selesai diproses.
+Frame 57 selesai diproses.
+[Worker 7 | CPU  0] Layer 1 memproses Frame  63 | Waktu: 0.01121 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame  64 | Waktu: 0.00836 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame  65 | Waktu: 0.00414 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame  60 | Waktu: 0.02406 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame  61 | Waktu: 0.02617 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame  58 | Waktu: 0.03530 detik
+Frame 58 selesai diproses.
+[Worker 5 | CPU  0] Layer 1 memproses Frame  66 | Waktu: 0.00311 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame  65 | Waktu: 0.01098 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame  59 | Waktu: 0.03524 detik
+Frame 59 selesai diproses.
+[Worker 7 | CPU  0] Layer 2 memproses Frame  63 | Waktu: 0.01997 detik
+[Worker 1 | CPU  0] Layer 3 memproses Frame  65 | Waktu: 0.00884 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame  67 | Waktu: 0.00371 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame  63 | Waktu: 0.00320 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame  65 | Waktu: 0.00345 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame  64 | Waktu: 0.02574 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame  66 | Waktu: 0.01762 detik
+[Worker 7 | CPU  0] Layer 4 memproses Frame  63 | Waktu: 0.00441 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame  65 | Waktu: 0.00329 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame  66 | Waktu: 0.00315 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame  64 | Waktu: 0.00376 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame  65 | Waktu: 0.00311 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame  63 | Waktu: 0.00419 detik
+[Worker 5 | CPU  0] Layer 4 memproses Frame  66 | Waktu: 0.00317 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame  62 | Waktu: 0.04188 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame  63 | Waktu: 0.00310 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame  66 | Waktu: 0.00314 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame  61 | Waktu: 0.03448 detik
+[Worker 3 | CPU  0] Layer 2 memproses Frame  67 | Waktu: 0.01509 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame  64 | Waktu: 0.00793 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame  66 | Waktu: 0.00305 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame  60 | Waktu: 0.03784 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame  69 | Waktu: 0.00323 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame  67 | Waktu: 0.00315 detik
+Frame 60 selesai diproses.
+Frame 61 selesai diproses.
+[Worker 2 | CPU  0] Layer 1 memproses Frame  68 | Waktu: 0.00846 detik
+Frame 62 selesai diproses.
+[Worker 6 | CPU  0] Layer 5 memproses Frame  64 | Waktu: 0.00668 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame  67 | Waktu: 0.00424 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame  70 | Waktu: 0.00552 detik
+[Worker 6 | CPU  0] Layer 6 memproses Frame  64 | Waktu: 0.00319 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame  65 | Waktu: 0.01764 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame  66 | Waktu: 0.01039 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame  63 | Waktu: 0.01495 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame  67 | Waktu: 0.00855 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame  69 | Waktu: 0.01923 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame  67 | Waktu: 0.00607 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame  64 | Waktu: 0.01238 detik
+[Worker 4 | CPU  0] Layer 2 memproses Frame  70 | Waktu: 0.01561 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame  68 | Waktu: 0.02070 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame  69 | Waktu: 0.00596 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame  70 | Waktu: 0.00411 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame  68 | Waktu: 0.00442 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame  70 | Waktu: 0.00303 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame  67 | Waktu: 0.00962 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame  68 | Waktu: 0.00308 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame  70 | Waktu: 0.00308 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame  69 | Waktu: 0.00785 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame  68 | Waktu: 0.00334 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame  69 | Waktu: 0.00303 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame  70 | Waktu: 0.00544 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame  69 | Waktu: 0.00381 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame  68 | Waktu: 0.00698 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame  66 | Waktu: 0.03696 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame  65 | Waktu: 0.03916 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame  71 | Waktu: 0.00319 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame  63 | Waktu: 0.04320 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame  72 | Waktu: 0.00655 detik
+Frame 63 selesai diproses.
+[Worker 6 | CPU  0] Layer 8 memproses Frame  64 | Waktu: 0.03622 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame  69 | Waktu: 0.01689 detik
+Frame 64 selesai diproses.
+Frame 65 selesai diproses.
+Frame 66 selesai diproses.
+[Worker 7 | CPU  0] Layer 1 memproses Frame  73 | Waktu: 0.00483 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame  70 | Waktu: 0.02220 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame  74 | Waktu: 0.00541 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame  71 | Waktu: 0.01572 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame  72 | Waktu: 0.01179 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame  68 | Waktu: 0.02444 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame  71 | Waktu: 0.00301 detik
+[Worker 1 | CPU  0] Layer 3 memproses Frame  72 | Waktu: 0.00308 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame  67 | Waktu: 0.03981 detik
+Frame 67 selesai diproses.
+[Worker 5 | CPU  0] Layer 4 memproses Frame  71 | Waktu: 0.00307 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame  75 | Waktu: 0.00320 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame  72 | Waktu: 0.00509 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame  71 | Waktu: 0.00307 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame  73 | Waktu: 0.01787 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame  71 | Waktu: 0.00310 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame  74 | Waktu: 0.01757 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame  72 | Waktu: 0.00631 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame  74 | Waktu: 0.00307 detik
+[Worker 3 | CPU  0] Layer 2 memproses Frame  75 | Waktu: 0.01155 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame  73 | Waktu: 0.00861 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame  74 | Waktu: 0.00346 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame  72 | Waktu: 0.00710 detik
+[Worker 7 | CPU  0] Layer 4 memproses Frame  73 | Waktu: 0.00375 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame  75 | Waktu: 0.00648 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame  74 | Waktu: 0.00739 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame  73 | Waktu: 0.00579 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame  75 | Waktu: 0.00457 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame  73 | Waktu: 0.00295 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame  70 | Waktu: 0.03878 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame  71 | Waktu: 0.02205 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame  68 | Waktu: 0.03435 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame  69 | Waktu: 0.04372 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame  76 | Waktu: 0.00317 detik
+Frame 68 selesai diproses.
+[Worker 6 | CPU  0] Layer 6 memproses Frame  74 | Waktu: 0.00866 detik
+Frame 69 selesai diproses.
+Frame 70 selesai diproses.
+[Worker 0 | CPU  0] Layer 1 memproses Frame  78 | Waktu: 0.00317 detik
+[Worker 2 | CPU  0] Layer 1 memproses Frame  77 | Waktu: 0.00393 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame  75 | Waktu: 0.00990 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame  73 | Waktu: 0.01463 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame  74 | Waktu: 0.01087 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame  75 | Waktu: 0.00870 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame  72 | Waktu: 0.02721 detik
+[Worker 4 | CPU  0] Layer 2 memproses Frame  76 | Waktu: 0.01519 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame  77 | Waktu: 0.01509 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame  76 | Waktu: 0.00816 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame  78 | Waktu: 0.02087 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame  77 | Waktu: 0.00787 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame  75 | Waktu: 0.01489 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame  76 | Waktu: 0.00441 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame  78 | Waktu: 0.00463 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame  71 | Waktu: 0.03180 detik
+Frame 71 selesai diproses.
+[Worker 2 | CPU  0] Layer 4 memproses Frame  77 | Waktu: 0.00476 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame  79 | Waktu: 0.00322 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame  78 | Waktu: 0.00635 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame  76 | Waktu: 0.00763 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame  76 | Waktu: 0.00307 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame  77 | Waktu: 0.00887 detik
+[Worker 6 | CPU  0] Layer 8 memproses Frame  74 | Waktu: 0.02898 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame  73 | Waktu: 0.03098 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame  78 | Waktu: 0.00812 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame  80 | Waktu: 0.00310 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame  81 | Waktu: 0.00321 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame  77 | Waktu: 0.00618 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame  78 | Waktu: 0.00564 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame  79 | Waktu: 0.01726 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame  72 | Waktu: 0.04065 detik
+Frame 72 selesai diproses.
+Frame 73 selesai diproses.
+Frame 74 selesai diproses.
+[Worker 5 | CPU  0] Layer 3 memproses Frame  79 | Waktu: 0.00512 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame  76 | Waktu: 0.01882 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame  77 | Waktu: 0.01399 detik
+[Worker 5 | CPU  0] Layer 4 memproses Frame  79 | Waktu: 0.00429 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame  81 | Waktu: 0.01618 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame  78 | Waktu: 0.01366 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame  82 | Waktu: 0.00870 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame  79 | Waktu: 0.00387 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame  81 | Waktu: 0.00464 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame  80 | Waktu: 0.02121 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame  75 | Waktu: 0.03977 detik
+Frame 75 selesai diproses.
+[Worker 7 | CPU  0] Layer 4 memproses Frame  81 | Waktu: 0.00302 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame  81 | Waktu: 0.00295 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame  79 | Waktu: 0.00811 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame  80 | Waktu: 0.00796 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame  82 | Waktu: 0.01045 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame  81 | Waktu: 0.00301 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame  83 | Waktu: 0.00841 detik
+[Worker 1 | CPU  0] Layer 3 memproses Frame  82 | Waktu: 0.00653 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame  80 | Waktu: 0.00859 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame  82 | Waktu: 0.00597 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame  80 | Waktu: 0.00499 detik
+[Worker 3 | CPU  0] Layer 2 memproses Frame  83 | Waktu: 0.01152 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame  81 | Waktu: 0.01401 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame  82 | Waktu: 0.00308 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame  79 | Waktu: 0.01874 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame  76 | Waktu: 0.03414 detik
+Frame 76 selesai diproses.
+[Worker 1 | CPU  0] Layer 6 memproses Frame  82 | Waktu: 0.00298 detik
+[Worker 6 | CPU  0] Layer 6 memproses Frame  80 | Waktu: 0.00848 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame  83 | Waktu: 0.00839 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame  84 | Waktu: 0.00523 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame  83 | Waktu: 0.00484 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame  83 | Waktu: 0.00326 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame  80 | Waktu: 0.01111 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame  83 | Waktu: 0.00306 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame  77 | Waktu: 0.04873 detik
+Frame 77 selesai diproses.
+[Worker 1 | CPU  0] Layer 7 memproses Frame  82 | Waktu: 0.01812 detik
+[Worker 4 | CPU  0] Layer 2 memproses Frame  84 | Waktu: 0.01482 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame  78 | Waktu: 0.05233 detik
+Frame 78 selesai diproses.
+[Worker 2 | CPU  0] Layer 1 memproses Frame  85 | Waktu: 0.00629 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame  84 | Waktu: 0.00648 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame  86 | Waktu: 0.00629 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame  84 | Waktu: 0.00409 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame  83 | Waktu: 0.01648 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame  79 | Waktu: 0.03484 detik
+Frame 79 selesai diproses.
+[Worker 2 | CPU  0] Layer 2 memproses Frame  85 | Waktu: 0.01390 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame  84 | Waktu: 0.00705 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame  81 | Waktu: 0.04320 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame  87 | Waktu: 0.00592 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame  85 | Waktu: 0.00314 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame  88 | Waktu: 0.00329 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame  84 | Waktu: 0.00609 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame  85 | Waktu: 0.00305 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame  86 | Waktu: 0.01592 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame  85 | Waktu: 0.00377 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame  86 | Waktu: 0.00314 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame  86 | Waktu: 0.00317 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame  82 | Waktu: 0.03463 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame  86 | Waktu: 0.00311 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame  85 | Waktu: 0.00706 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame  88 | Waktu: 0.01178 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame  84 | Waktu: 0.01240 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame  86 | Waktu: 0.00313 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame  88 | Waktu: 0.00315 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame  87 | Waktu: 0.01828 detik
+[Worker 6 | CPU  0] Layer 8 memproses Frame  80 | Waktu: 0.04540 detik
+Frame 80 selesai diproses.
+Frame 81 selesai diproses.
+Frame 82 selesai diproses.
+[Worker 7 | CPU  0] Layer 4 memproses Frame  88 | Waktu: 0.00307 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame  87 | Waktu: 0.00308 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame  89 | Waktu: 0.00863 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame  88 | Waktu: 0.00312 detik
+[Worker 5 | CPU  0] Layer 4 memproses Frame  87 | Waktu: 0.00319 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame  90 | Waktu: 0.00680 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame  87 | Waktu: 0.00314 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame  88 | Waktu: 0.00474 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame  83 | Waktu: 0.03814 detik
+Frame 83 selesai diproses.
+[Worker 0 | CPU  0] Layer 7 memproses Frame  86 | Waktu: 0.01277 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame  85 | Waktu: 0.01648 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame  87 | Waktu: 0.00310 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame  91 | Waktu: 0.00450 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame  88 | Waktu: 0.01537 detik
+[Worker 3 | CPU  0] Layer 2 memproses Frame  91 | Waktu: 0.01034 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame  87 | Waktu: 0.01368 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame  89 | Waktu: 0.02328 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame  90 | Waktu: 0.01861 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame  91 | Waktu: 0.00560 detik
+[Worker 1 | CPU  0] Layer 3 memproses Frame  89 | Waktu: 0.00601 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame  90 | Waktu: 0.00571 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame  84 | Waktu: 0.03632 detik
+Frame 84 selesai diproses.
+[Worker 3 | CPU  0] Layer 4 memproses Frame  91 | Waktu: 0.00463 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame  92 | Waktu: 0.00321 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame  89 | Waktu: 0.00492 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame  90 | Waktu: 0.00554 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame  91 | Waktu: 0.00313 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame  91 | Waktu: 0.00341 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame  86 | Waktu: 0.03201 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame  89 | Waktu: 0.00744 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame  90 | Waktu: 0.00799 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame  93 | Waktu: 0.00322 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame  89 | Waktu: 0.00305 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame  85 | Waktu: 0.03615 detik
+Frame 85 selesai diproses.
+Frame 86 selesai diproses.
+[Worker 6 | CPU  0] Layer 6 memproses Frame  90 | Waktu: 0.00488 detik
+[Worker 4 | CPU  0] Layer 2 memproses Frame  92 | Waktu: 0.01579 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame  92 | Waktu: 0.00313 detik
+[Worker 2 | CPU  0] Layer 1 memproses Frame  94 | Waktu: 0.00927 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame  89 | Waktu: 0.01008 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame  87 | Waktu: 0.03193 detik
+Frame 87 selesai diproses.
+[Worker 4 | CPU  0] Layer 4 memproses Frame  92 | Waktu: 0.00311 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame  95 | Waktu: 0.00326 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame  92 | Waktu: 0.00302 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame  91 | Waktu: 0.01924 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame  93 | Waktu: 0.01664 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame  92 | Waktu: 0.00311 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame  93 | Waktu: 0.00476 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame  90 | Waktu: 0.01912 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame  95 | Waktu: 0.01067 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame  94 | Waktu: 0.01512 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame  95 | Waktu: 0.00307 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame  88 | Waktu: 0.05006 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame  94 | Waktu: 0.00303 detik
+Frame 88 selesai diproses.
+[Worker 4 | CPU  0] Layer 7 memproses Frame  92 | Waktu: 0.01162 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame  93 | Waktu: 0.00849 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame  96 | Waktu: 0.00353 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame  94 | Waktu: 0.00538 detik
+[Worker 5 | CPU  0] Layer 4 memproses Frame  95 | Waktu: 0.00790 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame  94 | Waktu: 0.00308 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame  93 | Waktu: 0.00906 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame  95 | Waktu: 0.00313 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame  95 | Waktu: 0.00308 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame  94 | Waktu: 0.00505 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame  93 | Waktu: 0.00653 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame  89 | Waktu: 0.03654 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame  96 | Waktu: 0.01634 detik
+Frame 89 selesai diproses.
+[Worker 1 | CPU  0] Layer 1 memproses Frame  97 | Waktu: 0.00438 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame  96 | Waktu: 0.00515 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame  95 | Waktu: 0.01357 detik
+[Worker 7 | CPU  0] Layer 4 memproses Frame  96 | Waktu: 0.00303 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame  94 | Waktu: 0.01741 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame  91 | Waktu: 0.04538 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame  96 | Waktu: 0.00656 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame  93 | Waktu: 0.01819 detik
+[Worker 6 | CPU  0] Layer 8 memproses Frame  90 | Waktu: 0.04029 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame  98 | Waktu: 0.00372 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame  99 | Waktu: 0.00549 detik
+Frame 90 selesai diproses.
+Frame 91 selesai diproses.
+[Worker 7 | CPU  0] Layer 6 memproses Frame  96 | Waktu: 0.00781 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame  97 | Waktu: 0.02099 detik
+[Worker 1 | CPU  0] Layer 3 memproses Frame  97 | Waktu: 0.00332 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame  99 | Waktu: 0.01377 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame  92 | Waktu: 0.05391 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame  97 | Waktu: 0.00756 detik
+Frame 92 selesai diproses.
+[Worker 3 | CPU  0] Layer 2 memproses Frame  98 | Waktu: 0.02046 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame  99 | Waktu: 0.00358 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame  96 | Waktu: 0.01653 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame  98 | Waktu: 0.00346 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame  99 | Waktu: 0.00319 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame  97 | Waktu: 0.00617 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame 100 | Waktu: 0.00645 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame  98 | Waktu: 0.00307 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame  99 | Waktu: 0.00308 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame  98 | Waktu: 0.00300 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame  95 | Waktu: 0.03865 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame 101 | Waktu: 0.00311 detik
+[Worker 6 | CPU  0] Layer 6 memproses Frame  99 | Waktu: 0.00737 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame  97 | Waktu: 0.01201 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame  94 | Waktu: 0.04245 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame  98 | Waktu: 0.00953 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame  93 | Waktu: 0.04317 detik
+Frame 93 selesai diproses.
+Frame 94 selesai diproses.
+Frame 95 selesai diproses.
+[Worker 4 | CPU  0] Layer 2 memproses Frame 100 | Waktu: 0.01781 detik
+[Worker 2 | CPU  0] Layer 1 memproses Frame 102 | Waktu: 0.00848 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame 100 | Waktu: 0.00315 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame  97 | Waktu: 0.01201 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame 100 | Waktu: 0.00302 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame  99 | Waktu: 0.01549 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame 101 | Waktu: 0.01832 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame 103 | Waktu: 0.00929 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame 101 | Waktu: 0.00374 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame  98 | Waktu: 0.01849 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame 100 | Waktu: 0.00882 detik
+[Worker 5 | CPU  0] Layer 4 memproses Frame 101 | Waktu: 0.00348 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame 101 | Waktu: 0.00300 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame 103 | Waktu: 0.01185 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame 100 | Waktu: 0.00566 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame 101 | Waktu: 0.00308 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame 103 | Waktu: 0.00321 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame  96 | Waktu: 0.04356 detik
+Frame 96 selesai diproses.
+[Worker 0 | CPU  0] Layer 4 memproses Frame 103 | Waktu: 0.00302 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame 102 | Waktu: 0.02339 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame 104 | Waktu: 0.00469 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame 103 | Waktu: 0.00308 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame 102 | Waktu: 0.00607 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame 100 | Waktu: 0.01426 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame 103 | Waktu: 0.00577 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame 102 | Waktu: 0.00329 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame 102 | Waktu: 0.00304 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame 104 | Waktu: 0.01333 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame  97 | Waktu: 0.03711 detik
+Frame 97 selesai diproses.
+[Worker 6 | CPU  0] Layer 8 memproses Frame  99 | Waktu: 0.03629 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame 104 | Waktu: 0.00352 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame 102 | Waktu: 0.00674 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame 101 | Waktu: 0.02498 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame 105 | Waktu: 0.00325 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame 106 | Waktu: 0.00484 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame 103 | Waktu: 0.01840 detik
+[Worker 7 | CPU  0] Layer 4 memproses Frame 104 | Waktu: 0.00944 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame  98 | Waktu: 0.04425 detik
+Frame 98 selesai diproses.
+Frame 99 selesai diproses.
+[Worker 1 | CPU  0] Layer 2 memproses Frame 105 | Waktu: 0.01488 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame 104 | Waktu: 0.00717 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame 107 | Waktu: 0.00323 detik
+[Worker 1 | CPU  0] Layer 3 memproses Frame 105 | Waktu: 0.00319 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame 104 | Waktu: 0.00317 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame 105 | Waktu: 0.00329 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame 106 | Waktu: 0.01970 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame 105 | Waktu: 0.00305 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame 102 | Waktu: 0.02585 detik
+[Worker 3 | CPU  0] Layer 2 memproses Frame 107 | Waktu: 0.01108 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame 106 | Waktu: 0.00531 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame 100 | Waktu: 0.03938 detik
+Frame 100 selesai diproses.
+[Worker 3 | CPU  0] Layer 3 memproses Frame 107 | Waktu: 0.00312 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame 105 | Waktu: 0.00549 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame 108 | Waktu: 0.00321 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame 107 | Waktu: 0.00315 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame 106 | Waktu: 0.00630 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame 106 | Waktu: 0.00317 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame 107 | Waktu: 0.00430 detik
+[Worker 6 | CPU  0] Layer 6 memproses Frame 106 | Waktu: 0.00309 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame 104 | Waktu: 0.02276 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame 107 | Waktu: 0.00469 detik
+[Worker 4 | CPU  0] Layer 2 memproses Frame 108 | Waktu: 0.01181 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame 105 | Waktu: 0.01333 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame 108 | Waktu: 0.00334 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame 101 | Waktu: 0.04687 detik
+Frame 101 selesai diproses.
+[Worker 0 | CPU  0] Layer 8 memproses Frame 103 | Waktu: 0.04101 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame 108 | Waktu: 0.00315 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame 110 | Waktu: 0.00317 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame 107 | Waktu: 0.01025 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame 109 | Waktu: 0.00539 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame 108 | Waktu: 0.00818 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame 106 | Waktu: 0.02062 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame 102 | Waktu: 0.03785 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame 110 | Waktu: 0.01152 detik
+Frame 102 selesai diproses.
+Frame 103 selesai diproses.
+[Worker 4 | CPU  0] Layer 6 memproses Frame 108 | Waktu: 0.00599 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame 110 | Waktu: 0.00604 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame 109 | Waktu: 0.01866 detik
+[Worker 2 | CPU  0] Layer 1 memproses Frame 111 | Waktu: 0.00975 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame 109 | Waktu: 0.00358 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame 105 | Waktu: 0.03302 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame 108 | Waktu: 0.01307 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame 110 | Waktu: 0.00797 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame 104 | Waktu: 0.03608 detik
+Frame 104 selesai diproses.
+[Worker 5 | CPU  0] Layer 4 memproses Frame 109 | Waktu: 0.00310 detik
+Frame 105 selesai diproses.
+[Worker 0 | CPU  0] Layer 5 memproses Frame 110 | Waktu: 0.00343 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame 112 | Waktu: 0.00447 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame 113 | Waktu: 0.00454 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame 109 | Waktu: 0.00650 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame 110 | Waktu: 0.00401 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame 107 | Waktu: 0.03267 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame 111 | Waktu: 0.01449 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame 114 | Waktu: 0.00399 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame 109 | Waktu: 0.00683 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame 111 | Waktu: 0.00468 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame 113 | Waktu: 0.01261 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame 112 | Waktu: 0.01511 detik
+[Worker 6 | CPU  0] Layer 8 memproses Frame 106 | Waktu: 0.03758 detik
+Frame 106 selesai diproses.
+Frame 107 selesai diproses.
+[Worker 0 | CPU  0] Layer 7 memproses Frame 110 | Waktu: 0.01533 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame 113 | Waktu: 0.00529 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame 111 | Waktu: 0.00839 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame 109 | Waktu: 0.01102 detik
+[Worker 1 | CPU  0] Layer 3 memproses Frame 112 | Waktu: 0.00735 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame 111 | Waktu: 0.00362 detik
+[Worker 3 | CPU  0] Layer 2 memproses Frame 114 | Waktu: 0.01551 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame 115 | Waktu: 0.00609 detik
+[Worker 7 | CPU  0] Layer 4 memproses Frame 113 | Waktu: 0.00737 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame 112 | Waktu: 0.00434 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame 111 | Waktu: 0.00447 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame 114 | Waktu: 0.00674 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame 113 | Waktu: 0.00497 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame 112 | Waktu: 0.00458 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame 114 | Waktu: 0.00420 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame 112 | Waktu: 0.00314 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame 115 | Waktu: 0.01142 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame 108 | Waktu: 0.03929 detik
+Frame 108 selesai diproses.
+[Worker 6 | CPU  0] Layer 3 memproses Frame 115 | Waktu: 0.00307 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame 116 | Waktu: 0.00323 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame 114 | Waktu: 0.00404 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame 113 | Waktu: 0.00752 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame 114 | Waktu: 0.00345 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame 111 | Waktu: 0.01505 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame 115 | Waktu: 0.00669 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame 115 | Waktu: 0.00631 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame 112 | Waktu: 0.01700 detik
+[Worker 4 | CPU  0] Layer 2 memproses Frame 116 | Waktu: 0.01454 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame 110 | Waktu: 0.03534 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame 116 | Waktu: 0.00305 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame 117 | Waktu: 0.00320 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame 116 | Waktu: 0.00386 detik
+[Worker 6 | CPU  0] Layer 6 memproses Frame 115 | Waktu: 0.00904 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame 109 | Waktu: 0.03977 detik
+Frame 109 selesai diproses.
+Frame 110 selesai diproses.
+[Worker 3 | CPU  0] Layer 7 memproses Frame 114 | Waktu: 0.02049 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame 113 | Waktu: 0.02464 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame 116 | Waktu: 0.00428 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame 118 | Waktu: 0.00635 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame 116 | Waktu: 0.00301 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame 117 | Waktu: 0.01590 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame 116 | Waktu: 0.00982 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame 117 | Waktu: 0.00402 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame 111 | Waktu: 0.03639 detik
+Frame 111 selesai diproses.
+[Worker 6 | CPU  0] Layer 7 memproses Frame 115 | Waktu: 0.02080 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame 117 | Waktu: 0.00447 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame 118 | Waktu: 0.01703 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame 112 | Waktu: 0.03255 detik
+Frame 112 selesai diproses.
+[Worker 0 | CPU  0] Layer 5 memproses Frame 117 | Waktu: 0.00308 detik
+[Worker 2 | CPU  0] Layer 1 memproses Frame 119 | Waktu: 0.00661 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame 117 | Waktu: 0.00304 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame 120 | Waktu: 0.00436 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame 118 | Waktu: 0.00524 detik
+[Worker 5 | CPU  0] Layer 4 memproses Frame 118 | Waktu: 0.00724 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame 114 | Waktu: 0.03458 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame 120 | Waktu: 0.01153 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame 117 | Waktu: 0.01249 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame 119 | Waktu: 0.01632 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame 118 | Waktu: 0.00533 detik
+[Worker 1 | CPU  0] Layer 3 memproses Frame 120 | Waktu: 0.00413 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame 119 | Waktu: 0.00351 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame 121 | Waktu: 0.00878 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame 113 | Waktu: 0.04312 detik
+Frame 113 selesai diproses.
+Frame 114 selesai diproses.
+[Worker 1 | CPU  0] Layer 4 memproses Frame 120 | Waktu: 0.00401 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame 122 | Waktu: 0.00319 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame 118 | Waktu: 0.00815 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame 120 | Waktu: 0.00317 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame 119 | Waktu: 0.00727 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame 116 | Waktu: 0.03690 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame 120 | Waktu: 0.00335 detik
+[Worker 6 | CPU  0] Layer 8 memproses Frame 115 | Waktu: 0.03679 detik
+Frame 115 selesai diproses.
+Frame 116 selesai diproses.
+[Worker 4 | CPU  0] Layer 1 memproses Frame 123 | Waktu: 0.00434 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame 119 | Waktu: 0.00566 detik
+[Worker 3 | CPU  0] Layer 2 memproses Frame 121 | Waktu: 0.01400 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame 122 | Waktu: 0.01070 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame 124 | Waktu: 0.00321 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame 121 | Waktu: 0.00320 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame 119 | Waktu: 0.00673 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame 121 | Waktu: 0.00317 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame 122 | Waktu: 0.00590 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame 120 | Waktu: 0.01348 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame 121 | Waktu: 0.00314 detik
+[Worker 7 | CPU  0] Layer 4 memproses Frame 122 | Waktu: 0.00472 detik
+[Worker 4 | CPU  0] Layer 2 memproses Frame 123 | Waktu: 0.01394 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame 118 | Waktu: 0.02331 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame 121 | Waktu: 0.00597 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame 122 | Waktu: 0.00462 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame 123 | Waktu: 0.00369 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame 117 | Waktu: 0.03585 detik
+Frame 117 selesai diproses.
+[Worker 2 | CPU  0] Layer 7 memproses Frame 119 | Waktu: 0.01269 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame 123 | Waktu: 0.00304 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame 125 | Waktu: 0.00323 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame 124 | Waktu: 0.02163 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame 123 | Waktu: 0.00427 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame 122 | Waktu: 0.00797 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame 124 | Waktu: 0.00318 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame 121 | Waktu: 0.01329 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame 123 | Waktu: 0.00816 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame 124 | Waktu: 0.00676 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame 125 | Waktu: 0.01326 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame 122 | Waktu: 0.01164 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame 124 | Waktu: 0.00310 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame 125 | Waktu: 0.00579 detik
+[Worker 6 | CPU  0] Layer 6 memproses Frame 124 | Waktu: 0.00304 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame 125 | Waktu: 0.00313 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame 125 | Waktu: 0.00360 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame 120 | Waktu: 0.03792 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame 124 | Waktu: 0.01063 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame 126 | Waktu: 0.00332 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame 125 | Waktu: 0.00489 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame 123 | Waktu: 0.01931 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame 119 | Waktu: 0.03406 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame 118 | Waktu: 0.03999 detik
+Frame 118 selesai diproses.
+Frame 119 selesai diproses.
+Frame 120 selesai diproses.
+[Worker 2 | CPU  0] Layer 1 memproses Frame 127 | Waktu: 0.00319 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame 128 | Waktu: 0.00319 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame 121 | Waktu: 0.03521 detik
+Frame 121 selesai diproses.
+[Worker 1 | CPU  0] Layer 2 memproses Frame 126 | Waktu: 0.01596 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame 128 | Waktu: 0.01060 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame 127 | Waktu: 0.01261 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame 129 | Waktu: 0.00475 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame 128 | Waktu: 0.00311 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame 127 | Waktu: 0.00312 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame 125 | Waktu: 0.02116 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame 122 | Waktu: 0.03668 detik
+Frame 122 selesai diproses.
+[Worker 1 | CPU  0] Layer 3 memproses Frame 126 | Waktu: 0.00688 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame 127 | Waktu: 0.00313 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame 126 | Waktu: 0.00319 detik
+[Worker 5 | CPU  0] Layer 4 memproses Frame 128 | Waktu: 0.00535 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame 127 | Waktu: 0.00311 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame 126 | Waktu: 0.00305 detik
+[Worker 3 | CPU  0] Layer 2 memproses Frame 129 | Waktu: 0.01024 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame 130 | Waktu: 0.00866 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame 128 | Waktu: 0.00652 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame 129 | Waktu: 0.00436 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame 127 | Waktu: 0.00665 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame 126 | Waktu: 0.00634 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame 128 | Waktu: 0.00323 detik
+[Worker 6 | CPU  0] Layer 8 memproses Frame 124 | Waktu: 0.03729 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame 129 | Waktu: 0.00332 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame 129 | Waktu: 0.00315 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame 131 | Waktu: 0.00620 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame 130 | Waktu: 0.01271 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame 123 | Waktu: 0.04343 detik
+Frame 123 selesai diproses.
+[Worker 3 | CPU  0] Layer 6 memproses Frame 129 | Waktu: 0.00494 detik
+Frame 124 selesai diproses.
+[Worker 7 | CPU  0] Layer 3 memproses Frame 130 | Waktu: 0.00328 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame 126 | Waktu: 0.01184 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame 132 | Waktu: 0.00324 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame 128 | Waktu: 0.01548 detik
+[Worker 7 | CPU  0] Layer 4 memproses Frame 130 | Waktu: 0.00600 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame 127 | Waktu: 0.02043 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame 131 | Waktu: 0.01282 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame 130 | Waktu: 0.00401 detik
+[Worker 4 | CPU  0] Layer 2 memproses Frame 132 | Waktu: 0.00996 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame 130 | Waktu: 0.00394 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame 129 | Waktu: 0.01649 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame 131 | Waktu: 0.00850 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame 132 | Waktu: 0.00742 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame 125 | Waktu: 0.04522 detik
+Frame 125 selesai diproses.
+[Worker 6 | CPU  0] Layer 4 memproses Frame 131 | Waktu: 0.00490 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame 133 | Waktu: 0.00328 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame 130 | Waktu: 0.01001 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame 132 | Waktu: 0.00783 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame 132 | Waktu: 0.00302 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame 131 | Waktu: 0.00770 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame 132 | Waktu: 0.00312 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame 126 | Waktu: 0.03287 detik
+Total 150 frame dimasukkan ke pipeline.
+Frame 126 selesai diproses.
+[Worker 6 | CPU  0] Layer 6 memproses Frame 131 | Waktu: 0.00455 detik
+[Worker 1 | CPU  0] Layer 1 memproses Frame 134 | Waktu: 0.00321 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame 133 | Waktu: 0.01593 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame 128 | Waktu: 0.03511 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame 133 | Waktu: 0.00320 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame 135 | Waktu: 0.00323 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame 133 | Waktu: 0.00314 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame 132 | Waktu: 0.01575 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame 133 | Waktu: 0.00324 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame 129 | Waktu: 0.03649 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame 131 | Waktu: 0.01742 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame 135 | Waktu: 0.01003 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame 134 | Waktu: 0.01724 detik
+[Worker 3 | CPU  0] Layer 1 memproses Frame 136 | Waktu: 0.00342 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame 133 | Waktu: 0.00690 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame 135 | Waktu: 0.00309 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame 127 | Waktu: 0.04894 detik
+Frame 127 selesai diproses.
+Frame 128 selesai diproses.
+Frame 129 selesai diproses.
+[Worker 2 | CPU  0] Layer 1 memproses Frame 137 | Waktu: 0.00320 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame 130 | Waktu: 0.03718 detik
+Frame 130 selesai diproses.
+[Worker 1 | CPU  0] Layer 3 memproses Frame 134 | Waktu: 0.00822 detik
+[Worker 5 | CPU  0] Layer 4 memproses Frame 135 | Waktu: 0.00676 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame 138 | Waktu: 0.00331 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame 135 | Waktu: 0.00315 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame 133 | Waktu: 0.01252 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame 135 | Waktu: 0.00312 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame 134 | Waktu: 0.00846 detik
+[Worker 3 | CPU  0] Layer 2 memproses Frame 136 | Waktu: 0.01595 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame 134 | Waktu: 0.00422 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame 138 | Waktu: 0.01183 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame 137 | Waktu: 0.01801 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame 134 | Waktu: 0.00315 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame 136 | Waktu: 0.00801 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame 138 | Waktu: 0.00324 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame 137 | Waktu: 0.00320 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame 135 | Waktu: 0.01368 detik
+[Worker 7 | CPU  0] Layer 4 memproses Frame 138 | Waktu: 0.00415 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame 136 | Waktu: 0.00534 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame 132 | Waktu: 0.03855 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame 137 | Waktu: 0.00598 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame 136 | Waktu: 0.00302 detik
+[Worker 6 | CPU  0] Layer 8 memproses Frame 131 | Waktu: 0.03515 detik
+Frame 131 selesai diproses.
+Frame 132 selesai diproses.
+[Worker 4 | CPU  0] Layer 1 memproses Frame 139 | Waktu: 0.00319 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame 138 | Waktu: 0.00818 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame 134 | Waktu: 0.01461 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame 137 | Waktu: 0.00587 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame 140 | Waktu: 0.00675 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame 136 | Waktu: 0.00851 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame 138 | Waktu: 0.00728 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame 133 | Waktu: 0.03175 detik
+Frame 133 selesai diproses.
+[Worker 2 | CPU  0] Layer 6 memproses Frame 137 | Waktu: 0.00853 detik
+[Worker 0 | CPU  0] Layer 1 memproses Frame 141 | Waktu: 0.00481 detik
+[Worker 4 | CPU  0] Layer 2 memproses Frame 139 | Waktu: 0.01596 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame 140 | Waktu: 0.01240 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame 136 | Waktu: 0.01517 detik
+[Worker 5 | CPU  0] Layer 8 memproses Frame 135 | Waktu: 0.02929 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame 139 | Waktu: 0.00812 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame 140 | Waktu: 0.00809 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame 141 | Waktu: 0.01031 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame 137 | Waktu: 0.01418 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame 138 | Waktu: 0.01702 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame 142 | Waktu: 0.00643 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame 140 | Waktu: 0.00521 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame 139 | Waktu: 0.00806 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame 141 | Waktu: 0.00791 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame 140 | Waktu: 0.00341 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame 139 | Waktu: 0.00463 detik
+[Worker 6 | CPU  0] Layer 6 memproses Frame 140 | Waktu: 0.00367 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame 141 | Waktu: 0.00645 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame 139 | Waktu: 0.00313 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame 134 | Waktu: 0.03775 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame 142 | Waktu: 0.01196 detik
+Frame 134 selesai diproses.
+Frame 135 selesai diproses.
+[Worker 1 | CPU  0] Layer 1 memproses Frame 143 | Waktu: 0.00323 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame 142 | Waktu: 0.00300 detik
+[Worker 5 | CPU  0] Layer 4 memproses Frame 142 | Waktu: 0.00314 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame 141 | Waktu: 0.00794 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame 141 | Waktu: 0.00339 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame 142 | Waktu: 0.00567 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame 140 | Waktu: 0.01585 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame 139 | Waktu: 0.01556 detik
+[Worker 1 | CPU  0] Layer 2 memproses Frame 143 | Waktu: 0.01245 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame 136 | Waktu: 0.03749 detik
+Frame 136 selesai diproses.
+[Worker 2 | CPU  0] Layer 8 memproses Frame 137 | Waktu: 0.03316 detik
+Frame 137 selesai diproses.
+[Worker 5 | CPU  0] Layer 6 memproses Frame 142 | Waktu: 0.00721 detik
+[Worker 7 | CPU  0] Layer 8 memproses Frame 138 | Waktu: 0.03449 detik
+Frame 138 selesai diproses.
+[Worker 3 | CPU  0] Layer 1 memproses Frame 144 | Waktu: 0.00321 detik
+[Worker 1 | CPU  0] Layer 3 memproses Frame 143 | Waktu: 0.00571 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame 141 | Waktu: 0.01175 detik
+[Worker 7 | CPU  0] Layer 1 memproses Frame 146 | Waktu: 0.00320 detik
+[Worker 2 | CPU  0] Layer 1 memproses Frame 145 | Waktu: 0.00714 detik
+[Worker 1 | CPU  0] Layer 4 memproses Frame 143 | Waktu: 0.00545 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame 142 | Waktu: 0.01017 detik
+[Worker 1 | CPU  0] Layer 5 memproses Frame 143 | Waktu: 0.00320 detik
+[Worker 3 | CPU  0] Layer 2 memproses Frame 144 | Waktu: 0.01333 detik
+[Worker 1 | CPU  0] Layer 6 memproses Frame 143 | Waktu: 0.00796 detik
+[Worker 7 | CPU  0] Layer 2 memproses Frame 146 | Waktu: 0.01541 detik
+[Worker 2 | CPU  0] Layer 2 memproses Frame 145 | Waktu: 0.01406 detik
+[Worker 3 | CPU  0] Layer 3 memproses Frame 144 | Waktu: 0.00552 detik
+[Worker 7 | CPU  0] Layer 3 memproses Frame 146 | Waktu: 0.00688 detik
+[Worker 2 | CPU  0] Layer 3 memproses Frame 145 | Waktu: 0.00653 detik
+[Worker 3 | CPU  0] Layer 4 memproses Frame 144 | Waktu: 0.00766 detik
+[Worker 1 | CPU  0] Layer 7 memproses Frame 143 | Waktu: 0.01038 detik
+[Worker 7 | CPU  0] Layer 4 memproses Frame 146 | Waktu: 0.00309 detik
+[Worker 6 | CPU  0] Layer 8 memproses Frame 140 | Waktu: 0.03919 detik
+[Worker 7 | CPU  0] Layer 5 memproses Frame 146 | Waktu: 0.00301 detik
+[Worker 2 | CPU  0] Layer 4 memproses Frame 145 | Waktu: 0.00705 detik
+[Worker 6 | CPU  0] Layer 1 memproses Frame 147 | Waktu: 0.00319 detik
+[Worker 7 | CPU  0] Layer 6 memproses Frame 146 | Waktu: 0.00303 detik
+[Worker 3 | CPU  0] Layer 5 memproses Frame 144 | Waktu: 0.00825 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame 139 | Waktu: 0.04109 detik
+Frame 139 selesai diproses.
+Frame 140 selesai diproses.
+[Worker 5 | CPU  0] Layer 8 memproses Frame 142 | Waktu: 0.02891 detik
+[Worker 3 | CPU  0] Layer 6 memproses Frame 144 | Waktu: 0.00313 detik
+[Worker 4 | CPU  0] Layer 1 memproses Frame 148 | Waktu: 0.00321 detik
+[Worker 5 | CPU  0] Layer 1 memproses Frame 149 | Waktu: 0.00370 detik
+[Worker 2 | CPU  0] Layer 5 memproses Frame 145 | Waktu: 0.00943 detik
+[Worker 0 | CPU  0] Layer 8 memproses Frame 141 | Waktu: 0.04040 detik
+Frame 141 selesai diproses.
+Frame 142 selesai diproses.
+[Worker 0 | CPU  0] Layer 1 memproses Frame 150 | Waktu: 0.00634 detik
+[Worker 6 | CPU  0] Layer 2 memproses Frame 147 | Waktu: 0.01462 detik
+[Worker 3 | CPU  0] Layer 7 memproses Frame 144 | Waktu: 0.01145 detik
+[Worker 2 | CPU  0] Layer 6 memproses Frame 145 | Waktu: 0.00804 detik
+[Worker 5 | CPU  0] Layer 2 memproses Frame 149 | Waktu: 0.01064 detik
+[Worker 4 | CPU  0] Layer 2 memproses Frame 148 | Waktu: 0.01574 detik
+[Worker 5 | CPU  0] Layer 3 memproses Frame 149 | Waktu: 0.00385 detik
+[Worker 7 | CPU  0] Layer 7 memproses Frame 146 | Waktu: 0.02186 detik
+[Worker 6 | CPU  0] Layer 3 memproses Frame 147 | Waktu: 0.00781 detik
+[Worker 4 | CPU  0] Layer 3 memproses Frame 148 | Waktu: 0.00355 detik
+[Worker 6 | CPU  0] Layer 4 memproses Frame 147 | Waktu: 0.00479 detik
+[Worker 2 | CPU  0] Layer 7 memproses Frame 145 | Waktu: 0.01260 detik
+[Worker 1 | CPU  0] Layer 8 memproses Frame 143 | Waktu: 0.03530 detik
+Frame 143 selesai diproses.
+[Worker 5 | CPU  0] Layer 4 memproses Frame 149 | Waktu: 0.00775 detik
+[Worker 6 | CPU  0] Layer 5 memproses Frame 147 | Waktu: 0.00306 detik
+[Worker 4 | CPU  0] Layer 4 memproses Frame 148 | Waktu: 0.00827 detik
+[Worker 0 | CPU  0] Layer 2 memproses Frame 150 | Waktu: 0.01803 detik
+[Worker 5 | CPU  0] Layer 5 memproses Frame 149 | Waktu: 0.00319 detik
+[Worker 6 | CPU  0] Layer 6 memproses Frame 147 | Waktu: 0.00321 detik
+[Worker 5 | CPU  0] Layer 6 memproses Frame 149 | Waktu: 0.00315 detik
+[Worker 4 | CPU  0] Layer 5 memproses Frame 148 | Waktu: 0.00390 detik
+[Worker 0 | CPU  0] Layer 3 memproses Frame 150 | Waktu: 0.00569 detik
+[Worker 4 | CPU  0] Layer 6 memproses Frame 148 | Waktu: 0.00315 detik
+[Worker 0 | CPU  0] Layer 4 memproses Frame 150 | Waktu: 0.00317 detik
+[Worker 0 | CPU  0] Layer 5 memproses Frame 150 | Waktu: 0.00319 detik
+[Worker 5 | CPU  0] Layer 7 memproses Frame 149 | Waktu: 0.01256 detik
+[Worker 4 | CPU  0] Layer 7 memproses Frame 148 | Waktu: 0.00976 detik
+[Worker 0 | CPU  0] Layer 6 memproses Frame 150 | Waktu: 0.00473 detik
+[Worker 6 | CPU  0] Layer 7 memproses Frame 147 | Waktu: 0.01574 detik
+[Worker 3 | CPU  0] Layer 8 memproses Frame 144 | Waktu: 0.03492 detik
+Frame 144 selesai diproses.
+[Worker 7 | CPU  0] Layer 8 memproses Frame 146 | Waktu: 0.03507 detik
+[Worker 0 | CPU  0] Layer 7 memproses Frame 150 | Waktu: 0.00991 detik
+[Worker 2 | CPU  0] Layer 8 memproses Frame 145 | Waktu: 0.03680 detik
+Frame 145 selesai diproses.
+Frame 146 selesai diproses.
+[Worker 6 | CPU  0] Layer 8 memproses Frame 147 | Waktu: 0.02850 detik
+Frame 147 selesai diproses.
+[Worker 5 | CPU  0] Layer 8 memproses Frame 149 | Waktu: 0.03052 detik
+[Worker 4 | CPU  0] Layer 8 memproses Frame 148 | Waktu: 0.03017 detik
+Frame 148 selesai diproses.
+Frame 149 selesai diproses.
+[Worker 0 | CPU  0] Layer 8 memproses Frame 150 | Waktu: 0.02636 detik
+Frame 150 selesai diproses.
+Pipeline selesai, 150 frame diproses.
+Selesai.

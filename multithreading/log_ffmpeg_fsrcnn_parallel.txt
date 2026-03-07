@@ -8,11 +8,11 @@ ffmpeg version 8.0.1 Copyright (c) 2000-2025 the FFmpeg developers
   libavfilter    11.  4.100 / 11.  4.100
   libswscale      9.  1.100 /  9.  1.100
   libswresample   6.  1.100 /  6.  1.100
-[rawvideo @ 0x99ec24000] Estimating duration from bitrate, this may be inaccurate
+[rawvideo @ 0x964c30000] Estimating duration from bitrate, this may be inaccurate
 Input #0, rawvideo, from 'out_fsrcnn_parallel.yuv':
   Duration: 00:00:06.00, start: 0.000000, bitrate: 30412 kb/s
   Stream #0:0: Video: rawvideo (I420 / 0x30323449), yuv420p, 352x288, 30412 kb/s, 25 tbr, 25 tbn
-[rawvideo @ 0x99ec24280] Estimating duration from bitrate, this may be inaccurate
+[rawvideo @ 0x964c30280] Estimating duration from bitrate, this may be inaccurate
 Input #1, rawvideo, from 'suzie_qcif_serial_hr.yuv':
   Duration: 00:00:06.00, start: 0.000000, bitrate: 30412 kb/s
   Stream #1:0: Video: rawvideo (I420 / 0x30323449), yuv420p, 352x288, 30412 kb/s, 25 tbr, 25 tbn
@@ -33,7 +33,7 @@ Output #0, null, to 'pipe:':
   Stream #0:1: Video: wrapped_avframe, yuv420p(progressive), 352x288, q=2-31, 200 kb/s, 25 fps, 25 tbn
     Metadata:
       encoder         : Lavc62.11.100 wrapped_avframe
-[Parsed_psnr_0 @ 0x99ec0d440] PSNR y:23.863649 u:inf v:inf average:25.624561 min:12.659005 max:75.208905
-[Parsed_ssim_1 @ 0x99ec0d500] SSIM Y:0.877102 (9.104541) U:1.000000 (inf) V:1.000000 (inf) All:0.918068 (10.865453)
-[out#0/null @ 0x99ec0c900] video:122KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
-frame=  150 fps=0.0 q=-0.0 Lq=-0.0 size=N/A time=00:00:06.00 bitrate=N/A speed= 400x elapsed=0:00:00.01    
+[Parsed_psnr_0 @ 0x96501cf00] PSNR y:24.452085 u:inf v:inf average:26.212997 min:13.849752 max:72.571194
+[Parsed_ssim_1 @ 0x96501cfc0] SSIM Y:0.877872 (9.131831) U:1.000000 (inf) V:1.000000 (inf) All:0.918581 (10.892743)
+[out#0/null @ 0x96501c3c0] video:122KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+frame=  150 fps=0.0 q=-0.0 Lq=-0.0 size=N/A time=00:00:06.00 bitrate=N/A speed= 323x elapsed=0:00:00.01    

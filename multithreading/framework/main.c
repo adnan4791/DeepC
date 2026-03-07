@@ -15,6 +15,19 @@
 // Output : Consumer akan mengurutkan ulang hasil render berdasarkan frame.
 // =========================================================
 
+#include <sys/time.h>
+#ifndef __linux__
+#ifndef sched_getcpu
+static inline int sched_getcpu(void) { return 0; }
+#endif
+#endif
+
+static double get_time(void) {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return tv.tv_sec + tv.tv_usec / 1e6;
+}
+
 // Struktur data kustom buatan developer
 typedef struct {
     char data_buffer[256];
@@ -24,16 +37,22 @@ typedef struct {
 
 // ========== TAHAP 0 (DECODE) ==========
 void stage_0_decode(PipelineTask *task) {
+    double t_start = get_time();
     // Ambil data kita dengan aman dari framework (casting void* -> kustom)
     MyGraphicFrame *frame = (MyGraphicFrame*)task->data;
 
     sprintf(frame->data_buffer, "[DECODED]");
     // Simulasi mikrosekon pemrosesan cepat (10ms)
     usleep(10000); 
+
+    double t_end = get_time();
+    printf("[Worker CPU %d] TAHAP 0 (Decode) memproses Frame %02d | Waktu: %.5f detik\n", 
+           sched_getcpu(), task->task_id, t_end - t_start);
 }
 
 // ========== TAHAP 1 (MOTION ANALYSIS) ==========
 void stage_1_motion(PipelineTask *task) {
+    double t_start = get_time();
     MyGraphicFrame *frame = (MyGraphicFrame*)task->data;
 
     char temp[256];
@@ -42,10 +61,15 @@ void stage_1_motion(PipelineTask *task) {
     
     // Simulasi pemrosesan sedang (30ms)
     usleep(30000); 
+    
+    double t_end = get_time();
+    printf("[Worker CPU %d] TAHAP 1 (Motion) memproses Frame %02d | Waktu: %.5f detik\n", 
+           sched_getcpu(), task->task_id, t_end - t_start);
 }
 
 // ========== TAHAP 2 (HEAVY ENCODE) ==========
 void stage_2_encode(PipelineTask *task) {
+    double t_start = get_time();
     MyGraphicFrame *frame = (MyGraphicFrame*)task->data;
 
     char temp[256];
@@ -56,6 +80,10 @@ void stage_2_encode(PipelineTask *task) {
     // Walaupun lambat, framework akan memerintahkan semua Worker 
     // untuk mengeroyok tahap ini sehingga tidak terjadi pipeline stall.
     usleep(150000); 
+    
+    double t_end = get_time();
+    printf("[Worker CPU %d] TAHAP 2 (Encode) memproses Frame %02d | Waktu: %.5f detik\n", 
+           sched_getcpu(), task->task_id, t_end - t_start);
 }
 
 // ========== KONSUMEN AKHIR (PENGURUT) ==========
@@ -75,7 +103,7 @@ void final_writer(PipelineTask *task) {
 int main() {
     printf("=== MEMULAI TEST FRAMEWORK SYNCPILOT ===\n\n");
 
-    int total_frames = 20;
+    int total_frames = 200;
 
     // 1. Definisikan Konfigurasi Pipeline
     PipelineConfig cfg;

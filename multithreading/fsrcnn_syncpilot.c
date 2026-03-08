@@ -6,13 +6,23 @@
 #include <omp.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 #include "framework/syncpilot.h"
 
+FILE *log_file = NULL;
 // macOS tidak punya sched_getcpu()
 #ifndef __linux__
 #ifndef sched_getcpu
-static inline int sched_getcpu(void) { return 0; }
+#include <stdatomic.h>
+static inline int sched_getcpu(void) {
+    static _Atomic int proxy_cpu_counter = 0;
+    static __thread int my_proxy_cpu_id = -1;
+    if (my_proxy_cpu_id == -1) {
+        my_proxy_cpu_id = atomic_fetch_add(&proxy_cpu_counter, 1);
+    }
+    return my_proxy_cpu_id;
+}
 #endif
 #endif
 
@@ -110,9 +120,11 @@ static void fsrcnn_process_stage(PipelineTask *task, int layer_num) {
     }
 
     double t_end = get_time();
-    // Untuk WorkerID, secara native framework tidak nyimpen di parameter (krna generik), tapi output asinkron sgt cepat
-    printf("[SYNCPILOT | CPU %2d] Layer %d memproses Frame %3d | Waktu: %.5f detik\n",
-            cpu_id, layer_num, task->task_id + 1, t_end - t_start);
+    if (log_file) {
+        fprintf(log_file, "[SYNCPILOT | CPU %2d] Layer %d memproses Frame %3d | Waktu: %.5f detik\n",
+                        cpu_id, layer_num, task->task_id + 1, t_end - t_start);
+        fflush(log_file);
+    }
 
     // Update in-place ke data buatan user
     release_buffer(fb->data);
@@ -202,6 +214,9 @@ int main(int argc, char *argv[]) {
     
     char *inFile  = argv[1];
     char *outFile = argv[2];
+
+    mkdir("logs", 0777);
+    log_file = fopen("logs/fsrcnn_syncpilot.txt", "w");
 
     const int scale     = 2;
     const int inCols    = 176;

@@ -4,6 +4,12 @@
 #include <pthread.h>
 #include <string.h>
 #include <omp.h>
+#include <sys/time.h>
+#include <AvailabilityMacros.h>
+#ifndef sched_getcpu
+#define sched_getcpu() 0
+#endif
+
 
 // ==================== Forward Declarations ====================
 void pad_image(double *img, double *img_pad, int rows, int cols, int padsize);
@@ -112,6 +118,8 @@ typedef struct {
     int    rows, cols, scale;
 } StageArg;
 
+double get_time() { struct timeval t; gettimeofday(&t, NULL); return t.tv_sec + t.tv_usec * 1e-6; }
+
 void* stage_thread(void *arg) {
     StageArg *sa    = (StageArg*)arg;
     int rows_in     = sa->rows;
@@ -122,8 +130,10 @@ void* stage_thread(void *arg) {
     Queue *out_q    = sa->output_queue;
 
     while (1) {
+        int cpu_id = sched_getcpu();
         FrameBuffer *in = dequeue(in_q);
-        if (in->frame_id == -1) {       // sentinel: teruskan dan berhenti
+        int my_frame = in->frame_id;
+        if (my_frame == -1) {       // sentinel: teruskan dan berhenti
             enqueue(out_q, in);
             break;
         }
@@ -140,6 +150,7 @@ void* stage_thread(void *arg) {
             default:                 out_rows = out_cols = out_ch = 0;
         }
         int out_size = out_rows * out_cols * out_ch;
+        double t_start = get_time();
 
         double *out_data = get_buffer(out_size);
         if (!out_data) {
@@ -162,10 +173,13 @@ void* stage_thread(void *arg) {
         // Buat FrameBuffer output
         FrameBuffer *out_fb    = (FrameBuffer*)malloc(sizeof(FrameBuffer));
         out_fb->data           = out_data;
-        out_fb->frame_id       = in->frame_id;
+        out_fb->frame_id       = my_frame;
         out_fb->rows           = out_rows;
         out_fb->cols           = out_cols;
         out_fb->channels       = out_ch;
+
+        double t_end = get_time();
+        printf("[CPU %2d] Layer %d memproses Frame %3d | Waktu: %.5f detik\n", cpu_id, layer, my_frame + 1, t_end - t_start);
 
         release_buffer(in->data);
         free(in);

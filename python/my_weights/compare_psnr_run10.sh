@@ -9,7 +9,7 @@
 # Konfigurasi
 EXEC_OLD="./fsrcnn_parallel_old"      # executable dengan bobot original (semua layer)
 # EXEC_NEW="./fsrcnn_parallel"           # executable dengan bobot finetuned (semua layer)
-EXEC_L8="./fsrcnn_parallel_layer8v4"     # executable dengan bobot finetuned (layer 8 saja)
+EXEC_L8="./opi"     # executable dengan bobot finetuned (layer 8 saja)
 INPUT_YUV="suzie_qcif.yuv"
 GT_YUV="clean.yuv"                     # ground truth (dari critical/serial)
 THREADS=2
@@ -53,7 +53,7 @@ function run_test() {
     for i in $(seq 1 $RUNS)
     do
         export OMP_NUM_THREADS=$THREADS
-        $executable "$INPUT_YUV" temp_out.yuv > /dev/null 2>&1
+        $executable 2 4 "$INPUT_YUV" temp_out.yuv > /dev/null 2>&1
 
         # Hitung PSNR average menggunakan ffmpeg
         psnr=$(ffmpeg -s ${WIDTH}x${HEIGHT} -pix_fmt $PIX_FMT -i temp_out.yuv \

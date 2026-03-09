@@ -2,9 +2,15 @@
 // Combines channel-equalized weights (v3) with lightweight post-processing CNN
 // Original FSRCNN: Milad Abdollahzadeh, 09/02/2017
 
+#define _GNU_SOURCE
 #include <stdio.h>
+#include <sched.h>
 #include <stdlib.h>
+#include "timer.h"
 #include <omp.h>
+#include "my_cpu_config.h"
+
+#define zero 0.0
 #include <string.h>
 
 // FSRCNN functions
@@ -49,10 +55,57 @@ double biases_layer7[56];
 double weights_layer8[4536];
 double biases_layer8;
 
+int nworkers = 0;
 int main(int argc, char *argv[])
 {
-	char *inFile = argv[1];
-	char *outFile = argv[2];
+	cpu_set_t mask;
+	CPU_ZERO(&mask);
+	int *team = NULL;
+	int selection = 5;
+	long num_step;
+
+	//printf("nworkers : %d",nworkers);
+	if (argc < 5) {
+		printf("Program kurang argumen\n");
+		printf("Jalankan %s ",argv[0]);
+		printf("1 untuk %d performance core\n",nworkers);
+		printf("2 untuk %d efficient core\n",nworkers);
+		printf("3 untuk %d hybrid bl\n",nworkers);
+		printf("4 untuk %d hybrid lb\n",nworkers);
+		printf("5 untuk %d hybrid blh\n",nworkers);
+		printf("6 untuk %d hybrid lbh\n",nworkers);
+		printf("tanpa parameter eksekusi pada %d cores berurut\n",nworkers);
+		printf("Tambahkan parameter jumlah threads\n");
+		return 1; // Keluar dengan kode kesalahan
+		//team = performance_core;
+	} else 
+	selection = atoi(argv[1]);
+	switch (selection) {
+		case 1 :team = performance_core;
+				break;
+		case 2 :team = efficient_core;
+				break;
+		case 3 :team = hybrid_core_bl;
+				break;
+		case 4 :team = hybrid_core_lb;
+				break;			
+		default:printf("Pilihan tidak valid\n");
+            	return 1; // Keluar dengan kode kesalaha
+	}
+	nworkers = atoi(argv[2]);
+	char *inFile = argv[3];
+	char *outFile = argv[4];
+    nworkers = atoi(argv[2]);
+#if defined(_OPENMP)
+    omp_set_num_threads(nworkers);
+#endif
+    for(int i=0;i<nworkers;i++)
+         CPU_SET(team[i],&mask);
+    int result = sched_setaffinity(0,sizeof(mask),&mask);
+
+	
+	//char *inFile = argv[1];
+	//char *outFile = argv[2];
 
 	//Upsampler parameters
 	int scale = 2;

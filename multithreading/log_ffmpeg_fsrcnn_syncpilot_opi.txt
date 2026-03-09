@@ -1,0 +1,40 @@
+ffmpeg version 4.4.2-0ubuntu0.22.04.1 Copyright (c) 2000-2021 the FFmpeg developers
+  built with gcc 11 (Ubuntu 11.3.0-1ubuntu1~22.04)
+  configuration: --prefix=/usr --extra-version=0ubuntu0.22.04.1 --toolchain=hardened --libdir=/usr/lib/aarch64-linux-gnu --incdir=/usr/include/aarch64-linux-gnu --arch=arm64 --enable-gpl --disable-stripping --enable-gnutls --enable-ladspa --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libdav1d --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libjack --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librabbitmq --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libsrt --enable-libssh --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzimg --enable-libzmq --enable-libzvbi --enable-lv2 --enable-omx --enable-openal --enable-opencl --enable-opengl --enable-sdl2 --enable-pocketsphinx --enable-librsvg --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-chromaprint --enable-frei0r --enable-libx264 --enable-libdrm --enable-librga --enable-rkmpp --enable-version3 --disable-libopenh264 --disable-vaapi --disable-vdpau --disable-decoder=h264_v4l2m2m --disable-decoder=vp8_v4l2m2m --disable-decoder=mpeg2_v4l2m2m --disable-decoder=mpeg4_v4l2m2m --enable-shared --disable-doc
+  libavutil      56. 70.100 / 56. 70.100
+  libavcodec     58.134.100 / 58.134.100
+  libavformat    58. 76.100 / 58. 76.100
+  libavdevice    58. 13.100 / 58. 13.100
+  libavfilter     7.110.100 /  7.110.100
+  libswscale      5.  9.100 /  5.  9.100
+  libswresample   3.  9.100 /  3.  9.100
+  libpostproc    55.  9.100 / 55.  9.100
+[rawvideo @ 0x55a5b850a0] Estimating duration from bitrate, this may be inaccurate
+Input #0, rawvideo, from 'out_fsrcnn_syncpilot_opi.yuv':
+  Duration: 00:00:06.00, start: 0.000000, bitrate: 30412 kb/s
+  Stream #0:0: Video: rawvideo (I420 / 0x30323449), yuv420p, 352x288, 30412 kb/s, 25 tbr, 25 tbn, 25 tbc
+[rawvideo @ 0x55a5b88030] Estimating duration from bitrate, this may be inaccurate
+Input #1, rawvideo, from 'suzie_qcif_serial_hr.yuv':
+  Duration: 00:00:06.00, start: 0.000000, bitrate: 30412 kb/s
+  Stream #1:0: Video: rawvideo (I420 / 0x30323449), yuv420p, 352x288, 30412 kb/s, 25 tbr, 25 tbn, 25 tbc
+Stream mapping:
+  Stream #0:0 (rawvideo) -> psnr:main
+  Stream #0:0 (rawvideo) -> ssim:main
+  Stream #1:0 (rawvideo) -> psnr:reference
+  Stream #1:0 (rawvideo) -> ssim:reference
+  psnr -> Stream #0:0 (wrapped_avframe)
+  ssim -> Stream #0:1 (wrapped_avframe)
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    encoder         : Lavf58.76.100
+  Stream #0:0: Video: wrapped_avframe, yuv420p(progressive), 352x288, q=2-31, 200 kb/s, 25 fps, 25 tbn
+    Metadata:
+      encoder         : Lavc58.134.100 wrapped_avframe
+  Stream #0:1: Video: wrapped_avframe, yuv420p(progressive), 352x288, q=2-31, 200 kb/s, 25 fps, 25 tbn
+    Metadata:
+      encoder         : Lavc58.134.100 wrapped_avframe
+frame=    1 fps=0.0 q=-0.0 q=-0.0 size=N/A time=00:00:00.04 bitrate=N/A speed=69.3x    frame=  150 fps=0.0 q=-0.0 Lq=-0.0 size=N/A time=00:00:06.00 bitrate=N/A speed=  46x    
+video:157kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+[Parsed_psnr_0 @ 0x55a5b89fc0] PSNR y:25.943011 u:inf v:inf average:27.703924 min:13.653151 max:inf
+[Parsed_ssim_1 @ 0x55a5b9a190] SSIM Y:0.929931 (11.544739) U:1.000000 (inf) V:1.000000 (inf) All:0.953287 (13.305652)

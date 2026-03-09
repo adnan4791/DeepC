@@ -9,7 +9,7 @@ import time
 # ==========================================================
 # CONFIGURATION FOR ORANGE PI 5
 # ==========================================================
-EXEC_V3 = "./fsrcnn_parallel_layer8v3"  # Base model (v3)
+EXEC_V3 = "./fsrcnnv3"  # Base model (v3)
 INPUT_YUV = "suzie_qcif.yuv"            # Input low-res
 GT_YUV = "clean.yuv"                    # Ground Truth (HD Source)
 SCALE = 2

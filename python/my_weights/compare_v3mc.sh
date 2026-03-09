@@ -6,13 +6,13 @@
 # Membandingkan: Original vs v3 vs v3+MicroComp
 
 # Konfigurasi
-EXEC_OLD="./fsrcnn_parallel_old"            # bobot original
+EXEC_OLD="./old_linux_cpu"            # bobot original
 EXEC_V3="./fsrcnn_parallel_layer8v3"        # v3 (channel equalization)
-EXEC_V3MC="./fsrcnn_v3_micro_comp"          # v3 + micro-compensator
+EXEC_V3MC="./v3_micro_cpu"          # v3 + micro-compensator
 INPUT_YUV="suzie_qcif.yuv"
 GT_YUV="clean.yuv"
-THREADS=${1:-8}                              # default 8, bisa diubah: ./compare_v3mc.sh 6
-RUNS=10
+THREADS=4                              # default 8, bisa diubah: ./compare_v3mc.sh 6
+RUNS=5
 
 OUT_OLD="psnr_old.txt"
 OUT_V3="psnr_v3.txt"
@@ -52,7 +52,7 @@ function run_test() {
     for i in $(seq 1 $RUNS)
     do
         export OMP_NUM_THREADS=$THREADS
-        $executable "$INPUT_YUV" temp_out.yuv > /dev/null 2>&1
+        $executable 2 4 "$INPUT_YUV" temp_out.yuv > /dev/null 2>&1
 
         psnr=$(ffmpeg -s ${WIDTH}x${HEIGHT} -pix_fmt $PIX_FMT -i temp_out.yuv \
                       -s ${WIDTH}x${HEIGHT} -pix_fmt $PIX_FMT -i "$GT_YUV" \

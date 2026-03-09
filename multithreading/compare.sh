@@ -3,7 +3,7 @@
 # Konfigurasi
 INPUT="suzie_qcif.yuv"
 GT="suzie_qcif_serial_hr.yuv"
-BINARIES=("fsrcnn_parallel" "multithreading" "multithreading2" "multithreading_dynamic" "fsrcnn_syncpilot")
+BINARIES=("fsrcnn_selectcpu" "fsrcnn_syncpilot_selectcpu")
 WIDTH=352
 HEIGHT=288
 FORMAT="yuv420p"
@@ -52,7 +52,7 @@ for BIN in "${BINARIES[@]}"; do
         
         # Eksekusi dan hitung waktu (menggunakan python agar mendapat presisi desimal detik)
         START_TIME=$(python3 -c 'import time; print(time.time())')
-        ./$BIN "$INPUT" "$OUT_YUV" >/dev/null 2>&1
+        ./$BIN 4 8 "$INPUT" "$OUT_YUV" >/dev/null 2>&1
         END_TIME=$(python3 -c 'import time; print(time.time())')
         ELAPSED=$(echo "$END_TIME - $START_TIME" | bc -l)
 

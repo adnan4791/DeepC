@@ -4,8 +4,8 @@
 ORIGINAL_WEIGHTS="weights_layer8_original.txt"
 TRAINED_WEIGHTS="weights_layer8_trained.txt"
 ACTIVE_WEIGHTS="weights_layer8.txt"
-INPUT_YUV="lr.yuv"
-GT_YUV="./ground_truth/hr.yuv"
+INPUT_YUV="suzie_qcif.yuv"
+GT_YUV="suzie_serial.yuv"
 THREADS=8
 RUNS=10
 OUT_ORIGINAL="./results/psnr_original.txt"
@@ -31,7 +31,7 @@ function run_test() {
     for i in $(seq 1 $RUNS)
     do
         export OMP_NUM_THREADS=$THREADS
-        ./fsrcnn_parallel2 "$INPUT_YUV" temp_out.yuv > /dev/null 2>&1
+        ./fsrcnn150select2 1 4 "$INPUT_YUV" temp_out.yuv > /dev/null 2>&1
         
         # Ambil PSNR average
         psnr=$(ffmpeg -s 352x288 -i temp_out.yuv -s 352x288 -i "$GT_YUV" -lavfi psnr -f null - 2>&1 | grep -o "average:[0-9.]*" | cut -d: -f2 || echo "0")

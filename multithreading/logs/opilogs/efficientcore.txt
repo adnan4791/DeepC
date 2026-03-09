@@ -1,0 +1,34 @@
+rangepi@orangepi5:~/FSRCNN/RaceCondition/multithreading$ ./compare.sh 
+==========================================================
+      SCRIPT KOMPARASI KECEPATAN & KUALITAS FSRCNN        
+==========================================================
+Input          : suzie_qcif.yuv
+Ground Truth   : suzie_qcif_serial_hr.yuv
+Resolusi Output: 352x288
+==========================================================
+>> Menjalankan fsrcnn_selectcpu sebanyak 5 kali ...
+   Run 1/5 ... Waktu: 110.71s | PSNR: 27.020876 dB | SSIM: 0.920318
+   Run 2/5 ... Waktu: 110.46s | PSNR: 27.360113 dB | SSIM: 0.936507
+   Run 3/5 ... Waktu: 110.72s | PSNR: 27.354908 dB | SSIM: 0.935852
+   Run 4/5 ... Waktu: 110.34s | PSNR: 27.189003 dB | SSIM: 0.928936
+   Run 5/5 ... Waktu: 109.69s | PSNR: 27.271142 dB | SSIM: 0.932761
+   =========================================
+   RATA-RATA DARI 5 RUN:
+   Waktu Eksekusi : 110.385 detik
+   PSNR           : 27.2392 dB
+   SSIM           : .9308
+----------------------------------------------------------
+>> Menjalankan fsrcnn_syncpilot_selectcpu sebanyak 5 kali ...
+   Run 1/5 ... Waktu: 44.70s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 2/5 ... Waktu: 45.20s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 3/5 ... Waktu: 45.28s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 4/5 ... Waktu: 45.70s | PSNR: 27.703924 dB | SSIM: 0.953287
+   Run 5/5 ... Waktu: 45.65s | PSNR: 27.703924 dB | SSIM: 0.953287
+   =========================================
+   RATA-RATA DARI 5 RUN:
+   Waktu Eksekusi : 45.306 detik
+   PSNR           : 27.7039 dB
+   SSIM           : .9532
+----------------------------------------------------------
+Komparasi selesai.
+orangepi@orangepi5:~/FSRCNN/RaceCondition/multithreading$ 

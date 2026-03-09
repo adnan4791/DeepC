@@ -143,7 +143,7 @@ declare -a OUTPUT_FILES
 # Buat ground truth dari serial (eksekusi pertama serial sebagai referensi)
 GROUND_TRUTH="${SCRIPT_DIR}/output_serial_ground_truth.yuv"
 echo ">> Membuat ground truth dari Serial..."
-"${SCRIPT_DIR}/fsrcnn_serial_layer_8_150" "$INPUT_PATH" "$GROUND_TRUTH" > /dev/null 2>&1
+"${SCRIPT_DIR}/fsrcnn_serial_layer_8_150" "$INPUT_PATH" "$GROUND_TRUTH"
 echo "   Ground truth: $(du -h "$GROUND_TRUTH" | awk '{print $1}')"
 echo ""
 

@@ -22,6 +22,8 @@ Compared to spawning individual threads for each stage (which triggers bottlenec
 
 ## ⚙️ System Logic Architecture
 
+![SyncPilot Architecture](../docs/hierarki.jpeg)
+
 ```text
 [ Developer Feed() ] --> [ Stage 0 ] --> [ Stage 1 ] --> [ Stage N (Final) ]
                                \              /                 |

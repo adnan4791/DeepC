@@ -22,6 +22,8 @@ Dibandingkan membina *thread* masing-masing per tahapan (yang memicu *bottleneck
 
 ## ⚙️ Arsitektur Logika Sistem
 
+![SyncPilot Architecture](../docs/hierarki.jpeg)
+
 ```text
 [ Developer Feed() ] --> [ Tahap 0 ] --> [ Tahap 1 ] --> [ Tahap N (Akhir) ]
                                \              /                 |

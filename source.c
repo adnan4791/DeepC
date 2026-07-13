@@ -685,6 +685,9 @@ void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale)
 		imadd(img_fltr_8, img_fltr_8_tmp, cols*scale, rows*scale);
 		//img_fltr_p7 = img_fltr_p7 + rows*cols;
 	}*/
+	/*
+      deconv(parent->img_in+a*rows*cols,parent->redobj,weights_layer8+a*parent->filtersize,cols,rows,scale);
+    */
 
    task_t parent_t;
     taskp parent = &parent_t;
@@ -737,7 +740,6 @@ int task_loop(taskp parent) {
 			int cols=parent->cols;
 			int scale = parent->scale; 
 			//for(int i=a;i<parent->b;i++)
-            deconv(parent->img_in+a*rows*cols,parent->redobj,weights_layer8+a*parent->filtersize,cols,rows,scale);
 		}
 		else {
 			task_t left;
@@ -785,6 +787,7 @@ int task_loop(taskp parent) {
 			free(rro);
 			//free(lro);
 			return 0;
+			
 		}
 		return 0;
 	}

@@ -6,12 +6,15 @@
 #include <omp.h>
 
 void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale);
-void imfilter(double *img, double *kernel, double *img_fltr, int rows, int cols, int padsize);
+// Feature maps between layers are stored HWC-interleaved: pixel (row,col) channel c lives at
+// ((row*cols+col)*channels + c), so a pixel's channels are contiguous. Convolution loops over
+// pixels first (parallelized), channels innermost -- instead of the old channel-outer order.
+void pad_image_hwc(double *img, double *img_pad, int rows, int cols, int channels, int padsize);
+void conv_layer_hwc(double *in, int in_channels, double *weights, double *biases, double prelu_coeff,
+	double *out, int out_channels, int rows, int cols, int patchsize);
 void pad_image(double *img, double *img_pad, int rows, int cols, int padsize);
-void PReLU(double *img_fltr, int rows, int cols, double bias, double prelu_coeff);
 double Max(double a, double b);
 double Min(double a, double b);
-void imadd(double *img_fltr_crnt, double *img_fltr_prev, int cols, int rows);
 void deconv(double *img_input, double *img_output, double *kernel, int cols, int rows, int stride);
 void double_2_uint8(double *double_img, unsigned char *uint8_img, int cols, int rows);
 
@@ -312,431 +315,219 @@ void FSRCNN(double *img_hr, double *img_lr, int rows, int cols, int scale)
 	// General Settings
 	int num_layers = 8;
 
-	/////////// Convolution1 -------- Layer1
-	// Reading weights of first layer
-	
-	// Reading biases of first layer
-	
-	// other parameters
-	int filtersize = 25; //5X5
-	int patchsize = 5;
-	int padsize = (patchsize - 1) / 2;
-	int num_filters = 56;
+	/////////// Convolution1 -------- Layer1 (5x5, 1 -> 56 channels)
+	int patchsize1 = 5;
+	int num_filters1 = 56;
 	double prelu_coeff_layer1 = -0.8986;
-
-	// Convolution
-	double *img_fltr_1 = (double *)malloc(rows * cols * num_filters * sizeof(double));
-	double *kernel = (double *)malloc(filtersize*sizeof(double));
-
-	double *img_fltr_p1 = img_fltr_1; // Pointer to img_fltr1 ==>> Using this way to be able to shift it to access data
-
-	int cnt_weight = 0;
-	
-	double bias_tmp;
-    #pragma omp parallel for firstprivate(kernel,cnt_weight,img_fltr_p1,bias_tmp)
-	for (int i = 0; i < num_filters; i++)
-	{
-		imfilter(img_lr, weights_layer1+i*filtersize, img_fltr_p1+i*cols*rows, rows, cols, padsize);
-		PReLU(img_fltr_p1+i*cols*rows, rows, cols, biases_layer1[i], prelu_coeff_layer1);
-
-	}
+	double *img_fltr_1 = (double *)malloc((size_t)rows * cols * num_filters1 * sizeof(double));
+	conv_layer_hwc(img_lr, 1, weights_layer1, biases_layer1, prelu_coeff_layer1,
+		img_fltr_1, num_filters1, rows, cols, patchsize1);
 
 	/////////// Convolution2 ------------------- Layer 2~7
 
-	/////////// Layer2
-	// Reading weights of 2nd layer
-	
-	// Reading biases of 2nd layer
-	
-	// Other parameters
-	int filtersize2 = 1; //1X1
+	/////////// Layer2 (1x1, 56 -> 12 channels)
 	int patchsize2 = 1;
-	int padsize2 = (patchsize2 - 1) / 2;
 	int num_filters2 = 12;
 	int num_channels2 = 56;
 	double prelu_coeff_layer2 = 0.3236;
-	// Convolution
-	double *img_fltr_2 = (double *)calloc(rows * cols * num_filters2 , sizeof(double)); // use calloc to initialize all variables to zero
-	//double *img_fltr_2_tmp = (double *)malloc(rows * cols * sizeof(double));
-	double *kernel2 = (double *)malloc(filtersize2*sizeof(double));
-	double *img_fltr_p2 = img_fltr_2; // Pointer to img_fltr2
-	
-
-	cnt_weight = 0;
-    #pragma omp parallel for firstprivate(biases_layer2)
-	for (int i = 0; i < num_filters2; i++)
-	{
-		//double *img_fltr_2_tmp = (double *) alloca(rows*cols*sizeof(double));
-		double img_fltr_2_tmp[rows*cols];
-		//img_fltr_p1 = img_fltr_1; // Return pointer to the first of array which contains feature map of previous layer
-		for (int j = 0; j < num_channels2; j++)
-		{
-			// reading corresponding weights to kernel
-			//for (int cnt_kernel = 0; cnt_kernel < filtersize2; cnt_kernel++)
-			//{
-			//	*(kernel2 + cnt_kernel) = weights_layer2[cnt_weight + cnt_kernel];
-			//}
-
-			//imfilter(img_fltr_p1, kernel2, img_fltr_2_tmp, rows, cols, padsize2);
-			imfilter(img_fltr_1+j*rows*cols, weights_layer2+(i*num_channels2+j)*filtersize2, img_fltr_2_tmp, rows, cols, padsize2);
-			imadd(img_fltr_p2+i*cols*rows, img_fltr_2_tmp, cols, rows);
-
-			//cnt_weight = cnt_weight + filtersize2;
-			//img_fltr_p1 = img_fltr_p1 + rows*cols;
-		}
-		//bias_tmp = biases_layer2[i];
-		PReLU(img_fltr_p2+i*rows*cols, rows, cols, biases_layer2[i], prelu_coeff_layer2);
-		//img_fltr_p2 = img_fltr_p2 + rows*cols;
-	}
+	double *img_fltr_2 = (double *)malloc((size_t)rows * cols * num_filters2 * sizeof(double));
+	conv_layer_hwc(img_fltr_1, num_channels2, weights_layer2, biases_layer2, prelu_coeff_layer2,
+		img_fltr_2, num_filters2, rows, cols, patchsize2);
 
 	free(img_fltr_1);
 	img_fltr_1 = NULL;
-	free(kernel);
-	kernel = NULL;
-	//free(img_fltr_2_tmp);
-	//img_fltr_2_tmp = NULL;
-	
-	/////////// Layer3
-	// Reading weights of 3rd layer
-	
-	// Reading biases of 3rd layer
-	
-	// Other parameters
-	int filtersize3 = 9; //3X3
+
+	/////////// Layer3 (3x3, 12 -> 12 channels)
 	int patchsize3 = 3;
-	int padsize3 = (patchsize3 - 1) / 2;
 	int num_filters3 = 12;
 	int num_channels3 = 12;
 	double prelu_coeff_layer3 = 0.2288;
-	// Convolution
-	double *img_fltr_3 = (double *)calloc(rows * cols * num_filters3 , sizeof(double));
-	double *kernel3 = (double *)malloc(filtersize3*sizeof(double));
-	double *img_fltr_p3 = img_fltr_3; // Pointer to img_fltr2
-	//double *img_fltr_3_tmp = (double *)malloc(rows * cols * sizeof(double));
-
-	cnt_weight = 0;
-	#pragma omp parallel for
-	for (int i = 0; i < num_filters3; i++)
-	{
-		//img_fltr_p2 = img_fltr_2; // Return pointer to the first cell of array which contains feature maps of previous layer
-		//double *img_fltr_3_tmp = (double *) alloca(rows*cols * sizeof(double));
-		double img_fltr_3_tmp[rows*cols];
-		for (int j = 0; j < num_channels3; j++)
-		{
-			// reading corresponding weights to kernel
-			//for (int cnt_kernel = 0; cnt_kernel < filtersize3; cnt_kernel++)
-			//{
-			//	*(kernel3 + cnt_kernel) = weights_layer3[cnt_weight + cnt_kernel];
-			//}
-
-			imfilter(img_fltr_p2+j*rows*cols, weights_layer3+(i*num_channels3+j)*filtersize3, img_fltr_3_tmp, rows, cols, padsize3);
-			imadd(img_fltr_p3+i*rows*cols, img_fltr_3_tmp, cols, rows);
-
-			//cnt_weight = cnt_weight + filtersize3;
-			//img_fltr_p2 = img_fltr_p2 + rows*cols;
-		}
-		//bias_tmp = biases_layer3[i];
-		PReLU(img_fltr_p3+i*rows*cols, rows, cols, biases_layer3[i], prelu_coeff_layer3);
-		//img_fltr_p3 = img_fltr_p3 + rows*cols;
-	}
+	double *img_fltr_3 = (double *)malloc((size_t)rows * cols * num_filters3 * sizeof(double));
+	conv_layer_hwc(img_fltr_2, num_channels3, weights_layer3, biases_layer3, prelu_coeff_layer3,
+		img_fltr_3, num_filters3, rows, cols, patchsize3);
 
 	free(img_fltr_2);
 	img_fltr_2 = NULL;
-	//free(img_fltr_2_tmp);
-	//img_fltr_2_tmp = NULL;
-	free(kernel2);
-	kernel2 = NULL;
-	//free(img_fltr_3_tmp);
-	//img_fltr_3_tmp = NULL;
 
-	/////////// Layer4
-	// Reading weights of 4th layer
-	
-	// Reading biases of 4th layer
-	
-	// Other parameters
-	int filtersize4 = 9; //3X3
+	/////////// Layer4 (3x3, 12 -> 12 channels)
 	int patchsize4 = 3;
-	int padsize4 = (patchsize4 - 1) / 2;
 	int num_filters4 = 12;
 	int num_channels4 = 12;
 	double prelu_coeff_layer4 = 0.2476;
-	// Convolution
-	double *img_fltr_4 = (double *)calloc(rows * cols * num_filters4 , sizeof(double));
-	double *kernel4 = (double *)malloc(filtersize4*sizeof(double));
-	double *img_fltr_p4 = img_fltr_4; // Pointer to img_fltr4
-	//double *img_fltr_4_tmp = (double *)malloc(rows * cols * sizeof(double));
-
-	cnt_weight = 0;
-    #pragma omp parallel for
-	for (int i = 0; i < num_filters4; i++)
-	{
-		//img_fltr_p3 = img_fltr_3;
-		//double *img_fltr_4_tmp = (double *) alloca(rows*cols * sizeof(double)); 
-		double img_fltr_4_tmp[rows*cols];
-		for (int j = 0; j < num_channels4; j++)
-		{
-			// reading corresponding weights to kernel
-			//for (int cnt_kernel = 0; cnt_kernel < filtersize4; cnt_kernel++)
-			//{
-			//	*(kernel4 + cnt_kernel) = weights_layer4[cnt_weight + cnt_kernel];
-			//}
-
-			imfilter(img_fltr_p3 + j*rows*cols, weights_layer4+(i*num_channels4+j) * filtersize4, img_fltr_4_tmp, rows, cols, padsize4);
-			imadd(img_fltr_p4+i*rows*cols, img_fltr_4_tmp, cols, rows);
-
-			//cnt_weight = cnt_weight + filtersize4;
-			//img_fltr_p3 = img_fltr_p3 + rows*cols;
-		}
-		bias_tmp = biases_layer4[i];
-		PReLU(img_fltr_p4+i*rows*cols, rows, cols, bias_tmp, prelu_coeff_layer4);
-		//img_fltr_p4 = img_fltr_p4 + rows*cols;
-	}
+	double *img_fltr_4 = (double *)malloc((size_t)rows * cols * num_filters4 * sizeof(double));
+	conv_layer_hwc(img_fltr_3, num_channels4, weights_layer4, biases_layer4, prelu_coeff_layer4,
+		img_fltr_4, num_filters4, rows, cols, patchsize4);
 
 	free(img_fltr_3);
 	img_fltr_3 = NULL;
-	//free(img_fltr_3_tmp);
-	//img_fltr_3_tmp = NULL;
-	free(kernel3);
-	kernel3 = NULL;
-	//free(img_fltr_4_tmp);
-	//img_fltr_4_tmp = NULL;
 
-	/////////// Layer5
-	// Reading weights of 5th layer
-	
-	// Reading biases of 5th layer
-	
-	// Other parameters
-	int filtersize5 = 9; //3X3
+	/////////// Layer5 (3x3, 12 -> 12 channels)
 	int patchsize5 = 3;
-	int padsize5 = (patchsize5 - 1) / 2;
 	int num_filters5 = 12;
 	int num_channels5 = 12;
 	double prelu_coeff_layer5 = 0.3495;
-	// Convolution
-	double *img_fltr_5 = (double *)calloc(rows * cols * num_filters5 , sizeof(double));
-	double *kernel5 = (double *)malloc(filtersize5*sizeof(double));
-	double *img_fltr_p5 = img_fltr_5; // Pointer to img_fltr5
-	//double *img_fltr_5_tmp = (double *)malloc(rows * cols * sizeof(double));
-
-	cnt_weight = 0;
-    #pragma omp parallel for
-	for (int i = 0; i < num_filters5; i++)
-	{
-		//img_fltr_p4 = img_fltr_4;
-		//double *img_fltr_5_tmp = (double *) alloca(rows*cols*sizeof(double));
-		double img_fltr_5_tmp[rows*cols];
-		for (int j = 0; j < num_channels5; j++)
-		{
-			// reading corresponding weights to kernel
-			//for (int cnt_kernel = 0; cnt_kernel < filtersize5; cnt_kernel++)
-			//{
-			//	*(kernel5 + cnt_kernel) = weights_layer5[cnt_weight + cnt_kernel];
-			//}
-
-			imfilter(img_fltr_p4+j*rows*cols, weights_layer5+(i*num_channels5+j) * filtersize5, img_fltr_5_tmp, rows, cols, padsize5);
-			imadd(img_fltr_p5+i*rows*cols, img_fltr_5_tmp, cols, rows);
-
-			//cnt_weight = cnt_weight + filtersize5;
-			//img_fltr_p4 = img_fltr_p4 + rows*cols;
-		}
-		//bias_tmp = biases_layer5[i];
-		PReLU(img_fltr_p5+i*rows*cols, rows, cols, biases_layer5[i], prelu_coeff_layer5);
-		//img_fltr_p5 = img_fltr_p5 + rows*cols;
-	}
+	double *img_fltr_5 = (double *)malloc((size_t)rows * cols * num_filters5 * sizeof(double));
+	conv_layer_hwc(img_fltr_4, num_channels5, weights_layer5, biases_layer5, prelu_coeff_layer5,
+		img_fltr_5, num_filters5, rows, cols, patchsize5);
 
 	free(img_fltr_4);
 	img_fltr_4 = NULL;
-	//free(img_fltr_4_tmp);
-	//img_fltr_4_tmp = NULL;
-	free(kernel4);
-	kernel4 = NULL;
-	//free(img_fltr_5_tmp);
-	//img_fltr_5_tmp = NULL;
 
-	/////////// Layer6
-	// Reading weights of 6th layer
-	
-	// Other parameters
-	int filtersize6 = 9; //3X3
+	/////////// Layer6 (3x3, 12 -> 12 channels)
 	int patchsize6 = 3;
-	int padsize6 = (patchsize6 - 1) / 2;
 	int num_filters6 = 12;
 	int num_channels6 = 12;
 	double prelu_coeff_layer6 = 0.7806;
-	// Convolution
-	double *img_fltr_6 = (double *)calloc(rows * cols * num_filters6 , sizeof(double));
-	double *kernel6 = (double *)malloc(filtersize6*sizeof(double));
-	double *img_fltr_p6 = img_fltr_6; // Pointer to img_fltr6
-	//double *img_fltr_6_tmp = (double *)malloc(rows * cols * sizeof(double));
-
-	cnt_weight = 0;
-    #pragma omp parallel for
-	for (int i = 0; i < num_filters6; i++)
-	{
-		//img_fltr_p5 = img_fltr_5;
-		//double *img_fltr_6_tmp = (double *) alloca(rows*cols*sizeof(double));
-		double img_fltr_6_tmp[rows*cols];
-		for (int j = 0; j < num_channels6; j++)
-		{
-			// reading corresponding weights to kernel
-			//for (int cnt_kernel = 0; cnt_kernel < filtersize6; cnt_kernel++)
-			//{
-			//	*(kernel6 + cnt_kernel) = weights_layer6[cnt_weight + cnt_kernel];
-			//}
-
-			imfilter(img_fltr_p5+j*rows*cols, weights_layer6+(i*num_channels6+j)*filtersize6, img_fltr_6_tmp, rows, cols, padsize6);
-			imadd(img_fltr_p6+i*rows*cols, img_fltr_6_tmp, cols, rows);
-
-			//cnt_weight = cnt_weight + filtersize6;
-			//img_fltr_p5 = img_fltr_p5 + rows*cols;
-		}
-		//bias_tmp = biases_layer6[i];
-		PReLU(img_fltr_p6+i*rows*cols, rows, cols, biases_layer6[i], prelu_coeff_layer6);
-		//img_fltr_p6 = img_fltr_p6 + rows*cols;
-	}
+	double *img_fltr_6 = (double *)malloc((size_t)rows * cols * num_filters6 * sizeof(double));
+	conv_layer_hwc(img_fltr_5, num_channels6, weights_layer6, biases_layer6, prelu_coeff_layer6,
+		img_fltr_6, num_filters6, rows, cols, patchsize6);
 
 	free(img_fltr_5);
 	img_fltr_5 = NULL;
-	//free(img_fltr_5_tmp);
-	//img_fltr_5_tmp = NULL;
-	free(kernel5);
-	kernel5 = NULL;
 
-	/////////// Layer7
-	// Reading weights of 7th layer
-	// Other parameters
-	int filtersize7 = 1; //1X1
+	/////////// Layer7 (1x1, 12 -> 56 channels)
 	int patchsize7 = 1;
-	int padsize7 = (patchsize7 - 1) / 2;
 	int num_filters7 = 56;
 	int num_channels7 = 12;
 	double prelu_coeff_layer7 = 0.0087;
-	// Convolution
-	double *img_fltr_7 = (double *)calloc(rows * cols * num_filters7 , sizeof(double));
-	double *kernel7 = (double *)malloc(filtersize7*sizeof(double));
-	double *img_fltr_p7 = img_fltr_7; // Pointer to img_fltr7
-	//double *img_fltr_7_tmp = (double *)malloc(rows * cols * sizeof(double));
-
-	cnt_weight = 0;
-    #pragma omp parallel for
-	for (int i = 0; i < num_filters7; i++)
-	{
-		//img_fltr_p6 = img_fltr_6;
-		//double * img_fltr_7_tmp = (double *) alloca(rows*cols*sizeof(double));
-		double img_fltr_7_tmp[rows*cols];
-		for (int j = 0; j < num_channels7; j++)
-		{
-			// reading corresponding weights to kernel
-			//for (int cnt_kernel = 0; cnt_kernel < filtersize7; cnt_kernel++)
-			//{
-			//	*(kernel7 + cnt_kernel) = weights_layer7[cnt_weight + cnt_kernel];
-			//}
-
-			imfilter(img_fltr_p6+j*rows*cols, weights_layer7+(i*num_channels7+j)*filtersize7, img_fltr_7_tmp, rows, cols, padsize7);
-			imadd(img_fltr_p7+i*rows*cols, img_fltr_7_tmp, cols, rows);
-
-			//cnt_weight = cnt_weight + filtersize7;
-			//img_fltr_p6 = img_fltr_p6 + rows*cols;
-		}
-		//bias_tmp = biases_layer7[i];
-		PReLU(img_fltr_p7+i*rows*cols, rows, cols, biases_layer7[i], prelu_coeff_layer7);
-		//img_fltr_p7 = img_fltr_p7 + rows*cols;
-	}
+	double *img_fltr_7 = (double *)malloc((size_t)rows * cols * num_filters7 * sizeof(double));
+	conv_layer_hwc(img_fltr_6, num_channels7, weights_layer7, biases_layer7, prelu_coeff_layer7,
+		img_fltr_7, num_filters7, rows, cols, patchsize7);
 
 	free(img_fltr_6);
 	img_fltr_6 = NULL;
-	//free(img_fltr_6_tmp);
-	//img_fltr_6_tmp = NULL;
-	free(kernel6);
-	kernel6 = NULL;
 
-	/////////// Convolution3 ------------------- Layer 8
-
-	/////////// Layer8
-	// Reading weights of 8th layer
-	
-	// Reading biases of 8th layer
-	
-	// Other parameters
+	/////////// Convolution3 ------------------- Layer 8 (deconvolution, 9x9, 56 -> 1 channel)
+	// Pre-existing in this codebase: this deconvolution (which should populate img_hr from
+	// img_fltr_7) was already left unimplemented/commented-out before this HWC refactor.
 	int filtersize8 = 81; //9x9
 	int patchsize8 = 9;
 	int num_filters8 = 1;
 	int num_channels8 = 56;
 
-	// Decvolution ==> output is the img_hr
 	double *img_fltr_8 = (double *)calloc((rows*scale) *(cols*scale) * num_filters8 , sizeof(double));
 	double *kernel8 = (double *)malloc(filtersize8*sizeof(double));
-	//double *img_fltr_8_tmp = (double *)malloc((rows*scale) *(cols*scale) * sizeof(double));
-	
-	cnt_weight = 0;
-	img_fltr_p7 = img_fltr_7;
-	double sum;
-    
-	
-
- //   for (int i=0;i<rows*scale;i++)
-//	for (int j = 0;j<cols*scale; j++)
-//	{
-//		int cnt_fnl = i*cols*scale + j;
-//		*(img_hr + cnt_fnl) = *(img_fltr_8 + cnt_fnl) + biases_layer8;
-//	}
-
-	/*for ( int i = 0; i < 10; i++)
-	{
-		printf("%f\n", *(img_hr + i));
-	}*/
 
 	free(img_fltr_7);
 	img_fltr_7 = NULL;
-	//free(img_fltr_7_tmp);
-	//img_fltr_7_tmp = NULL;
-	free(kernel7);
-	kernel7 = NULL;
 
 	free(img_fltr_8);
 	img_fltr_8 = NULL;
-	//free(img_fltr_8_tmp);
-	//img_fltr_8_tmp = NULL;
 	free(kernel8);
 	kernel8 = NULL;
 
 }
 
 
-void imfilter(double *img, double *kernel, double *img_fltr, int rows, int cols, int padsize)
+// Pad an HWC-interleaved image (rows x cols x channels) with replicate borders into
+// (rows+2*padsize) x (cols+2*padsize) x channels, keeping each pixel's channels contiguous.
+void pad_image_hwc(double *img, double *img_pad, int rows, int cols, int channels, int padsize)
 {
-	// img_pad is the pointer to padded image
-	// kernel is the pointer to the kernel which used for convolution
-	// img_fltr is the pointer to the filtered image by applying convolution
 	int cols_pad = cols + 2 * padsize;
 	int rows_pad = rows + 2 * padsize;
-	int i, j, cnt, cnt_pad, cnt_krnl, k1, k2;
-	double sum;
+	int i, j, k, c, k1, k2;
 
-	double *img_pad = (double *)malloc(rows_pad * cols_pad * sizeof(double));
-	pad_image(img, img_pad, rows, cols, padsize);
-
-	for (i = padsize; i < rows_pad - padsize; i++)
-	for (j = padsize; j < cols_pad - padsize; j++)
+	// Central pixels
+	for (i = 0; i < rows; i++)
+	for (j = 0; j < cols; j++)
 	{
-		cnt = (i - padsize)*cols + (j - padsize); // counter which shows current pixel in filtered image (central pixel in convolution window)
-		sum = 0;
-		cnt_krnl = 0; // counter which determines kernel elements
-		for (k1 = -padsize; k1 <= padsize; k1++)
-		for (k2 = -padsize; k2 <= padsize; k2++)
+		double *src = img + (size_t)(i*cols + j)*channels;
+		double *dst = img_pad + (size_t)((i + padsize)*cols_pad + (j + padsize))*channels;
+		for (c = 0; c < channels; c++) dst[c] = src[c];
+	}
+	// Top and Bottom Rows
+	for (j = 0; j < cols; j++)
+	for (k = 0; k < padsize; k++)
+	{
+		double *dst_top = img_pad + (size_t)(k*cols_pad + (j + padsize))*channels;
+		double *src_top = img + (size_t)j*channels;
+		double *dst_bot = img_pad + (size_t)((rows_pad - 1 - k)*cols_pad + (j + padsize))*channels;
+		double *src_bot = img + (size_t)((rows - 1)*cols + j)*channels;
+		for (c = 0; c < channels; c++) { dst_top[c] = src_top[c]; dst_bot[c] = src_bot[c]; }
+	}
+	// Left and Right Columns
+	for (i = 0; i < rows; i++)
+	for (k = 0; k < padsize; k++)
+	{
+		double *dst_left = img_pad + (size_t)((i + padsize)*cols_pad + k)*channels;
+		double *src_left = img + (size_t)(i*cols)*channels;
+		double *dst_right = img_pad + (size_t)((i + padsize)*cols_pad + (cols_pad - 1 - k))*channels;
+		double *src_right = img + (size_t)(i*cols + cols - 1)*channels;
+		for (c = 0; c < channels; c++) { dst_left[c] = src_left[c]; dst_right[c] = src_right[c]; }
+	}
+	// Corner Pixels
+	for (k1 = 0; k1 < padsize; k1++)
+	for (k2 = 0; k2 < padsize; k2++)
+	{
+		double *ul = img_pad + (size_t)(k1*cols_pad + k2)*channels;
+		double *ur = img_pad + (size_t)(k1*cols_pad + cols_pad - 1 - k2)*channels;
+		double *ll = img_pad + (size_t)((rows_pad - 1 - k1)*cols_pad + k2)*channels;
+		double *lr = img_pad + (size_t)((rows_pad - 1 - k1)*cols_pad + cols_pad - 1 - k2)*channels;
+		double *img_tl = img; // (0,0)
+		double *img_tr = img + (size_t)(cols - 1)*channels; // (0,cols-1)
+		double *img_bl = img + (size_t)((rows - 1)*cols)*channels; // (rows-1,0)
+		double *img_br = img + (size_t)((rows - 1)*cols + cols - 1)*channels; // (rows-1,cols-1)
+		for (c = 0; c < channels; c++)
 		{
-			cnt_pad = (i + k1)*cols_pad + j + k2; // counter which shows each neighbouring pixel of padded image used for convolution with kernel
-			sum = sum + (*(img_pad + cnt_pad))*(*(kernel + cnt_krnl));
-			cnt_krnl++;
+			ul[c] = img_tl[c];
+			ur[c] = img_tr[c];
+			ll[c] = img_bl[c];
+			lr[c] = img_br[c];
 		}
-		*(img_fltr + cnt) = sum;
+	}
+}
+
+// Convolution + bias + PReLU for one FSRCNN layer, HWC in, HWC out.
+// Loop order is pixel-row, pixel-col, output-channel, kernel-row, kernel-col, input-channel --
+// height/width outermost (and parallelized over pixels), channel innermost -- matching HWC
+// storage: for a fixed output pixel and kernel tap, the input-channel reduction reads contiguous
+// memory. Parallelizing over rows*cols pixels (instead of the old per-channel loop) also gives
+// far more parallel work than the 12-56 output channels of layers 2-7 alone.
+void conv_layer_hwc(double *in, int in_channels, double *weights, double *biases, double prelu_coeff,
+	double *out, int out_channels, int rows, int cols, int patchsize)
+{
+	int padsize = (patchsize - 1) / 2;
+	int cols_pad = cols + 2 * padsize;
+	int filtersize = patchsize * patchsize;
+
+	double *in_pad = in;
+	if (padsize > 0)
+	{
+		in_pad = (double *)malloc((size_t)(rows + 2 * padsize) * cols_pad * in_channels * sizeof(double));
+		pad_image_hwc(in, in_pad, rows, cols, in_channels, padsize);
 	}
 
-	free(img_pad);
-	img_pad = NULL;
+	#pragma omp parallel for collapse(2)
+	for (int oi = 0; oi < rows; oi++)
+	for (int oj = 0; oj < cols; oj++)
+	{
+		size_t out_base = (size_t)(oi*cols + oj) * out_channels;
+		for (int oc = 0; oc < out_channels; oc++)
+		{
+			double sum = biases[oc];
+			double *w_oc = weights + (size_t)oc * in_channels * filtersize;
+			for (int kr = 0; kr < patchsize; kr++)
+			{
+				int pr = oi + kr;
+				for (int kc = 0; kc < patchsize; kc++)
+				{
+					int pc = oj + kc;
+					int k_idx = kr * patchsize + kc;
+					double *in_px = in_pad + (size_t)(pr*cols_pad + pc) * in_channels;
+					for (int ic = 0; ic < in_channels; ic++)
+						sum += in_px[ic] * w_oc[ic*filtersize + k_idx];
+				}
+			}
+			out[out_base + oc] = Max(sum, 0) + prelu_coeff * Min(sum, 0);
+		}
+	}
+
+	if (padsize > 0)
+	{
+		free(in_pad);
+	}
 }
+
 
 // Replicate image padding by the factor of "padsize"
 void pad_image(double *img, double *img_pad, int rows, int cols, int padsize)
@@ -798,17 +589,6 @@ void pad_image(double *img, double *img_pad, int rows, int cols, int padsize)
 	}
 }
 
-void PReLU(double *img_fltr,int rows, int cols, double bias, double prelu_coeff)
-{
-	int cnt = 0;
-	for (int i = 0; i < rows;i++)
-	for (int j = 0; j < cols; j++)
-	{
-		cnt = i*cols + j;
-		*(img_fltr + cnt) = Max(*(img_fltr + cnt) + bias, 0) + prelu_coeff * Min(*(img_fltr + cnt) + bias, 0);
-	}
-}
-
 double Max(double a, double b)
 {
 	double c;
@@ -821,20 +601,6 @@ double Min(double a, double b)
 	double c;
 	c = a > b ? b : a;
 	return c;
-}
-
-void imadd(double *img_fltr_sum, double *img_fltr_crnt, int cols, int rows)
-{
-	// *img_fltr_crnt ==> pointer to current feature map
-	// *img_fltr_sum ==> pointer to the cumulutive feature map
-
-	int cnt = 0;
-	for (int i = 0; i < rows;i++)
-	for (int j = 0; j < cols; j++)
-	{
-		cnt = i*cols + j;
-		*(img_fltr_sum + cnt) = *(img_fltr_sum + cnt) + *(img_fltr_crnt + cnt);
-	}
 }
 
 

@@ -497,28 +497,45 @@ void conv_layer_hwc(double *in, int in_channels, double *weights, double *biases
 		pad_image_hwc(in, in_pad, rows, cols, in_channels, padsize);
 	}
 
-	#pragma omp parallel for collapse(2)
-	for (int oi = 0; oi < rows; oi++)
-	for (int oj = 0; oj < cols; oj++)
+	// Row-pair blocking: one parallel iteration produces two output rows (oi, oi+1) at once.
+	// Each kernel weight w_oc[...] is loaded once and reused for both rows' accumulators,
+	// halving the number of OpenMP loop iterations (coarser granularity, less scheduling
+	// overhead) and halving redundant weight reads along the row dimension. Odd leftover
+	// row (when rows is odd) falls back to a single-row pass.
+	#pragma omp parallel for schedule(static)
+	for (int oi = 0; oi < rows; oi += 2)
 	{
-		size_t out_base = (size_t)(oi*cols + oj) * out_channels;
-		for (int oc = 0; oc < out_channels; oc++)
+		int two_rows = (oi + 1 < rows);
+		for (int oj = 0; oj < cols; oj++)
 		{
-			double sum = biases[oc];
-			double *w_oc = weights + (size_t)oc * in_channels * filtersize;
-			for (int kr = 0; kr < patchsize; kr++)
+			size_t out_base0 = (size_t)(oi*cols + oj) * out_channels;
+			size_t out_base1 = (size_t)((oi + 1)*cols + oj) * out_channels;
+			for (int oc = 0; oc < out_channels; oc++)
 			{
-				int pr = oi + kr;
-				for (int kc = 0; kc < patchsize; kc++)
+				double sum0 = biases[oc];
+				double sum1 = biases[oc];
+				double *w_oc = weights + (size_t)oc * in_channels * filtersize;
+				for (int kr = 0; kr < patchsize; kr++)
 				{
-					int pc = oj + kc;
-					int k_idx = kr * patchsize + kc;
-					double *in_px = in_pad + (size_t)(pr*cols_pad + pc) * in_channels;
-					for (int ic = 0; ic < in_channels; ic++)
-						sum += in_px[ic] * w_oc[ic*filtersize + k_idx];
+					int pr0 = oi + kr;
+					int pr1 = oi + 1 + kr;
+					for (int kc = 0; kc < patchsize; kc++)
+					{
+						int pc = oj + kc;
+						int k_idx = kr * patchsize + kc;
+						double *in_px0 = in_pad + (size_t)(pr0*cols_pad + pc) * in_channels;
+						double *in_px1 = in_pad + (size_t)(pr1*cols_pad + pc) * in_channels;
+						for (int ic = 0; ic < in_channels; ic++)
+						{
+							double w = w_oc[ic*filtersize + k_idx];
+							sum0 += in_px0[ic] * w;
+							if (two_rows) sum1 += in_px1[ic] * w;
+						}
+					}
 				}
+				out[out_base0 + oc] = Max(sum0, 0) + prelu_coeff * Min(sum0, 0);
+				if (two_rows) out[out_base1 + oc] = Max(sum1, 0) + prelu_coeff * Min(sum1, 0);
 			}
-			out[out_base + oc] = Max(sum, 0) + prelu_coeff * Min(sum, 0);
 		}
 	}
 

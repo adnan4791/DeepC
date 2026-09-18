@@ -1,10 +1,16 @@
-# Kontribusi & Studi Literatur — Optimalisasi Pola Akses Memori pada Inferensi FSRCNN
+# Kontribusi & Studi Literatur — Optimalisasi Pola Akses Memori pada Inferensi FSRCNN (Tesis 1)
 
 > Catatan revisi: draf sebelumnya membingkai pekerjaan ini sebagai "konversi CHW ke HWC".
 > Itu hanya *teknik implementasi*, bukan kontribusinya. Dokumen ini menulis ulang framing-nya:
 > pertanyaan risetnya adalah **mengapa layer-layer tipis FSRCNN sangat terbatas oleh bandwidth
 > memori saat diinferensi di CPU, dan bagaimana pola akses/reuse data memengaruhi hal itu** —
 > HWC + paralelisasi spasial hanyalah satu instrumen untuk menguji dan memperbaikinya.
+>
+> **Catatan pemisahan topik:** ada optimisasi kedua yang berdiri sendiri — *loop/register
+> blocking* pada granularitas penjadwalan paralel — yang sengaja **dipisah** ke dokumen lain
+> ([`KONTRIBUSI-DAN-REFERENSI-LOOP-BLOCKING.md`](./KONTRIBUSI-DAN-REFERENSI-LOOP-BLOCKING.md))
+> karena itu menjawab pertanyaan riset yang berbeda (BAGAIMANA loop dijadwalkan, bukan DI MANA
+> data disimpan) dan berlaku independen dari pilihan layout memori di dokumen ini.
 
 ## 1. Landasan Masalah: Mengapa Ini Menarik Diteliti
 
@@ -69,7 +75,19 @@ untuk video real-time. Ini adalah **temuan/kebaruan yang layak jadi sumbu tesis*
    teroptimasi; menunjukkan efek yang sama pada kode yang ditulis manual relevan untuk
    deployment di perangkat *edge*/tertanam yang tidak punya pustaka DL.
 
-> HWC + `#pragma omp parallel for collapse(2)` pada loop piksel (lihat `conv_layer_hwc` di
+### Tabel Benchmark (`suzie_qcif.yuv`, 150 frame, 176×144→352×288, mesin uji 10-core)
+
+Angka ini murni membandingkan **layout + sumbu paralelisasi** (CHW/channel-parallel vs
+HWC/piksel-parallel), **tanpa** teknik loop blocking dari tesis kedua (lihat dokumen terpisah
+untuk lapisan optimisasi tambahan itu):
+
+| Threads | CHW asli (channel-parallel) | HWC piksel-paralel | Speedup vs CHW asli |
+|---|---|---|---|
+| 4  | 6,37 s | 5,86 s | ~8% |
+| 8  | 5,68 s | 5,35 s | ~6% |
+| 10 | 5,84 s | 5,04 s | ~14% |
+
+> HWC (channel-interleaved) + paralelisasi spasial (loop piksel, lihat `conv_layer_hwc` di
 > `source.c`) adalah **instrumen** untuk kontribusi #2 dan #3 di atas, bukan kontribusi itu
 > sendiri — penting untuk penulisan bab metode agar tidak terbaca sebagai "sekadar mengganti
 > layout array".
@@ -97,7 +115,7 @@ untuk video real-time. Ini adalah **temuan/kebaruan yang layak jadi sumbu tesis*
 |---|---|---|---|
 | 6 | Georganas, E., Avancha, S., Banerjee, K., Kalamkar, D., Henry, G., Pabst, H., & Heinecke, A. (2018). *Anatomy of High-Performance Deep Learning Convolutions on SIMD Architectures*. SC18. [arXiv:1808.05567](https://arxiv.org/pdf/1808.05567) | Direct convolution pada CPU x86: urutan loop dan layout data menentukan efisiensi SIMD/reuse register. | Justifikasi teknis urutan loop *pixel-outer, channel-inner* pada `conv_layer_hwc` (bukan im2col). |
 | 7 | de Prado, M., Mundy, A., Saeed, R., Denna, M., Pazos, N., & Benini, L. (2020). *Automated Design Space Exploration for Optimised Deployment of DNN on Arm Cortex-A CPUs*. [arXiv:2006.05181](https://arxiv.org/pdf/2006.05181) | NHWC mengungguli NCHW pada kernel 3×3 & 1×1 di Arm Cortex-A (latensi turun ~8%) — persis jenis kernel yang dipakai FSRCNN. | Pembanding hasil paling relevan (konteks CPU embedded, kernel identik dengan FSRCNN layer 2–7). |
-| 8 | Lu, S., Chu, J., & Liu, X. T. (2022). *Im2win: Memory Efficient Convolution on SIMD Architectures*. HPEC 2022 / [arXiv:2306.14320](https://arxiv.org/html/2306.14320); lanjutan: *High Performance Im2win and Direct Convolutions using Three Tensor Layouts on SIMD Architectures*, [arXiv:2408.00278](https://arxiv.org/pdf/2408.00278) | NHWC pada skema im2win memberi speedup 11%–355% vs NCHW pada mesin SIMD, tergantung ukuran kernel/kanal. | Rentang speedup independen untuk pembanding hasil eksperimen tesis (≈12–19% pada mesin uji). |
+| 8 | Lu, S., Chu, J., & Liu, X. T. (2022). *Im2win: Memory Efficient Convolution on SIMD Architectures*. HPEC 2022 / [arXiv:2306.14320](https://arxiv.org/html/2306.14320); lanjutan: *High Performance Im2win and Direct Convolutions using Three Tensor Layouts on SIMD Architectures*, [arXiv:2408.00278](https://arxiv.org/pdf/2408.00278) | NHWC pada skema im2win memberi speedup 11%–355% vs NCHW pada mesin SIMD, tergantung ukuran kernel/kanal. | Rentang speedup independen untuk pembanding hasil eksperimen tesis (≈6–14% pada mesin uji, lihat tabel benchmark §2). |
 | 9 | Liu, Y., Wang, Y., Yu, R., Li, M., Sharma, V., & Wang, Y. (2019). *Optimizing CNN Model Inference on CPUs*. USENIX ATC 2019. [PDF](https://www.usenix.org/system/files/atc19-liu-yizhi.pdf) | Manajemen layout data krusial untuk mengurangi overhead memori pada convolution CPU tanpa pustaka pihak ketiga. | Memperkuat bahwa optimisasi pola akses memori adalah kontribusi implementasi yang valid dan sudah terbukti pada skala produksi. |
 | 10 | *Efficient Column-Wise N:M Pruning on RISC-V CPU*. [arXiv:2507.17301](https://arxiv.org/pdf/2507.17301) | Pada CPU RISC-V, layout non-standar (CNHW) bisa mengungguli NHWC baku hingga 1,8× untuk jaringan dangkal. | Catatan *limitations/future work*: layout optimal bergantung arsitektur CPU — HWC belum tentu optimal universal. |
 
